@@ -42,7 +42,12 @@ def preflight(root,env):
     resource=Path(subprocess.check_output([compiler,'-print-resource-dir'],text=True,timeout=10).strip())
     if not (resource/'include/stdint.h').is_file() or not (resource/'include/stddef.h').is_file():raise RuntimeError('Missing Clang builtin resource headers')
     source=root/'rusty_v8'
+    # Chromium build 8fbb331a68c597851e2e91de6e08a06baa3d719b,
+    # config/compiler/BUILD.gn supplies this through GN defines, not __config_site.
+    # This standalone header sample has no GN project yet. This flag affects
+    # only the sample; actual bindgen still reads the generated GN defines.
     flags=['-x','c++','-std=c++20','-fsyntax-only','-nostdinc++','-resource-dir='+str(resource),
+      '-D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE',
       '-isystembuildtools/third_party/libc++','-isystemthird_party/libc++/src/include','-isystemthird_party/libc++abi/src/include']
     code='#include <cstdint>\n#include <memory>\nstatic_assert(sizeof(std::uintptr_t)==sizeof(void*));\nstatic_assert(sizeof(std::uint64_t)==8);\nstatic_assert(SIZE_MAX>0);\n'
     result=subprocess.run([compiler,*flags,'-'],input=code,text=True,capture_output=True,cwd=source,timeout=30)
@@ -53,6 +58,7 @@ def preflight(root,env):
     library.clang_getNumDiagnostics.argtypes=[ctypes.c_void_p];library.clang_getNumDiagnostics.restype=ctypes.c_uint
     library.clang_getDiagnostic.argtypes=[ctypes.c_void_p,ctypes.c_uint];library.clang_getDiagnostic.restype=ctypes.c_void_p
     library.clang_getDiagnosticSeverity.argtypes=[ctypes.c_void_p];library.clang_getDiagnosticSeverity.restype=ctypes.c_int
+    library.clang_formatDiagnostic.argtypes=[ctypes.c_void_p,ctypes.c_uint];library.clang_formatDiagnostic.restype=CXString
     library.clang_disposeDiagnostic.argtypes=[ctypes.c_void_p]
     library.clang_disposeTranslationUnit.argtypes=[ctypes.c_void_p];library.clang_disposeIndex.argtypes=[ctypes.c_void_p]
     sample=root/'bindgen-preflight.cc';sample.write_text(code)
@@ -64,12 +70,15 @@ def preflight(root,env):
     if unit:
         for i in range(library.clang_getNumDiagnostics(unit)):
             diagnostic=library.clang_getDiagnostic(unit,i)
-            if library.clang_getDiagnosticSeverity(diagnostic)>=3:errors.append(i)
+            if library.clang_getDiagnosticSeverity(diagnostic)>=3:
+                formatted=library.clang_formatDiagnostic(diagnostic,0)
+                errors.append({'index':i,'message':library.clang_getCString(formatted).decode()})
+                library.clang_disposeString(formatted)
             library.clang_disposeDiagnostic(diagnostic)
         library.clang_disposeTranslationUnit(unit)
     library.clang_disposeIndex(index)
     report={'libclang':version,'compiler':binary_version,'resourceDirectory':str(resource),'clangSyntaxExitCode':result.returncode,
-      'clangSyntaxStderr':result.stderr,'libclangParseCreatedTranslationUnit':bool(unit),'libclangErrorDiagnosticIndices':errors}
+      'clangSyntaxStderr':result.stderr,'clangArguments':flags,'libclangParseCreatedTranslationUnit':bool(unit),'libclangErrorDiagnostics':errors}
     (root/'bindgen-preflight.json').write_text(json.dumps(report,indent=2)+'\n')
     if result.returncode or not unit or errors:raise RuntimeError('Bundled-libc++/stdint preflight failed; see bindgen-preflight.json before spending time on V8.')
 
@@ -123,6 +132,7 @@ def main():
     started=time.time()
     try:
         preflight(root,env)
+        summary['preflightPassed']=True
         if args.preflight_only:return
         if args.restore_checkpoint:
             restore(root,args.restore_checkpoint.resolve());env['BITCRUSH_V8_BINDGEN_ONLY']='1'

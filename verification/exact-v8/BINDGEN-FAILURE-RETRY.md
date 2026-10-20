@@ -1,5 +1,9 @@
 # Exact V8 build: bindgen toolchain correction
 
+## Preflight correction, 21 October 2026
+
+Run 39515076613 paired Clang/libclang 21 successfully, then stopped before Cargo because the standalone header sample lacked `_LIBCPP_HARDENING_MODE`. The pinned Chromium build at `8fbb331a68c597851e2e91de6e08a06baa3d719b`, `config/compiler/BUILD.gn`, supplies this macro through GN defines; the pinned buildtools `__config_site` intentionally does not define a default. The sample now selects Chromium's extensive mode explicitly. This changes only the standalone preflight: GN/V8 flags and bindgen's generated-GN-define path remain untouched. The report now records the sample flags and formatted libclang error diagnostics. Exact cache compatibility remains untested until the host builds and runs.
+
 Observed run39482894060: `[2450/2450] AR obj/librusty_v8.a`, followed by `build.rs:235 Unable to generate bindings`. The diagnostic log is retained in `exact-source-diagnostics-2/build.log`. This demonstrates successful C++ compilation/archive generation, not a completed Rust host or original-cache acceptance.
 
 The next diagnostic is explicit: `Libc++ only supports Clang 20 and later`. Errors then report unresolved stdint using-declarations (`std::uintptr_t`, uint64-related types) and missing `SIZE_MAX`. Rusty v146.9.0 `build_binding()` uses libclang independently of the downloaded Chromium C++ compiler. It adds builtin-resource headers only when `LIBCLANG_PATH/../bin/clang -print-resource-dir` works. Installing `libclang-19-dev` alone neither meets the20+ requirement nor guarantees that paired clang binary.
