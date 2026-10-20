@@ -1,4 +1,5 @@
 node_modules/
+__pycache__/
 src-tauri/resources/media/ffmpeg-core.wasm
 public/media/ffmpeg-core-CI9Irx9p.js
 dist/

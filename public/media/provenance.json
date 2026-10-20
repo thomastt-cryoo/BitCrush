@@ -244,8 +244,9 @@
     "changes": [
       "Export configurable core/wasm resource URLs without changing original media function bodies",
       "Track original FFmpeg client instances via a host subclass so cancellation terminates active workers",
-      "Use scoped external Tauri asset URL for one shared Wasm copy"
+      "Use scoped external Tauri asset URL for one shared Wasm copy",
+      "Bound worker load time and emit smoke progress; stage native resources as same-origin Blob URLs for WebKit worker loading"
     ],
-    "deployedWorkflowsSha256": "ff69a15a0093c807f0fe2c37c2ed57ac40790c40629cf17e451e1a688becf07d"
+    "deployedWorkflowsSha256": "e2dad16347d2f366345d5e7027c43207f9d66f95c59082664e0fb31032db07f6"
   }
 }

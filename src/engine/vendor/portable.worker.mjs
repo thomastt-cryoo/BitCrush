@@ -31,14 +31,25 @@ export async function processPixels({ width, height, buffer, effects = [], time 
     }
     const process = processors[effect.id];
     if (!process) throw new Error(`Unknown effect: ${effect.id}`);
+    // The original worker draws the previous canvas into a fresh canvas for
+    // every active stage. Preserve that boundary, including alpha rounding.
+    const stageCanvas = new OffscreenCanvas(context.width, context.height);
+    const stageCtx = stageCanvas.getContext('2d', { willReadFrequently: true });
+    if (!stageCtx) throw new Error('Image processing is unavailable in this WebView');
+    stageCtx.drawImage(context.canvas, 0, 0);
+    context = { canvas: stageCanvas, ctx: stageCtx, imageData: stageCtx.getImageData(0, 0, context.width, context.height), width: context.width, height: context.height, time };
     context = await process(context, effect.params);
     context.imageData = context.ctx.getImageData(0, 0, context.width, context.height);
   }
-  return {
-    width: context.width,
-    height: context.height,
-    buffer: context.imageData.data.buffer,
-  };
+  // The supplied renderer worker returns PNG, which its caller decodes back to
+  // pixels. Keep this boundary so translucent pixels receive the same rounding.
+  const blob = await context.canvas.convertToBlob({ type: 'image/png' });
+  const bitmap = await createImageBitmap(blob);
+  const output = new OffscreenCanvas(context.width, context.height);
+  const outputCtx = output.getContext('2d');
+  if (!outputCtx) { bitmap.close(); throw new Error('Image processing is unavailable in this WebView'); }
+  outputCtx.drawImage(bitmap, 0, 0); bitmap.close();
+  return { width: context.width, height: context.height, buffer: outputCtx.getImageData(0, 0, context.width, context.height).data.buffer };
 }
 
 self.addEventListener('message', async ({ data }) => {

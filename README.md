@@ -28,4 +28,8 @@ GitHub Actions builds native Windows x64, Intel Mac and Apple Silicon Mac previe
 
 Native startup checks and UI checks do not establish complete engine equivalence. Original extracted processing code, metadata and palettes have provenance records under `src/engine/vendor` and `src/data`.
 
+Video import, scrubbing and offline MP4 export now use the original media workflows, with the same image processing path applied to each frame. A separate codec-source artifact supplies the official FFmpeg core release and pinned dependency sources. `npm ci` verifies and stages the exact original core: its large Wasm resource is bundled once outside the executable, rather than duplicated into universal Mac slices. See `verification/codec-source/PACKAGE-README.md` for the source provenance and reproducibility limits.
+
+The compiled dither engine remains unresolved. Current small-host experiments are isolated from the app. Unsupported dither styles block export; they are not replaced with approximate output. Timelines, animation and full original preset/session compatibility are still in development.
+
 Windows previews rely on an existing WebView2 runtime. Mac previews require macOS 13.3 or newer and use ad-hoc signing; they are not Apple-notarized releases.

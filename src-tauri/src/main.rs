@@ -7,6 +7,15 @@ use tauri::{Manager, State};
 struct SmokeReport(Mutex<Option<PathBuf>>);
 
 #[tauri::command]
+fn smoke_progress(phase: String, state: State<'_, SmokeReport>) -> Result<(), String> {
+    let guard = state.0.lock().map_err(|e| e.to_string())?;
+    if let Some(path) = guard.as_ref() {
+        std::fs::write(path.with_extension("progress.json"), serde_json::to_vec(&json!({ "phase": phase })).map_err(|e| e.to_string())?).map_err(|e| e.to_string())?;
+    }
+    Ok(())
+}
+
+#[tauri::command]
 fn media_runtime_path(app: tauri::AppHandle) -> Result<String, String> {
     let path = app.path().resource_dir().map_err(|e| e.to_string())?
         .join("media").join("ffmpeg-core.wasm");
@@ -66,7 +75,7 @@ fn main() {
         .manage(SmokeReport(Mutex::new(smoke_path())))
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
-        .invoke_handler(tauri::generate_handler![runtime_info, media_runtime_path, complete_smoke_test])
+        .invoke_handler(tauri::generate_handler![runtime_info, media_runtime_path, complete_smoke_test, smoke_progress])
         .setup(|app| {
             if let Some(window) = app.get_webview_window("main") {
                 if smoke_path().is_some() {

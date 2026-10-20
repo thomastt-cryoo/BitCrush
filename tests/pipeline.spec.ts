@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
 import reference from '../verification/reference-results/preset-semantics-verification.json' with { type: 'json' };
+import alphaReference from '../verification/reference-results/preset-alpha-semantics-verification.json' with { type: 'json' };
 
-test('shared frame pipeline matches original worker order, duplicate, halftone and temporal semantics', async ({ page }) => {
+for (const transparent of [false, true]) test(`shared frame pipeline matches original worker with ${transparent ? 'partial alpha' : 'opaque pixels'}`, async ({ page }) => {
   await page.goto('/');
-  const actual = await page.evaluate(async () => {
+  const actual = await page.evaluate(async transparent => {
     const enginePath = '/src/engine.ts';
     const mappingPath = '/src/engine/vendor/pipeline-original.mjs';
     const { processPipeline, defaults } = await import(enginePath);
@@ -12,7 +13,7 @@ test('shared frame pipeline matches original worker order, duplicate, halftone a
     for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
       const i = (y * width + x) * 4;
       pixels[i] = (x * 7 + y * 11) % 256; pixels[i + 1] = (x * 13 + y * 3) % 256;
-      pixels[i + 2] = (x * 5 + y * 17) % 256; pixels[i + 3] = 255;
+      pixels[i + 2] = (x * 5 + y * 17) % 256; pixels[i + 3] = transparent ? [0, 51, 127, 204, 255][(x + y) % 5] : 255;
     }
     const hash = async (data: Uint8ClampedArray<ArrayBuffer>) => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', data)), b => b.toString(16).padStart(2, '0')).join('');
     const run = async (instances: any, order: string[], settings: any = {}, time?: number) => {
@@ -41,6 +42,6 @@ test('shared frame pipeline matches original worker order, duplicate, halftone a
     hashes.temporalUndefinedTime = await run({ 'temporal-variation-1': temporal }, ['temporal-variation-1']);
     hashes.temporalExplicitZero = await run({ 'temporal-variation-1': temporal }, ['temporal-variation-1'], {}, 0);
     return hashes;
-  });
-  expect(actual).toEqual(reference.hashes);
+  }, transparent);
+  expect(actual).toEqual((transparent ? alphaReference : reference).hashes);
 });

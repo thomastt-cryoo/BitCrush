@@ -6,7 +6,7 @@ const base64=bytes=>{let result='';for(let at=0;at<bytes.length;at+=16384)result
 const fromBase64=text=>Uint8Array.from(atob(text),c=>c.charCodeAt(0));
 export const runMediaProof=async()=>{
  const report={started:new Date().toISOString(),runtime:{userAgent:navigator.userAgent,origin:location.origin,crossOriginIsolated,sharedArrayBuffer:typeof SharedArrayBuffer,mediaRecorder:typeof MediaRecorder,opusRecorder:typeof MediaRecorder==='function'&&MediaRecorder.isTypeSupported('audio/webm;codecs=opus')},checks:[],logs:log,outputs:{}};
- const check=(name,detail)=>report.checks.push({name,passed:true,...detail});
+ const check=(name,detail)=>{report.checks.push({name,passed:true,...detail});window.__bitcrushSmokeProgress?.(name);};
  const urls=getMediaRuntimeUrls();report.configuredUrls=urls;
  const client=new FFmpeg();client.on('log',({type,message})=>log.push({type,message}));const loaded=now();
  await client.load(urls);check('Original single-thread worker loads without cross-origin isolation',{milliseconds:now()-loaded});

@@ -64,6 +64,15 @@ wd = class extends OriginalFFmpegClient {
   constructor() {
     super();
     activeMediaClients.add(this);
+    const load = this.load;
+    this.load = async (...args) => {
+      let timer;
+      try {
+        return await Promise.race([load(...args), new Promise((_, reject) => {
+          timer = setTimeout(() => { this.terminate(); reject(new Error('The offline media worker did not start within 45 seconds')); }, 45000);
+        })]);
+      } finally { clearTimeout(timer); }
+    };
     const terminate = this.terminate;
     this.terminate = () => { activeMediaClients.delete(this); terminate(); };
   }

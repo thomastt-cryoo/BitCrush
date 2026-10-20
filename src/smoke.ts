@@ -25,7 +25,8 @@ export async function desktopSmoke() {
     results.canvas2d = !!document.createElement('canvas').getContext('2d');
     results.workspace = !!document.querySelector('.workspace');
     results.noActivation = !/activate your license|license key|sign in to continue/i.test(document.body.textContent ?? '');
-    const media = await verifyMediaRuntime();
+    await invoke('smoke_progress', { phase: 'Starting media verification' });
+    const media = await verifyMediaRuntime(phase => { void invoke('smoke_progress', { phase }); });
     results.offlineVideoEncodeDecode = media.passed === true && media.decode.frameCount === 24;
     await invoke('complete_smoke_test', { report: { passed: Object.values(results).every(Boolean), checks: results, media: { runtime: media.runtime, checks: media.checks, decode: media.decode.metadata, audioBytes: media.decode.audioBytes, outputs: media.outputs }, engineScope: 'Original adjustments/post-processing and offline media codec. Compiled dither engine is not verified.' } });
   } catch (error) {
