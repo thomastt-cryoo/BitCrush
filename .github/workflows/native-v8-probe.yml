@@ -1,0 +1,31 @@
+name: Standalone original-engine feasibility
+on:
+  push:
+    branches: [codex/native-engine-feasibility]
+permissions:
+  contents: read
+jobs:
+  probe:
+    name: Standalone V8 ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025, macos-15-intel]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: verification/native-v8-probe -> target
+          cache-on-failure: true
+      - name: Build isolated host
+        run: cargo build --release --manifest-path verification/native-v8-probe/Cargo.toml
+      - name: Try guarded compatibility modes and compare original outputs
+        run: python verification/native-v8-probe/run.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: standalone-v8-${{ matrix.os }}
+          path: artifacts/native-v8/
