@@ -7,6 +7,14 @@ use tauri::{Manager, State};
 struct SmokeReport(Mutex<Option<PathBuf>>);
 
 #[tauri::command]
+fn media_runtime_path(app: tauri::AppHandle) -> Result<String, String> {
+    let path = app.path().resource_dir().map_err(|e| e.to_string())?
+        .join("media").join("ffmpeg-core.wasm");
+    if !path.is_file() { return Err("The bundled offline media runtime is missing".into()); }
+    Ok(path.to_string_lossy().into_owned())
+}
+
+#[tauri::command]
 fn runtime_info() -> Value {
     json!({
         "application": "BitCrush",
@@ -58,7 +66,7 @@ fn main() {
         .manage(SmokeReport(Mutex::new(smoke_path())))
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
-        .invoke_handler(tauri::generate_handler![runtime_info, complete_smoke_test])
+        .invoke_handler(tauri::generate_handler![runtime_info, media_runtime_path, complete_smoke_test])
         .setup(|app| {
             if let Some(window) = app.get_webview_window("main") {
                 if smoke_path().is_some() {

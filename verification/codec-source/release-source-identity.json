@@ -1,0 +1,8 @@
+{
+  "archive": "ffmpeg-wasm-v12.15-71aa99d.tar.gz",
+  "bytes": 1329368,
+  "sha256": "53c5842f160cece0e39345876f9483b56aa84b966637ff6f624353a0fa884219",
+  "commit": "71aa99d37c02a7b4c435275ca9ef50e612f6efa1",
+  "release": "v12.15",
+  "coreVersion": "0.12.10"
+}

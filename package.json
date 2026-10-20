@@ -4,6 +4,8 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "postinstall": "node scripts/prepare-media.mjs",
+    "prebuild": "node scripts/prepare-media.mjs",
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1",
@@ -14,6 +16,7 @@
     "package:zip": "python scripts/package.py"
   },
   "dependencies": {
+    "@ffmpeg/core": "0.12.10",
     "@fontsource-variable/inter": "5.2.8",
     "@tauri-apps/api": "2.12.4",
     "@tauri-apps/plugin-dialog": "2.8.3",

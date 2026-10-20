@@ -1,0 +1,399 @@
+{
+  "sourceRelease": "https://github.com/ffmpegwasm/ffmpeg.wasm/releases/tag/v12.15",
+  "sourceCommit": "71aa99d37c02a7b4c435275ca9ef50e612f6efa1",
+  "coreVersion": "0.12.10",
+  "buildScript": "release-source/Dockerfile",
+  "collected": "2026-10-20T19:17:53.741Z",
+  "records": [
+    {
+      "name": "ffmpeg",
+      "repository": "https://github.com/FFmpeg/FFmpeg",
+      "requestedRef": "n5.1.4",
+      "resolvedRefs": [
+        {
+          "sha": "80e7806be7f10c038bef2e71905e91af174c28e9",
+          "ref": "refs/tags/n5.1.4"
+        },
+        {
+          "sha": "4729204c17f756e186d622060088371d10b34f7e",
+          "ref": "refs/tags/n5.1.4^{}"
+        }
+      ],
+      "commit": "4729204c17f756e186d622060088371d10b34f7e",
+      "refKind": "tag",
+      "commitDate": "2023-11-09T23:32:27Z",
+      "commitMessage": "Update for 5.1.4\n\nSigned-off-by: Michael Niedermayer <michael@niedermayer.cc>",
+      "commitMetadata": "dependency-sources\\ffmpeg-commit.json",
+      "archiveUrl": "https://codeload.github.com/FFmpeg/FFmpeg/tar.gz/4729204c17f756e186d622060088371d10b34f7e",
+      "archive": "dependency-sources\\ffmpeg-4729204c17f756e186d622060088371d10b34f7e.tar.gz",
+      "bytes": 14428595,
+      "sha256": "0d7ad57d4dd851d577fc6c19e5cec5b6e5faaeb2dbd52ab76127e3c3763fec6d",
+      "saved": true
+    },
+    {
+      "name": "x264",
+      "repository": "https://github.com/ffmpegwasm/x264",
+      "requestedRef": "4-cores",
+      "resolvedRefs": [
+        {
+          "sha": "33cac6b77d5b9259c552156013a817ab23119612",
+          "ref": "refs/heads/4-cores"
+        }
+      ],
+      "commit": "33cac6b77d5b9259c552156013a817ab23119612",
+      "refKind": "branch",
+      "commitDate": "2022-08-22T01:45:45Z",
+      "commitMessage": "Use 4 logical cores by default",
+      "commitMetadata": "dependency-sources\\x264-commit.json",
+      "archiveUrl": "https://codeload.github.com/ffmpegwasm/x264/tar.gz/33cac6b77d5b9259c552156013a817ab23119612",
+      "archive": "dependency-sources\\x264-33cac6b77d5b9259c552156013a817ab23119612.tar.gz",
+      "bytes": 942903,
+      "sha256": "75434a5a1f2d7d4314821c6054dd300731d69e2fa73314ba4a5ec9df38d4ec80",
+      "saved": true
+    },
+    {
+      "name": "x265",
+      "repository": "https://github.com/ffmpegwasm/x265",
+      "requestedRef": "3.4",
+      "resolvedRefs": [
+        {
+          "sha": "2bb5520e9596f361bf0ed81b3b8da0d7fd999069",
+          "ref": "refs/tags/3.4"
+        }
+      ],
+      "commit": "2bb5520e9596f361bf0ed81b3b8da0d7fd999069",
+      "refKind": "tag",
+      "commitDate": "2020-05-29T17:39:35Z",
+      "commitMessage": "release: Release notes for v3.4",
+      "commitMetadata": "dependency-sources\\x265-commit.json",
+      "archiveUrl": "https://codeload.github.com/ffmpegwasm/x265/tar.gz/2bb5520e9596f361bf0ed81b3b8da0d7fd999069",
+      "archive": "dependency-sources\\x265-2bb5520e9596f361bf0ed81b3b8da0d7fd999069.tar.gz",
+      "bytes": 1531931,
+      "sha256": "e5254828f5db7bc375d385e31247861d25facee87b43fa2d08ea3ab5569672ab",
+      "saved": true
+    },
+    {
+      "name": "libvpx",
+      "repository": "https://github.com/ffmpegwasm/libvpx",
+      "requestedRef": "v1.13.1",
+      "resolvedRefs": [
+        {
+          "sha": "9d36fd0ac716fb3357b498ec9c04f71c6ab1022b",
+          "ref": "refs/tags/v1.13.1"
+        },
+        {
+          "sha": "10b9492dcf05b652e2e4b370e205bd605d421972",
+          "ref": "refs/tags/v1.13.1^{}"
+        }
+      ],
+      "commit": "10b9492dcf05b652e2e4b370e205bd605d421972",
+      "refKind": "tag",
+      "commitDate": "2023-09-29T22:06:14Z",
+      "commitMessage": "update CHANGELOG\n\nBug: webm:1818\nChange-Id: Ic0a943b5d1c69a3621ad3f91012fb5308a0c11f1",
+      "commitMetadata": "dependency-sources\\libvpx-commit.json",
+      "archiveUrl": "https://codeload.github.com/ffmpegwasm/libvpx/tar.gz/10b9492dcf05b652e2e4b370e205bd605d421972",
+      "archive": "dependency-sources\\libvpx-10b9492dcf05b652e2e4b370e205bd605d421972.tar.gz",
+      "bytes": 5520751,
+      "sha256": "12181ed27342415e8b01bf09abfbf1dfa27a6a32f302fb78b48bd70efe50f702",
+      "saved": true
+    },
+    {
+      "name": "lame",
+      "repository": "https://github.com/ffmpegwasm/lame",
+      "requestedRef": "master",
+      "resolvedRefs": [
+        {
+          "sha": "2badea1974ae36cb8312afe99cff1e6b3b5decee",
+          "ref": "refs/heads/master"
+        }
+      ],
+      "commit": "2badea1974ae36cb8312afe99cff1e6b3b5decee",
+      "refKind": "branch",
+      "commitDate": "2020-10-29T03:19:54Z",
+      "commitMessage": "Init commit with lame 3.100",
+      "commitMetadata": "dependency-sources\\lame-commit.json",
+      "archiveUrl": "https://codeload.github.com/ffmpegwasm/lame/tar.gz/2badea1974ae36cb8312afe99cff1e6b3b5decee",
+      "archive": "dependency-sources\\lame-2badea1974ae36cb8312afe99cff1e6b3b5decee.tar.gz",
+      "bytes": 1525181,
+      "sha256": "0d97ba0776988f5730e0ce1fa936e7c5d6836c757993ba55073513fe89cf410a",
+      "saved": true
+    },
+    {
+      "name": "ogg",
+      "repository": "https://github.com/ffmpegwasm/Ogg",
+      "requestedRef": "v1.3.4",
+      "resolvedRefs": [
+        {
+          "sha": "3328abd152508614f7ce4cd491dc98d14eba7ffc",
+          "ref": "refs/tags/v1.3.4"
+        },
+        {
+          "sha": "bada45718453ac27b56773ae663f7e65112f6a6e",
+          "ref": "refs/tags/v1.3.4^{}"
+        }
+      ],
+      "commit": "bada45718453ac27b56773ae663f7e65112f6a6e",
+      "refKind": "tag",
+      "commitDate": "2019-08-30T23:05:52Z",
+      "commitMessage": "Update documentation version and release date for v1.3.4.\n\nResult of running make -C doc/libogg update-doc-version.",
+      "commitMetadata": "dependency-sources\\ogg-commit.json",
+      "archiveUrl": "https://codeload.github.com/ffmpegwasm/Ogg/tar.gz/bada45718453ac27b56773ae663f7e65112f6a6e",
+      "archive": "dependency-sources\\ogg-bada45718453ac27b56773ae663f7e65112f6a6e.tar.gz",
+      "bytes": 256023,
+      "sha256": "4d61f8dfa248276c42bd5404b1a87ae9d8a0d58791f55e20018c7b39b38d8823",
+      "saved": true
+    },
+    {
+      "name": "theora",
+      "repository": "https://github.com/ffmpegwasm/theora",
+      "requestedRef": "v1.1.1",
+      "resolvedRefs": [
+        {
+          "sha": "35da3dc1f96f414bdaa1146fa6b67033fdf64ed6",
+          "ref": "refs/tags/v1.1.1"
+        },
+        {
+          "sha": "7ffd8b2ecfc2d93ae5e16028e7528e609266bfbf",
+          "ref": "refs/tags/v1.1.1^{}"
+        }
+      ],
+      "commit": "7ffd8b2ecfc2d93ae5e16028e7528e609266bfbf",
+      "refKind": "tag",
+      "commitDate": "2009-10-01T18:00:57Z",
+      "commitMessage": "Update versions and changelog for the 1.1.1 release.\n\nsvn path=/trunk/theora/; revision=16598",
+      "commitMetadata": "dependency-sources\\theora-commit.json",
+      "archiveUrl": "https://codeload.github.com/ffmpegwasm/theora/tar.gz/7ffd8b2ecfc2d93ae5e16028e7528e609266bfbf",
+      "archive": "dependency-sources\\theora-7ffd8b2ecfc2d93ae5e16028e7528e609266bfbf.tar.gz",
+      "bytes": 1134014,
+      "sha256": "c38e6a3fb19566a44dcb283323c48311dd484f1416f3f34676d3e7fd252dfbc5",
+      "saved": true
+    },
+    {
+      "name": "opus",
+      "repository": "https://github.com/ffmpegwasm/opus",
+      "requestedRef": "v1.3.1",
+      "resolvedRefs": [
+        {
+          "sha": "5ead6afe4a5ddec2c26ee071ccb58afbcced8eba",
+          "ref": "refs/tags/v1.3.1"
+        },
+        {
+          "sha": "e85ed7726db5d677c9c0677298ea0cb9c65bdd23",
+          "ref": "refs/tags/v1.3.1^{}"
+        }
+      ],
+      "commit": "e85ed7726db5d677c9c0677298ea0cb9c65bdd23",
+      "refKind": "tag",
+      "commitDate": "2019-04-12T20:26:57Z",
+      "commitMessage": "Bump LT version\n\nAdding the OPUS_GET_IN_DTX() query",
+      "commitMetadata": "dependency-sources\\opus-commit.json",
+      "archiveUrl": "https://codeload.github.com/ffmpegwasm/opus/tar.gz/e85ed7726db5d677c9c0677298ea0cb9c65bdd23",
+      "archive": "dependency-sources\\opus-e85ed7726db5d677c9c0677298ea0cb9c65bdd23.tar.gz",
+      "bytes": 829306,
+      "sha256": "c6d574b17d70b8c289d997a8ac81314cf1fd8c52237c421b2ee34e69cea85bf8",
+      "saved": true
+    },
+    {
+      "name": "vorbis",
+      "repository": "https://github.com/ffmpegwasm/vorbis",
+      "requestedRef": "v1.3.3",
+      "resolvedRefs": [
+        {
+          "sha": "beb80fd33dc125d7aa9ddd6a2a3e64c6ca82a46d",
+          "ref": "refs/tags/v1.3.3"
+        },
+        {
+          "sha": "7798164043197d7e33f02de4353ce2aa5b248225",
+          "ref": "refs/tags/v1.3.3^{}"
+        }
+      ],
+      "commit": "7798164043197d7e33f02de4353ce2aa5b248225",
+      "refKind": "tag",
+      "commitDate": "2012-02-03T22:20:36Z",
+      "commitMessage": "Have to remember to update CHANGES for release\n\n\nsvn path=/trunk/vorbis/; revision=18188",
+      "commitMetadata": "dependency-sources\\vorbis-commit.json",
+      "archiveUrl": "https://codeload.github.com/ffmpegwasm/vorbis/tar.gz/7798164043197d7e33f02de4353ce2aa5b248225",
+      "archive": "dependency-sources\\vorbis-7798164043197d7e33f02de4353ce2aa5b248225.tar.gz",
+      "bytes": 1324827,
+      "sha256": "69b87cafe2815d02609886a63b9d4c0b7461e1e2f6ecf3960ede04053da6e96a",
+      "saved": true
+    },
+    {
+      "name": "zlib",
+      "repository": "https://github.com/ffmpegwasm/zlib",
+      "requestedRef": "v1.2.11",
+      "resolvedRefs": [
+        {
+          "sha": "7085a61bce3ed39d5e56ca4d01d80f4338c8a4a6",
+          "ref": "refs/tags/v1.2.11"
+        },
+        {
+          "sha": "cacf7f1d4e3d44d871b605da3b647f07d718623f",
+          "ref": "refs/tags/v1.2.11^{}"
+        }
+      ],
+      "commit": "cacf7f1d4e3d44d871b605da3b647f07d718623f",
+      "refKind": "tag",
+      "commitDate": "2017-01-15T17:29:40Z",
+      "commitMessage": "zlib 1.2.11",
+      "commitMetadata": "dependency-sources\\zlib-commit.json",
+      "archiveUrl": "https://codeload.github.com/ffmpegwasm/zlib/tar.gz/cacf7f1d4e3d44d871b605da3b647f07d718623f",
+      "archive": "dependency-sources\\zlib-cacf7f1d4e3d44d871b605da3b647f07d718623f.tar.gz",
+      "bytes": 645528,
+      "sha256": "6d4d6640ca3121620995ee255945161821218752b551a1a180f4215f7d124d45",
+      "saved": true
+    },
+    {
+      "name": "libwebp",
+      "repository": "https://github.com/ffmpegwasm/libwebp",
+      "requestedRef": "v1.3.2",
+      "resolvedRefs": [
+        {
+          "sha": "004d0a19143abc4494474da905b4eca34c7763db",
+          "ref": "refs/tags/v1.3.2"
+        },
+        {
+          "sha": "ca332209cb5567c9b249c86788cb2dbf8847e760",
+          "ref": "refs/tags/v1.3.2^{}"
+        }
+      ],
+      "commit": "ca332209cb5567c9b249c86788cb2dbf8847e760",
+      "refKind": "tag",
+      "commitDate": "2023-09-13T22:11:07Z",
+      "commitMessage": "update ChangeLog\n\nBug: webp:620\nChange-Id: I5703f222de7262736339dbfd6ba82f2039dfc850",
+      "commitMetadata": "dependency-sources\\libwebp-commit.json",
+      "archiveUrl": "https://codeload.github.com/ffmpegwasm/libwebp/tar.gz/ca332209cb5567c9b249c86788cb2dbf8847e760",
+      "archive": "dependency-sources\\libwebp-ca332209cb5567c9b249c86788cb2dbf8847e760.tar.gz",
+      "bytes": 3685887,
+      "sha256": "1676107dc385f9bf6cb4c2b94d4a9359d1fd95ab6309cb587191a742df292fe2",
+      "saved": true
+    },
+    {
+      "name": "freetype2",
+      "repository": "https://github.com/ffmpegwasm/freetype2",
+      "requestedRef": "VER-2-10-4",
+      "resolvedRefs": [
+        {
+          "sha": "52b116582b8235aeb5e567e3e3dd9e8c1c574d21",
+          "ref": "refs/tags/VER-2-10-4"
+        },
+        {
+          "sha": "6a2b3e4007e794bfc6c91030d0ed987f925164a8",
+          "ref": "refs/tags/VER-2-10-4^{}"
+        }
+      ],
+      "commit": "6a2b3e4007e794bfc6c91030d0ed987f925164a8",
+      "refKind": "tag",
+      "commitDate": "2020-10-20T05:13:33Z",
+      "commitMessage": "* Version 2.10.4 released.\n==========================\n\nTag sources with `VER-2-10-4'.\n\n* docs/VERSION.TXT: Add entry for version 2.10.4.\n* docs/CHANGES: Updated.\n\n* README, src/base/ftver.rc, builds/windows/vc2010/index.html,\nbuilds/windows/visualc/index.html,\nbuilds/windows/visualce/index.html,\nbuilds/wince/vc2005-ce/index.html,\nbuilds/wince/vc2008-ce/index.html, docs/freetype-config.1:\ns/2.10.3/2.10.4/, s/2103/2104/.\n\n* include/freetype/freetype.h (FREETYPE_PATCH): Set to 4.\n\n* builds/unix/configure.raw (version_info): Set to 23:4:17.\n* CMakeLists.txt (VERSION_PATCH): Set to 4.",
+      "commitMetadata": "dependency-sources\\freetype2-commit.json",
+      "archiveUrl": "https://codeload.github.com/ffmpegwasm/freetype2/tar.gz/6a2b3e4007e794bfc6c91030d0ed987f925164a8",
+      "archive": "dependency-sources\\freetype2-6a2b3e4007e794bfc6c91030d0ed987f925164a8.tar.gz",
+      "bytes": 2095678,
+      "sha256": "09acceb42508c65b7b744cc2ad01d7548868ca57babc39f7683ec3c0f7541e8c",
+      "saved": true
+    },
+    {
+      "name": "fribidi",
+      "repository": "https://github.com/fribidi/fribidi",
+      "requestedRef": "v1.0.9",
+      "resolvedRefs": [
+        {
+          "sha": "abea9f626732a9b10499d76c1cd69ce5457950cc",
+          "ref": "refs/tags/v1.0.9"
+        },
+        {
+          "sha": "f9e8e71a6fbf4a4619481284c9f484d10e559995",
+          "ref": "refs/tags/v1.0.9^{}"
+        }
+      ],
+      "commit": "f9e8e71a6fbf4a4619481284c9f484d10e559995",
+      "refKind": "tag",
+      "commitDate": "2020-03-02T16:04:18Z",
+      "commitMessage": "Bumped version to 1.0.9",
+      "commitMetadata": "dependency-sources\\fribidi-commit.json",
+      "archiveUrl": "https://codeload.github.com/fribidi/fribidi/tar.gz/f9e8e71a6fbf4a4619481284c9f484d10e559995",
+      "archive": "dependency-sources\\fribidi-f9e8e71a6fbf4a4619481284c9f484d10e559995.tar.gz",
+      "bytes": 2088197,
+      "sha256": "65ff6fb1a478c4d90ae16825da8c97b8a63e2674f8a2d6dae8800f89089640ba",
+      "saved": true
+    },
+    {
+      "name": "harfbuzz",
+      "repository": "https://github.com/harfbuzz/harfbuzz",
+      "requestedRef": "5.2.0",
+      "resolvedRefs": [
+        {
+          "sha": "28e1fe4c3a09ecebd767679d89ac510fb4f92922",
+          "ref": "refs/tags/5.2.0"
+        },
+        {
+          "sha": "4a1d891c6317d2c83e5f3c2607ec5f5ccedffcde",
+          "ref": "refs/tags/5.2.0^{}"
+        }
+      ],
+      "commit": "4a1d891c6317d2c83e5f3c2607ec5f5ccedffcde",
+      "refKind": "tag",
+      "commitDate": "2022-09-17T01:19:29Z",
+      "commitMessage": "5.2.0",
+      "commitMetadata": "dependency-sources\\harfbuzz-commit.json",
+      "archiveUrl": "https://codeload.github.com/harfbuzz/harfbuzz/tar.gz/4a1d891c6317d2c83e5f3c2607ec5f5ccedffcde",
+      "archive": "dependency-sources\\harfbuzz-4a1d891c6317d2c83e5f3c2607ec5f5ccedffcde.tar.gz",
+      "bytes": 32968210,
+      "sha256": "69ba7c7a42643a3654781242016dd09245cab7353fc2a02cecb710e479c9a881",
+      "saved": true
+    },
+    {
+      "name": "libass",
+      "repository": "https://github.com/libass/libass",
+      "requestedRef": "0.15.0",
+      "resolvedRefs": [
+        {
+          "sha": "415240ce8efe01ffc952725df7d5a980b001cca8",
+          "ref": "refs/tags/0.15.0"
+        },
+        {
+          "sha": "d149636f502f5774ae1a8fb4c554b122674393b2",
+          "ref": "refs/tags/0.15.0^{}"
+        }
+      ],
+      "commit": "d149636f502f5774ae1a8fb4c554b122674393b2",
+      "refKind": "tag",
+      "commitDate": "2020-10-27T04:08:29Z",
+      "commitMessage": "Release 0.15.0",
+      "commitMetadata": "dependency-sources\\libass-commit.json",
+      "archiveUrl": "https://codeload.github.com/libass/libass/tar.gz/d149636f502f5774ae1a8fb4c554b122674393b2",
+      "archive": "dependency-sources\\libass-d149636f502f5774ae1a8fb4c554b122674393b2.tar.gz",
+      "bytes": 243399,
+      "sha256": "5cfe23562fa623a3b209d156ad469aeb2e31f69bf6b256ea737d87d9ed89301d",
+      "saved": true
+    },
+    {
+      "name": "zimg",
+      "repository": "https://github.com/sekrit-twc/zimg",
+      "requestedRef": "release-3.0.5",
+      "resolvedRefs": [
+        {
+          "sha": "c6871daee0ab7efecca5211561717f5c0939e100",
+          "ref": "refs/tags/release-3.0.5"
+        },
+        {
+          "sha": "e5b0de6bebbcbc66732ed5afaafef6b2c7dfef87",
+          "ref": "refs/tags/release-3.0.5^{}"
+        }
+      ],
+      "commit": "e5b0de6bebbcbc66732ed5afaafef6b2c7dfef87",
+      "refKind": "tag",
+      "commitDate": "2023-06-30T17:55:27Z",
+      "commitMessage": "Update version to 3.0.5",
+      "commitMetadata": "dependency-sources\\zimg-commit.json",
+      "archiveUrl": "https://codeload.github.com/sekrit-twc/zimg/tar.gz/e5b0de6bebbcbc66732ed5afaafef6b2c7dfef87",
+      "archive": "dependency-sources\\zimg-e5b0de6bebbcbc66732ed5afaafef6b2c7dfef87.tar.gz",
+      "bytes": 326769,
+      "sha256": "3ab062eff30067799997bc3e911c0108a5b8cbcd6e0ef14053f17ff0ecd0add8",
+      "saved": true
+    }
+  ],
+  "totalArchiveBytes": 69547199,
+  "scope": "Refs resolved from official release Dockerfile. Mutable branch identities and commit dates retained; source correspondence cannot be claimed from name alone. Includes full repository archives, no target execution/build."
+}

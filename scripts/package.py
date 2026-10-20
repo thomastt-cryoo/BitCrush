@@ -30,8 +30,13 @@ with zipfile.ZipFile(destination, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as
                 archive.write(path, name)
     else:
         archive.write(source, source.name)
+        # Windows portable executable resolves this external resource beside itself.
+        archive.write(root / 'src-tauri/resources/media/ffmpeg-core.wasm', 'media/ffmpeg-core.wasm')
     for name in ["PREVIEW-STATUS.md", "THIRD-PARTY-NOTICES.txt"]:
         archive.write(root / name, name)
+    run_id = os.environ.get('GITHUB_RUN_ID')
+    source_location = f'https://github.com/thomastt-cryoo/BitCrush/actions/runs/{run_id}' if run_id else 'The accompanying ffmpeg-core-0.12.10-sources.zip source archive'
+    archive.writestr('CODEC-SOURCES.txt', f'The bundled FFmpeg core 0.12.10 is GPL-2.0-or-later. Full licenses are retained in notices/media.\nMatching official release and dependency sources are provided separately alongside this binary at:\n{source_location}\nDownload the ffmpeg-core-0.12.10-sources artifact. Source details and reproducibility limits: verification/codec-source/PACKAGE-README.md in the application repository.\n')
     for file in sorted((root / 'notices').rglob('*')):
         if file.is_file():
             archive.write(file, str(file.relative_to(root)).replace('\\', '/'))

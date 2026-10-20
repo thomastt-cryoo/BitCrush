@@ -14,6 +14,21 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  codec-source:
+    name: Offline codec corresponding sources
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: python scripts/package-codec-sources.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ffmpeg-core-0.12.10-sources
+          path: |
+            artifacts/ffmpeg-core-0.12.10-sources.zip
+            artifacts/ffmpeg-core-0.12.10-sources.json
+          retention-days: 14
+
   ui:
     name: UI and original browser processing
     runs-on: ubuntu-24.04
@@ -38,6 +53,7 @@ jobs:
 
   native:
     name: Native ${{ matrix.name }}
+    needs: codec-source
     strategy:
       fail-fast: false
       matrix:
@@ -94,7 +110,7 @@ jobs:
 
   universal-mac:
     name: Universal Mac package
-    needs: ui
+    needs: [ui, codec-source]
     runs-on: macos-15-intel
     timeout-minutes: 35
     steps:

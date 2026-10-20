@@ -11,7 +11,7 @@ const child = spawn(resolve(executable), ['--smoke-test', reportPath], { windows
 let logs = '';
 child.stdout.on('data', data => logs += data);
 child.stderr.on('data', data => logs += data);
-const timer = setTimeout(() => { child.kill(); }, 60000);
+const timer = setTimeout(() => { child.kill(); }, 180000);
 const result = await new Promise((resolve, reject) => { child.on('error', reject); child.on('exit', (code, signal) => resolve({ code, signal })); });
 clearTimeout(timer);
 let report;

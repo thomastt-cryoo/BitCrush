@@ -2,6 +2,8 @@ import type { CSSProperties } from 'react';
 import logo from '../icon.svg';
 
 const paths: Record<string, React.ReactNode> = {
+  play: <path d="m8 5 11 7-11 7Z" />,
+  pause: <path d="M8 5v14M16 5v14" />,
   plus: <path d="M12 5v14M5 12h14" />,
   arrow: <><path d="M7 17 17 7M7 7h10v10" /></>,
   search: <><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 4 4" /></>,

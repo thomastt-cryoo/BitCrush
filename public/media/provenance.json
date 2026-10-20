@@ -1,0 +1,251 @@
+{
+  "source": {
+    "asar": "C:/Users/mazin/Downloads/DitherBoy v6.0.3 vfxMed Win/Dither Boy/resources/app.asar",
+    "rendererSha256": "215edb78c0b48d23993fd21f44e9e686116dbbf2e139900bf1bf0f7a7c6532f0"
+  },
+  "members": [
+    {
+      "member": "dist/renderer/assets/index-Cc7ZI13O.js",
+      "output": "source/index-original.js",
+      "bytes": 623316,
+      "sha256": "215edb78c0b48d23993fd21f44e9e686116dbbf2e139900bf1bf0f7a7c6532f0",
+      "deflateBytes": 173038
+    },
+    {
+      "member": "dist/renderer/assets/ffmpeg-core-CI9Irx9p.js",
+      "output": "assets/ffmpeg-core-CI9Irx9p.js",
+      "bytes": 111804,
+      "sha256": "67a48f11645f85439f3fde4f2119042c16b374b910206b7a7a24f342e28dcae3",
+      "deflateBytes": 29622
+    },
+    {
+      "member": "dist/renderer/assets/ffmpeg-core-CgUfceKH.wasm",
+      "output": "assets/ffmpeg-core-CgUfceKH.wasm",
+      "bytes": 32232419,
+      "sha256": "9f57947a5bd530d8f00c5b3f2cb2a3492faa7e5d823315342d6a8656d0a6b7b7",
+      "deflateBytes": 10257756
+    },
+    {
+      "member": "dist/renderer/assets/worker-DYSz7Krg.js",
+      "output": "assets/worker-DYSz7Krg.js",
+      "bytes": 2506,
+      "sha256": "e0a67260df485c224837991e3ea12d721a43c2511a594946fe7d176b8884c429",
+      "deflateBytes": 1149
+    },
+    {
+      "member": "dist/renderer/LICENSES.txt",
+      "output": "notices/original-LICENSES.txt",
+      "bytes": 16658,
+      "sha256": "18d042e61e89e88da8b250ed49992a3317e98987b38afdc20260175c0365b536",
+      "deflateBytes": 4507
+    },
+    {
+      "member": "node_modules/@ffmpeg/core/package.json",
+      "output": "notices/ffmpeg-core-package.json",
+      "bytes": 768,
+      "sha256": "299da0b95b6ad88e6688dfbe29984b43cb9246e86de7ebfe0164c03b43ad0faa",
+      "deflateBytes": 346
+    },
+    {
+      "member": "node_modules/@ffmpeg/ffmpeg/package.json",
+      "output": "notices/ffmpeg-ffmpeg-package.json",
+      "bytes": 1178,
+      "sha256": "1b1f3e7de00bd2c569b100493f1354463973dd782ac77323481b195141e631a0",
+      "deflateBytes": 481
+    },
+    {
+      "member": "node_modules/@ffmpeg/util/package.json",
+      "output": "notices/ffmpeg-util-package.json",
+      "bytes": 926,
+      "sha256": "9e372b95dd2acaac189210ca2042fbbb1c9d30580192887cf9a33f35a14ada69",
+      "deflateBytes": 413
+    }
+  ],
+  "copiedDeclarations": [
+    {
+      "name": "FFmpeg enum + message client",
+      "start": 162535,
+      "end": 165525
+    },
+    {
+      "name": "c0",
+      "start": 165682,
+      "end": 165732
+    },
+    {
+      "name": "u0",
+      "start": 165733,
+      "end": 165776
+    },
+    {
+      "name": "d0",
+      "start": 165777,
+      "end": 165796
+    },
+    {
+      "name": "f0",
+      "start": 165797,
+      "end": 166337
+    },
+    {
+      "name": "Uo",
+      "start": 166338,
+      "end": 166476
+    },
+    {
+      "name": "jd",
+      "start": 166477,
+      "end": 166538
+    },
+    {
+      "name": "kd",
+      "start": 166539,
+      "end": 166602
+    },
+    {
+      "name": "fn",
+      "start": 166603,
+      "end": 167219
+    },
+    {
+      "name": "ao",
+      "start": 167220,
+      "end": 167674
+    },
+    {
+      "name": "wn",
+      "start": 167675,
+      "end": 167955
+    },
+    {
+      "name": "ls",
+      "start": 177275,
+      "end": 177382
+    },
+    {
+      "name": "Zp",
+      "start": 177382,
+      "end": 177542
+    },
+    {
+      "name": "y0",
+      "start": 177542,
+      "end": 178071
+    },
+    {
+      "name": "qp",
+      "start": 178071,
+      "end": 178393
+    },
+    {
+      "name": "b0",
+      "start": 178393,
+      "end": 180838
+    },
+    {
+      "name": "w0",
+      "start": 180838,
+      "end": 184487
+    },
+    {
+      "name": "j0",
+      "start": 184487,
+      "end": 185489
+    },
+    {
+      "name": "Kp",
+      "start": 185489,
+      "end": 187510
+    },
+    {
+      "name": "k0",
+      "start": 187510,
+      "end": 187739
+    },
+    {
+      "name": "np",
+      "start": 187739,
+      "end": 187832
+    },
+    {
+      "name": "E0",
+      "start": 187832,
+      "end": 187973
+    },
+    {
+      "name": "Xp",
+      "start": 187973,
+      "end": 188249
+    },
+    {
+      "name": "C0",
+      "start": 188249,
+      "end": 190543
+    },
+    {
+      "name": "Qp",
+      "start": 190543,
+      "end": 194620
+    },
+    {
+      "name": "Yp",
+      "start": 194620,
+      "end": 195025
+    },
+    {
+      "name": "sp",
+      "start": 200791,
+      "end": 201205
+    }
+  ],
+  "transformation": "Preserve original declaration expressions and class message section; add separators, comments, one import of original GIF helper and named exports. Change jd/kd declaration kind from const to let and add configureMediaRuntime/getMediaRuntimeUrls host binding exports. No original function body edits.",
+  "runtimeAssets": [
+    {
+      "member": "dist/renderer/assets/ffmpeg-core-CI9Irx9p.js",
+      "output": "assets/ffmpeg-core-CI9Irx9p.js",
+      "bytes": 111804,
+      "sha256": "67a48f11645f85439f3fde4f2119042c16b374b910206b7a7a24f342e28dcae3",
+      "deflateBytes": 29622
+    },
+    {
+      "member": "dist/renderer/assets/ffmpeg-core-CgUfceKH.wasm",
+      "output": "assets/ffmpeg-core-CgUfceKH.wasm",
+      "bytes": 32232419,
+      "sha256": "9f57947a5bd530d8f00c5b3f2cb2a3492faa7e5d823315342d6a8656d0a6b7b7",
+      "deflateBytes": 10257756
+    },
+    {
+      "member": "dist/renderer/assets/worker-DYSz7Krg.js",
+      "output": "assets/worker-DYSz7Krg.js",
+      "bytes": 2506,
+      "sha256": "e0a67260df485c224837991e3ea12d721a43c2511a594946fe7d176b8884c429",
+      "deflateBytes": 1149
+    },
+    {
+      "output": "assets/video-workflows-original.mjs",
+      "bytes": 24245,
+      "sha256": "2a50aad6a38e95ae04c4f861edafe3291908f2c62bfeccc9b536112bf71ca131",
+      "deflateBytes": 8349
+    },
+    {
+      "output": "assets/gif-import-original.mjs",
+      "bytes": 10110,
+      "sha256": "1d6fe2bc2709e41995fe6d1df5fe5f5e8a25673d236a0d8231f0ccb2f11a39e8",
+      "deflateBytes": 4025
+    }
+  ],
+  "totals": {
+    "rawBytes": 32381084,
+    "deflatePayloadBytes": 10300901
+  },
+  "scope": "Runtime only; proof harness, notices, host application and ZIP metadata are additional.",
+  "hostAdapter": {
+    "scope": "BitCrush runtime integration",
+    "changes": [
+      "Export configurable core/wasm resource URLs without changing original media function bodies",
+      "Track original FFmpeg client instances via a host subclass so cancellation terminates active workers",
+      "Use scoped external Tauri asset URL for one shared Wasm copy"
+    ],
+    "deployedWorkflowsSha256": "ff69a15a0093c807f0fe2c37c2ed57ac40790c40629cf17e451e1a688becf07d"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "sourceMember": "dist/renderer/assets/imageProcessor.worker-DvXeYfV0.js",
+  "sourceSha256": "e66e06a5196fb1b21923005d3f409e6b1bd11b68c3721d0d973efb3190ba76aa",
+  "outputSha256": "4f8c4cb26c97709a9cf5e21635c63a1a503a2bd5c4e3edded5085d93cc509cbf",
+  "declarations": [
+    {
+      "name": "q",
+      "start": 28829,
+      "end": 28867,
+      "sha256": "6dde0516e691136c79ae11c9eeaedfa04a8a9b7230c447fddcc2a854dd6b0424"
+    },
+    {
+      "name": "m",
+      "start": 30105,
+      "end": 30158,
+      "sha256": "4dffd9084da53475d7e773fe1f6e9da0ee5ca8174184050a8d59c94c6bbdd21a"
+    },
+    {
+      "name": "g",
+      "start": 30159,
+      "end": 30481,
+      "sha256": "44e7eda75e6c8a195e968f7dcb3799213d189622e080cc82681d176f7c1253fe"
+    },
+    {
+      "name": "d",
+      "start": 30482,
+      "end": 32893,
+      "sha256": "7c5a0aa620e61d6a83be0b2f9c3c3b7fab0161fbd8b56a4352fce8ef7ff99ee3"
+    }
+  ],
+  "transformation": "Copy original constructor and mapping declarator expressions unchanged into an exported function with original captured variable aliases. No original calculation expressions changed.",
+  "scope": "Stage mapping only. Does not execute compiled dither code, replicate error swallowing, or supply media decoding."
+}

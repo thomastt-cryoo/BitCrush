@@ -1,0 +1,22 @@
+{
+  "records": [
+    {
+      "url": "https://codeload.github.com/emscripten-core/emscripten/tar.gz/3.1.40",
+      "file": "dependency-sources/emscripten-3.1.40.tar.gz",
+      "bytes": 28780461,
+      "sha256": "eb74cea5feb8881c28e9bb5a6798e7f4e59686e60d8a1bac39e9063a451210e5",
+      "sha512": "c85f8af49d83d3df5f2e3276564255b048990a197a98720639e977755d52950271160815d6c74f12970b6539ff201229f1b2e4d48c76ec56ad5b17058a88485e",
+      "role": "Exact Emscripten source version named by original core compiler banner and release Docker image; includes runtime/glue source and license."
+    },
+    {
+      "url": "https://github.com/libsdl-org/SDL/archive/release-2.24.2.zip",
+      "file": "dependency-sources/sdl2-release-2.24.2.zip",
+      "bytes": 9039988,
+      "sha256": "dc33dfdb24c28b757f32345ea8eca67a6030c9dcb084ae8c78bc27a21e737ada",
+      "sha512": "b178bdc8f7c40271e09a72f639649d1d61953dda4dc12b77437259667b63b961fd3b2c67b0de6fdc5f9f9c80c49bfafd164e4c13715bc1056e550acc8bad5a3c",
+      "role": "SDL2 port selected by Emscripten3.1.40 tools/ports/sdl2.py and ffmpeg-wasm build -sUSE_SDL=2",
+      "expectedSha512": "b178bdc8f7c40271e09a72f639649d1d61953dda4dc12b77437259667b63b961fd3b2c67b0de6fdc5f9f9c80c49bfafd164e4c13715bc1056e550acc8bad5a3c",
+      "portHashMatches": true
+    }
+  ]
+}

@@ -10,7 +10,7 @@ export async function setWindowAppearance(appearance: 'dark' | 'light') {
 
 export async function chooseImage(): Promise<{ name: string; blob: Blob } | null> {
   const { open } = await import('@tauri-apps/plugin-dialog');
-  const path = await open({ multiple: false, filters: [{ name: 'Images', extensions: ['png', 'jpg', 'jpeg', 'webp', 'bmp', 'gif'] }] });
+  const path = await open({ multiple: false, filters: [{ name: 'Images and video', extensions: ['png', 'jpg', 'jpeg', 'webp', 'bmp', 'gif', 'mp4', 'webm', 'mov', 'avi', 'mkv'] }] });
   if (typeof path !== 'string') return null;
   const { readFile } = await import('@tauri-apps/plugin-fs');
   const bytes = await readFile(path);

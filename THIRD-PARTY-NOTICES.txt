@@ -12,3 +12,5 @@ https://github.com/rsms/inter
 Original Dither Boy 6.0.3 renderer processing expressions, palette data and preset helpers are reused under the permission confirmed by the project owner. Provenance files record their source archive and transformations. That permission does not grant a public license to the original application or its branding.
 
 Full installed dependency license texts are collected in the repository's notices/ directory before distribution.
+Offline video uses the supplied FFmpeg WebAssembly core 0.12.10 (GPL-2.0-or-later), plus its original wrapper and bundled libraries. Full codec licenses are in notices/media. The official release/dependency source corpus is distributed separately alongside the binary artifacts; see CODEC-SOURCES.txt and verification/codec-source/PACKAGE-README.md. A Licenses UI tab is not required to retain these distribution notices.
+

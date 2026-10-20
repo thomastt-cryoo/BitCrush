@@ -1,0 +1,76 @@
+{
+  "scope": "Actual shipped original renderer Web Worker, synthetic64x48 opaque RGBA input. No new application adapter is exercised.",
+  "passed": true,
+  "checks": [
+    {
+      "name": "ordered execution changes output",
+      "passed": true
+    },
+    {
+      "name": "repeated same ID applies twice",
+      "passed": true
+    },
+    {
+      "name": "same-type instances remain independent",
+      "passed": true
+    },
+    {
+      "name": "visible false is not processing gate",
+      "passed": true
+    },
+    {
+      "name": "enabled false skips",
+      "passed": true
+    },
+    {
+      "name": "outside pipelineOrder skips",
+      "passed": true
+    },
+    {
+      "name": "missing reference uses flat-settings fallback",
+      "passed": true
+    },
+    {
+      "name": "ID prefix controls dispatch despite type mismatch",
+      "passed": true
+    },
+    {
+      "name": "halftone replaces disabled dither slot",
+      "passed": true
+    },
+    {
+      "name": "halftone without dither slot does not process",
+      "passed": true
+    },
+    {
+      "name": "standalone halftone ID is ignored by mapper",
+      "passed": true
+    },
+    {
+      "name": "undefined time skips Temporal Variation",
+      "passed": true
+    },
+    {
+      "name": "explicit zero time changes Temporal Variation result",
+      "passed": true
+    }
+  ],
+  "hashes": {
+    "input": "d28cc0b32b2d7ad93bac22775362c9cf50525e46154c39b0fbe2666ed98f7744",
+    "singleInvert": "d7b9a4f6872df35c931e09a48135ff8273b0d58760fc7da12d8324bf21dea45a",
+    "duplicateInvert": "d28cc0b32b2d7ad93bac22775362c9cf50525e46154c39b0fbe2666ed98f7744",
+    "distinctInvertInstances": "d28cc0b32b2d7ad93bac22775362c9cf50525e46154c39b0fbe2666ed98f7744",
+    "postThenTint": "3d8eddcdb353c4d21e30cfdc8110bebed35cef3c2fa9e14f19ee03c6808a3cac",
+    "tintThenPost": "5ce7d1f5813c46fbf8d25a1ecc831580b7431f9d38c0dd06e4063f4a4fd66dab",
+    "hiddenEnabled": "d7b9a4f6872df35c931e09a48135ff8273b0d58760fc7da12d8324bf21dea45a",
+    "disabled": "d28cc0b32b2d7ad93bac22775362c9cf50525e46154c39b0fbe2666ed98f7744",
+    "outsideOrder": "d28cc0b32b2d7ad93bac22775362c9cf50525e46154c39b0fbe2666ed98f7744",
+    "missingReferenceFallback": "d7b9a4f6872df35c931e09a48135ff8273b0d58760fc7da12d8324bf21dea45a",
+    "typeMismatch": "d7b9a4f6872df35c931e09a48135ff8273b0d58760fc7da12d8324bf21dea45a",
+    "halftoneDisabledDither": "b1dfa082090826f7b078b217436a70afde8b640a6a7a7c43fc953e5b028148e0",
+    "halftoneWithoutDitherSlot": "d28cc0b32b2d7ad93bac22775362c9cf50525e46154c39b0fbe2666ed98f7744",
+    "standaloneHalftoneId": "d28cc0b32b2d7ad93bac22775362c9cf50525e46154c39b0fbe2666ed98f7744",
+    "temporalUndefinedTime": "d28cc0b32b2d7ad93bac22775362c9cf50525e46154c39b0fbe2666ed98f7744",
+    "temporalExplicitZero": "60994ecb9595908ea9730fd5780399b720add5556895f16a336111a6f6c50471"
+  }
+}

@@ -1,0 +1,31 @@
+import {FFmpeg,exportVideoFile,importVideoFile,chooseVideoSavePath,getMediaRuntimeUrls} from './video-workflows-original.mjs';
+import {installOriginalWasmMediaBridge,fileFromSelectedPath} from './tauri-media-bridge.mjs';
+const log=[];const now=()=>performance.now();
+const sha=async bytes=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))).map(x=>x.toString(16).padStart(2,'0')).join('');
+const base64=bytes=>{let result='';for(let at=0;at<bytes.length;at+=16384)result+=String.fromCharCode(...bytes.subarray(at,at+16384));return btoa(result);};
+const fromBase64=text=>Uint8Array.from(atob(text),c=>c.charCodeAt(0));
+export const runMediaProof=async()=>{
+ const report={started:new Date().toISOString(),runtime:{userAgent:navigator.userAgent,origin:location.origin,crossOriginIsolated,sharedArrayBuffer:typeof SharedArrayBuffer,mediaRecorder:typeof MediaRecorder,opusRecorder:typeof MediaRecorder==='function'&&MediaRecorder.isTypeSupported('audio/webm;codecs=opus')},checks:[],logs:log,outputs:{}};
+ const check=(name,detail)=>report.checks.push({name,passed:true,...detail});
+ const urls=getMediaRuntimeUrls();report.configuredUrls=urls;
+ const client=new FFmpeg();client.on('log',({type,message})=>log.push({type,message}));const loaded=now();
+ await client.load(urls);check('Original single-thread worker loads without cross-origin isolation',{milliseconds:now()-loaded});
+ let start=log.length;await client.exec(['-version']);report.ffmpegVersion=log.slice(start).map(x=>x.message);
+ start=log.length;await client.ffprobe(['-version']);report.ffprobeVersion=log.slice(start).map(x=>x.message);
+ start=log.length;await client.exec(['-encoders']);report.relevantEncoders=log.slice(start).filter(x=>/264|aac|opus|png|webp|mjpeg|gif/i.test(x.message)).map(x=>x.message);
+ start=log.length;const audioExit=await client.exec(['-f','lavfi','-i','sine=frequency=440:sample_rate=48000','-t','1','-c:a','libopus','proof-audio.webm']);
+ const audio=audioExit===0?await client.readFile('proof-audio.webm'):null;report.audioFixture={exitCode:audioExit,bytes:audio?.byteLength??0,logs:log.slice(start).map(x=>x.message)};if(!audio)throw Error('Original core could not create bounded Opus audio fixture');
+ client.terminate();
+ const width=160,height=96,fps=24,count=24,canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;const ctx=canvas.getContext('2d',{willReadFrequently:true});const frames=[];
+ for(let frame=0;frame<count;frame++){const image=ctx.createImageData(width,height);let seed=(frame+1)*1234567;for(let y=0;y<height;y++)for(let x=0;x<width;x++){seed=(Math.imul(seed,1664525)+1013904223)|0;const i=(y*width+x)*4;image.data[i]=(x*5+frame*7+((seed>>>24)&31))&255;image.data[i+1]=(y*5+frame*11+((seed>>>16)&31))&255;image.data[i+2]=(x*3+y*2+frame*13+((seed>>>8)&31))&255;image.data[i+3]=255;}ctx.putImageData(image,0,0);frames.push({index:frame,timestamp:frame/fps,dataUrl:canvas.toDataURL('image/png')});}
+ window.proofSavedFiles={};const readNative=async name=>{if(!window.proofSavedFiles[name])throw Error('No such proof file');return fromBase64(window.proofSavedFiles[name]);};
+ installOriginalWasmMediaBridge({save:async options=>options.defaultPath,readFile:readNative,writeFile:async(filePath,bytes)=>{window.proofSavedFiles[filePath]=base64(bytes);}});
+ const selectedPath=await chooseVideoSavePath('original-workflow-proof.mp4');if(selectedPath!=='original-workflow-proof.mp4')throw Error('Save-dialog adapter changed path');check('Native-shaped save/write bridge accepts original workflow contract',{selectedPath});
+ const encodeProgress=[];const encodingStart=now();const result=await exportVideoFile(frames,audio.slice().buffer,'original-workflow-proof.mp4',{frameRate:fps,quality:95,includeAudio:true},p=>encodeProgress.push(p));report.encode={result,milliseconds:now()-encodingStart,progress:encodeProgress};
+ if(!result.success)throw Object.assign(Error('Original export failed: '+result.error),{report});const output=fromBase64(window.proofSavedFiles['original-workflow-proof.mp4']);check('Unchanged original MP4 export succeeds',{bytes:output.length,sha256:await sha(output)});
+ const probe=new FFmpeg();const probeLogs=[];probe.on('log',x=>probeLogs.push(x.message));await probe.load(urls);await probe.writeFile('proof.mp4',output.slice());const probeExit=await probe.ffprobe(['-v','error','-show_streams','-show_format','-of','json','-o','metadata.json','proof.mp4']);const metadata=await probe.readFile('metadata.json','utf8');report.encodedProbe={exitCode:probeExit,metadata:JSON.parse(metadata),logs:probeLogs};probe.terminate();
+ const importProgress=[];const importStart=now();const selectedFile=await fileFromSelectedPath('original-workflow-proof.mp4',readNative);const imported=await importVideoFile(selectedFile,{extractAllFrames:true,maxDimension:1920},p=>importProgress.push(p));report.decode={metadata:imported.metadata,frameCount:imported.frames.length,milliseconds:now()-importStart,audioBytes:imported.audioBuffer?.byteLength??0,progress:importProgress,framePixelHashes:await Promise.all([imported.frames[0],imported.frames.at(-1)].map(f=>sha(f.imageData.data))),thumbnailPrefix:imported.thumbnail?.split(',')[0]};
+ if(imported.frames.length!==count||imported.metadata.width!==width||imported.metadata.height!==height)throw Object.assign(Error('Original import frame count or dimensions differ'),{report});check('Unchanged original video import extracts all original dimensions/frames',{frameCount:count,width,height});
+ const video=document.createElement('video');video.src=imported.url;video.preload='auto';await new Promise((resolve,reject)=>{video.onloadeddata=resolve;video.onerror=()=>reject(Error('HTMLvideo cannot play encoded MP4'));});check('Installed browser decodes encoded H264 MP4',{duration:video.duration,width:video.videoWidth,height:video.videoHeight});URL.revokeObjectURL(imported.url);video.removeAttribute('src');video.load();
+ report.outputs['original-workflow-proof.mp4']={bytes:output.length,sha256:await sha(output)};report.passed=true;report.finished=new Date().toISOString();return report;
+};

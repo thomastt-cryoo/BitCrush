@@ -21,10 +21,12 @@
       "theme": "Dark"
     }],
     "security": {
-      "csp": "default-src 'self' ipc: http://ipc.localhost; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' asset: http://asset.localhost blob: data:; media-src 'self' blob: asset:; worker-src 'self' blob:; connect-src 'self' ipc: http://ipc.localhost"
+      "assetProtocol": { "enable": true, "scope": ["$RESOURCE/media/ffmpeg-core.wasm"] },
+      "csp": "default-src 'self' ipc: http://ipc.localhost; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' asset: http://asset.localhost blob: data:; media-src 'self' blob: asset:; worker-src 'self' blob:; connect-src 'self' ipc: http://ipc.localhost asset: http://asset.localhost https://asset.localhost blob: data:"
     }
   },
   "bundle": {
+    "resources": { "resources/media/ffmpeg-core.wasm": "media/ffmpeg-core.wasm" },
     "active": true,
     "targets": "all",
     "icon": ["icons/icon.png", "icons/icon.ico", "icons/icon.icns"],
