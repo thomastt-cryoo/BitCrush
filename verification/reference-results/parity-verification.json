@@ -1,0 +1,336 @@
+{
+  "engine": "Chrome desktop headless",
+  "scope": "Extracted original Web Worker formulas versus actual shipped renderer Web Worker, identical synthetic RGBA input/settings/time. Does not establish parity with compiled .jsc main-process halftone or any dithering algorithm.",
+  "passed": true,
+  "checks": [
+    {
+      "name": "original",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "d28cc0b32b2d7ad93bac22775362c9cf50525e46154c39b0fbe2666ed98f7744",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 0,
+      "passed": true
+    },
+    {
+      "name": "adjustments",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "cb51e45d5abdbb6473ea8bff1148955cf7c6af14e565e17597fb4cb4760df791",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9118,
+      "passed": true
+    },
+    {
+      "name": "postProcessing",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "84ac856260b528c1083c2da1ca587b4bbe5fe7e881fc624b8a76399ff3fa2277",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9194,
+      "passed": true
+    },
+    {
+      "name": "tint-normal",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "05263f9fe852326ea7dfffdb822913db98406cfb5513bdf04186106d6a947d35",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9179,
+      "passed": true
+    },
+    {
+      "name": "tint-multiply",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "ef810a1a756da97b918e4d1491ec82a10fc48a1aedf504e827a2aa61b9e71553",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9107,
+      "passed": true
+    },
+    {
+      "name": "tint-screen",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "89d69f06303469b895f52d6aad0c3a2c6e76867c34a96ca9e1152d9b4ffe1e40",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9123,
+      "passed": true
+    },
+    {
+      "name": "tint-overlay",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "40a3636a40b45f3c71686690e8ba78e5a76b318d921723d119a1712732a6b3ad",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9007,
+      "passed": true
+    },
+    {
+      "name": "tint-darken",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "55dc66ab973507a258b3617a7505202760a1b46dbcc0fb7a6bca8bd18a9e80e4",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 4698,
+      "passed": true
+    },
+    {
+      "name": "tint-lighten",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "69d87c129085c553bbe6c60a28f2965f27fa702ca7e2d84ac08250df2151dd48",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 4481,
+      "passed": true
+    },
+    {
+      "name": "tint-color-dodge",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "7557d9fbe8af6f693a323fd92113e351ab67f65625a511013e042bad1409eee8",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9096,
+      "passed": true
+    },
+    {
+      "name": "tint-color-burn",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "424ee5cd73c9b1f6b5c402eb730af35ea456baaad4dd4c0f3a8a06eeb29365b4",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9096,
+      "passed": true
+    },
+    {
+      "name": "tint-hard-light",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "cae589d5fb7eb09b66045de71c785fb5da6c102d5d9a9f2edca26dde25d85dec",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9112,
+      "passed": true
+    },
+    {
+      "name": "tint-soft-light",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "714961b300a96c2144a2a0bdd1b84b3bfe3eca2fb365af5a35ec20c800c345c2",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9098,
+      "passed": true
+    },
+    {
+      "name": "tint-difference",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "bfdca20affa02081cd4acffdb656759ee95d6ae35ed15d09aba18b8c67e201a1",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9190,
+      "passed": true
+    },
+    {
+      "name": "tint-exclusion",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "06f678651157547870102dcce201dcc7f8afd316f31a851d1a3ac0ad621b25b4",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9143,
+      "passed": true
+    },
+    {
+      "name": "tint-hue",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "9bb938c13896e753b1e6e2860c0eaaa709a9104671777cf9e0c74b7d3495491a",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 7040,
+      "passed": true
+    },
+    {
+      "name": "tint-saturation",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "e76f8fd6a5194814e3117ac798a5cc44e708fd67e885befc9238071bd70fd2ca",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 8841,
+      "passed": true
+    },
+    {
+      "name": "tint-color",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "c90e2f3a238f7ddf5abbb7c5c56da5a975a8c7cac9ca33b45531a710812b4888",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9138,
+      "passed": true
+    },
+    {
+      "name": "tint-luminosity",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "5a59a4c1d08f9e06e9a497d971a2224a97344c51d55e11f3da07321259fadf57",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 8949,
+      "passed": true
+    },
+    {
+      "name": "epsilonGlow",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "d691a823dbbb82c4c24888501e15dccabd5ac752f2ecf56b489f613ca58abf57",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9182,
+      "passed": true
+    },
+    {
+      "name": "epsilonGlow-large-radius",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "5540f7514b98a8050f4e5e842d41325ff725a632d707c6eb8a64c64359ee0076",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9182,
+      "passed": true
+    },
+    {
+      "name": "jpegGlitch",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "c9f91ae2d34947c3f5bf52e918250696d8c315337c4e63b1b522b8c56c68e782",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 7700,
+      "passed": true
+    },
+    {
+      "name": "chromaticEffects",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "bb0fd659f26ec789911e8ff50a781c1b15df8c6251171a3ac85f29709315a497",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9216,
+      "passed": true
+    },
+    {
+      "name": "temporalVariation-noise",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "e684d6ea6d9ef41f99cf6e94e2574d4dc5dcf39f0d21a786a81a37941a578533",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 8792,
+      "passed": true
+    },
+    {
+      "name": "temporalVariation-blue-noise",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "c7caeff2d09ef2ef6054c377c72e1af940ef97ad5d0d230a9ea416ad833d6978",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9080,
+      "passed": true
+    },
+    {
+      "name": "temporalVariation-wave",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "2dbcfb46a1102a3ca511fd50527c9ffdabbed7c3ef40f6ea7bfb919b9978704a",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9037,
+      "passed": true
+    },
+    {
+      "name": "temporalVariation-interference",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "71fc134a2e8ff25820eb7f30b9692d3f19574c95b844ca04d11b787b5aee59cd",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 8764,
+      "passed": true
+    },
+    {
+      "name": "temporalVariation-horizontal-scan",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "5f0475255d10994792d6793894fcf356c7750f3dfc66bea7796a74392a0f5b04",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 8984,
+      "passed": true
+    },
+    {
+      "name": "temporalVariation-vertical-scan",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "6ea69cad55b8c09974f98235ce8bda0f2f50fbd4208f44378b71ff1812be38a0",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9030,
+      "passed": true
+    },
+    {
+      "name": "temporalVariation-diagonal",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "8686f36fbed3f7e1268b753966bbcf84f46b792a2ec7b31ab61fee5d3dc1b4dd",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9030,
+      "passed": true
+    },
+    {
+      "name": "temporalVariation-spiral",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "1fdba5e1572db061f20ca46a0c37b130e1b8a6019e83eee74b1b98594e2fc028",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9102,
+      "passed": true
+    },
+    {
+      "name": "temporalVariation-random-walk",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "668f555f098b57a65b74fce6a2100ce0acda9dda5aa0690fc1c902770aae7e8b",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 8620,
+      "passed": true
+    },
+    {
+      "name": "halftone-grayscale",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "b1dfa082090826f7b078b217436a70afde8b640a6a7a7c43fc953e5b028148e0",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9182,
+      "passed": true
+    },
+    {
+      "name": "halftone-cmyk",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "9f7c0ece8bb8624990c050ed779c8dba03b14eb97c03ce686d536cdedfbe2665",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9175,
+      "passed": true
+    },
+    {
+      "name": "halftone-cmyk-no-phase",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "6721fafd46044d420af6ee849f5b3449fa2eed535efdcb4ffd09080f0f70636c",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9182,
+      "passed": true
+    },
+    {
+      "name": "combined",
+      "pixelBytes": 12288,
+      "originalPixelSha256": "241de9ce3164e410348f813e771316a4e00375c053530a4e75dbc509282f5f63",
+      "differences": 0,
+      "maxDelta": 0,
+      "changedFromInput": 9182,
+      "passed": true
+    },
+    {
+      "name": "unavailable-dither-rejected",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,1120 @@
+{
+  "format": "dither-boy-6.0.3-original-controls",
+  "source": {
+    "member": "dist/renderer/assets/index-Cc7ZI13O.js",
+    "sha256": "215edb78c0b48d23993fd21f44e9e686116dbbf2e139900bf1bf0f7a7c6532f0",
+    "offsetUnits": "UTF-16, end-exclusive"
+  },
+  "numeric": {
+    "dither.scale": {
+      "label": "Scale (DPI)",
+      "control": "slider",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ],
+      "disabledExpression": "!Dn||Fe.includes(\"dither.scale\")",
+      "animationLockedExpression": "Fe.includes(\"dither.scale\")",
+      "defaultStoredValue": 45
+    },
+    "dither.luminanceThreshold": {
+      "label": "Luminance Threshold",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ],
+      "disabledExpression": "Fe.includes(\"dither.luminanceThreshold\")",
+      "animationLockedExpression": "Fe.includes(\"dither.luminanceThreshold\")",
+      "defaultStoredValue": 50
+    },
+    "adjustments.brightness": {
+      "label": "Brightness",
+      "control": "slider",
+      "min": 0,
+      "max": 200,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ],
+      "disabledExpression": "Fe.includes(\"adjustments.brightness\")",
+      "animationLockedExpression": "Fe.includes(\"adjustments.brightness\")",
+      "defaultStoredValue": 100
+    },
+    "adjustments.contrast": {
+      "label": "Contrast",
+      "control": "slider",
+      "min": 0,
+      "max": 200,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ],
+      "disabledExpression": "Fe.includes(\"adjustments.contrast\")",
+      "animationLockedExpression": "Fe.includes(\"adjustments.contrast\")",
+      "defaultStoredValue": 100
+    },
+    "adjustments.saturation": {
+      "label": "Saturation",
+      "control": "slider",
+      "min": 0,
+      "max": 200,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ],
+      "disabledExpression": "Fe.includes(\"adjustments.saturation\")",
+      "animationLockedExpression": "Fe.includes(\"adjustments.saturation\")",
+      "defaultStoredValue": 100
+    },
+    "adjustments.midtones": {
+      "label": "Midtones",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ],
+      "disabledExpression": "Fe.includes(\"adjustments.midtones\")",
+      "animationLockedExpression": "Fe.includes(\"adjustments.midtones\")",
+      "defaultStoredValue": 50
+    },
+    "adjustments.highlights": {
+      "label": "Highlights",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ],
+      "disabledExpression": "Fe.includes(\"adjustments.highlights\")",
+      "animationLockedExpression": "Fe.includes(\"adjustments.highlights\")",
+      "defaultStoredValue": 50
+    },
+    "adjustments.hue": {
+      "label": "Hue",
+      "control": "dial",
+      "min": 0,
+      "max": 360,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ],
+      "disabledExpression": "Fe.includes(\"adjustments.hue\")",
+      "animationLockedExpression": "Fe.includes(\"adjustments.hue\")",
+      "defaultStoredValue": 0
+    },
+    "adjustments.blur": {
+      "label": "Blur",
+      "control": "slider",
+      "min": 0,
+      "max": 200,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ],
+      "disabledExpression": "Fe.includes(\"adjustments.blur\")",
+      "animationLockedExpression": "Fe.includes(\"adjustments.blur\")",
+      "defaultStoredValue": 0
+    },
+    "adjustments.denoise": {
+      "label": "Denoise",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ],
+      "disabledExpression": "Fe.includes(\"adjustments.denoise\")",
+      "animationLockedExpression": "Fe.includes(\"adjustments.denoise\")",
+      "defaultStoredValue": 0
+    },
+    "postProcessing.sharpen": {
+      "label": "Sharpen",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Gx",
+      "sourceRange": [
+        428419,
+        430611
+      ],
+      "disabledExpression": "!s||v.includes(\"postProcessing.sharpen\")",
+      "animationLockedExpression": "v.includes(\"postProcessing.sharpen\")",
+      "defaultStoredValue": 0
+    },
+    "postProcessing.blur": {
+      "label": "Blur",
+      "control": "slider",
+      "min": 0,
+      "max": 200,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Gx",
+      "sourceRange": [
+        428419,
+        430611
+      ],
+      "disabledExpression": "!s||v.includes(\"postProcessing.blur\")",
+      "animationLockedExpression": "v.includes(\"postProcessing.blur\")",
+      "defaultStoredValue": 0
+    },
+    "postProcessing.hue": {
+      "label": "Hue",
+      "control": "dial",
+      "min": 0,
+      "max": 360,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Gx",
+      "sourceRange": [
+        428419,
+        430611
+      ],
+      "disabledExpression": "!s||v.includes(\"postProcessing.hue\")",
+      "animationLockedExpression": "v.includes(\"postProcessing.hue\")",
+      "defaultStoredValue": 0
+    },
+    "tint.opacity": {
+      "label": "Opacity",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Vx",
+      "sourceRange": [
+        431953,
+        433637
+      ],
+      "disabledExpression": "!s||v.includes(\"tint.opacity\")",
+      "animationLockedExpression": "v.includes(\"tint.opacity\")",
+      "defaultStoredValue": 50
+    },
+    "epsilonGlow.threshold": {
+      "label": "Threshold",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Hx",
+      "sourceRange": [
+        433638,
+        438901
+      ],
+      "disabledExpression": "!s||q.includes(\"epsilonGlow.threshold\")",
+      "animationLockedExpression": "q.includes(\"epsilonGlow.threshold\")",
+      "defaultStoredValue": 25
+    },
+    "epsilonGlow.thresholdSmoothing": {
+      "label": "Threshold Smoothing",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Hx",
+      "sourceRange": [
+        433638,
+        438901
+      ],
+      "disabledExpression": "!s||q.includes(\"epsilonGlow.thresholdSmoothing\")",
+      "animationLockedExpression": "q.includes(\"epsilonGlow.thresholdSmoothing\")",
+      "defaultStoredValue": 25
+    },
+    "epsilonGlow.radius": {
+      "label": "Radius",
+      "control": "slider",
+      "min": 1,
+      "max": 200,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Hx",
+      "sourceRange": [
+        433638,
+        438901
+      ],
+      "disabledExpression": "!s||q.includes(\"epsilonGlow.radius\")",
+      "animationLockedExpression": "q.includes(\"epsilonGlow.radius\")",
+      "defaultStoredValue": 25
+    },
+    "epsilonGlow.intensity": {
+      "label": "Intensity",
+      "control": "slider",
+      "min": 0,
+      "max": 1000,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Hx",
+      "sourceRange": [
+        433638,
+        438901
+      ],
+      "disabledExpression": "!s||q.includes(\"epsilonGlow.intensity\")",
+      "animationLockedExpression": "q.includes(\"epsilonGlow.intensity\")",
+      "defaultStoredValue": 500
+    },
+    "epsilonGlow.aspectRatio": {
+      "label": "Aspect Ratio",
+      "control": "slider",
+      "min": 25,
+      "max": 400,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Hx",
+      "sourceRange": [
+        433638,
+        438901
+      ],
+      "disabledExpression": "!s||q.includes(\"epsilonGlow.aspectRatio\")",
+      "animationLockedExpression": "q.includes(\"epsilonGlow.aspectRatio\")",
+      "defaultStoredValue": 100
+    },
+    "epsilonGlow.direction": {
+      "label": "Direction (°)",
+      "control": "dial",
+      "min": 0,
+      "max": 360,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Hx",
+      "sourceRange": [
+        433638,
+        438901
+      ],
+      "disabledExpression": "!s||q.includes(\"epsilonGlow.direction\")",
+      "animationLockedExpression": "q.includes(\"epsilonGlow.direction\")",
+      "defaultStoredValue": 0
+    },
+    "epsilonGlow.falloff": {
+      "label": "Falloff n",
+      "control": "slider",
+      "min": 10,
+      "max": 50,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Hx",
+      "sourceRange": [
+        433638,
+        438901
+      ],
+      "disabledExpression": "!s||q.includes(\"epsilonGlow.falloff\")",
+      "animationLockedExpression": "q.includes(\"epsilonGlow.falloff\")",
+      "defaultStoredValue": 10
+    },
+    "epsilonGlow.epsilon": {
+      "label": "Epsilon",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Hx",
+      "sourceRange": [
+        433638,
+        438901
+      ],
+      "disabledExpression": "!s||q.includes(\"epsilonGlow.epsilon\")",
+      "animationLockedExpression": "q.includes(\"epsilonGlow.epsilon\")",
+      "defaultStoredValue": 50
+    },
+    "epsilonGlow.distanceScale": {
+      "label": "Distance Scale",
+      "control": "slider",
+      "min": 1,
+      "max": 500,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Hx",
+      "sourceRange": [
+        433638,
+        438901
+      ],
+      "disabledExpression": "!s||q.includes(\"epsilonGlow.distanceScale\")",
+      "animationLockedExpression": "q.includes(\"epsilonGlow.distanceScale\")",
+      "defaultStoredValue": 150
+    },
+    "jpegGlitch.blockShift.amount": {
+      "label": "Block Shift (0-20px)",
+      "control": "slider",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Wx",
+      "sourceRange": [
+        438902,
+        442950
+      ],
+      "disabledExpression": "!s||q.includes(\"jpegGlitch.blockShift.amount\")",
+      "animationLockedExpression": "q.includes(\"jpegGlitch.blockShift.amount\")",
+      "defaultStoredValue": 0
+    },
+    "jpegGlitch.channelSwap.amount": {
+      "label": "Channel Swap (0-100%)",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Wx",
+      "sourceRange": [
+        438902,
+        442950
+      ],
+      "disabledExpression": "!s||q.includes(\"jpegGlitch.channelSwap.amount\")",
+      "animationLockedExpression": "q.includes(\"jpegGlitch.channelSwap.amount\")",
+      "defaultStoredValue": 0
+    },
+    "jpegGlitch.scanlineOffset.amount": {
+      "label": "Scanline Offset (0-100)",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Wx",
+      "sourceRange": [
+        438902,
+        442950
+      ],
+      "disabledExpression": "!s||q.includes(\"jpegGlitch.scanlineOffset.amount\")",
+      "animationLockedExpression": "q.includes(\"jpegGlitch.scanlineOffset.amount\")",
+      "defaultStoredValue": 0
+    },
+    "jpegGlitch.blockScramble.amount": {
+      "label": "Block Scramble (0-20)",
+      "control": "slider",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Wx",
+      "sourceRange": [
+        438902,
+        442950
+      ],
+      "disabledExpression": "!s||q.includes(\"jpegGlitch.blockScramble.amount\")",
+      "animationLockedExpression": "q.includes(\"jpegGlitch.blockScramble.amount\")",
+      "defaultStoredValue": 0
+    },
+    "jpegGlitch.interlaceCorruption.amount": {
+      "label": "Interlace Corruption (0-100%)",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Wx",
+      "sourceRange": [
+        438902,
+        442950
+      ],
+      "disabledExpression": "!s||q.includes(\"jpegGlitch.interlaceCorruption.amount\")",
+      "animationLockedExpression": "q.includes(\"jpegGlitch.interlaceCorruption.amount\")",
+      "defaultStoredValue": 0
+    },
+    "chromaticEffects.maxDisplace": {
+      "label": "Max Displace",
+      "control": "slider",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Zx",
+      "sourceRange": [
+        442951,
+        446064
+      ],
+      "disabledExpression": "!s||v.includes(\"chromaticEffects.maxDisplace\")",
+      "animationLockedExpression": "v.includes(\"chromaticEffects.maxDisplace\")",
+      "defaultStoredValue": 0
+    },
+    "chromaticEffects.redChannel": {
+      "label": "Red Channel",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Zx",
+      "sourceRange": [
+        442951,
+        446064
+      ],
+      "disabledExpression": "!s||v.includes(\"chromaticEffects.redChannel\")",
+      "animationLockedExpression": "v.includes(\"chromaticEffects.redChannel\")",
+      "defaultStoredValue": 50
+    },
+    "chromaticEffects.greenChannel": {
+      "label": "Green Channel",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Zx",
+      "sourceRange": [
+        442951,
+        446064
+      ],
+      "disabledExpression": "!s||v.includes(\"chromaticEffects.greenChannel\")",
+      "animationLockedExpression": "v.includes(\"chromaticEffects.greenChannel\")",
+      "defaultStoredValue": 50
+    },
+    "chromaticEffects.blueChannel": {
+      "label": "Blue Channel",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "storageScale": 1,
+      "sourceComponent": "Zx",
+      "sourceRange": [
+        442951,
+        446064
+      ],
+      "disabledExpression": "!s||v.includes(\"chromaticEffects.blueChannel\")",
+      "animationLockedExpression": "v.includes(\"chromaticEffects.blueChannel\")",
+      "defaultStoredValue": 50
+    },
+    "temporalVariation.intensity": {
+      "label": "Intensity",
+      "control": "slider",
+      "min": 0,
+      "max": 10,
+      "step": 0.1,
+      "storageScale": 1,
+      "sourceComponent": "Kx",
+      "sourceRange": [
+        446342,
+        448360
+      ],
+      "disabledExpression": "!s||k.includes(\"temporalVariation.intensity\")",
+      "animationLockedExpression": "k.includes(\"temporalVariation.intensity\")",
+      "defaultStoredValue": 5
+    },
+    "temporalVariation.speed": {
+      "label": "Speed",
+      "control": "slider",
+      "min": 0,
+      "max": 10,
+      "step": 0.1,
+      "storageScale": 1,
+      "sourceComponent": "Kx",
+      "sourceRange": [
+        446342,
+        448360
+      ],
+      "disabledExpression": "!s||k.includes(\"temporalVariation.speed\")",
+      "animationLockedExpression": "k.includes(\"temporalVariation.speed\")",
+      "defaultStoredValue": 5
+    },
+    "halftone.cellSize": {
+      "label": "Cell Size",
+      "control": "slider",
+      "min": 4,
+      "max": 50,
+      "step": 1,
+      "defaultStoredValue": 10,
+      "storageScale": 1,
+      "displayExpression": "storedValue",
+      "storeExpression": "displayValue",
+      "visibleWhen": "halftoneMode",
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ]
+    },
+    "halftone.dotGain": {
+      "label": "Dot Gain",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "defaultStoredValue": 0.2,
+      "storageScale": 0.01,
+      "displayExpression": "Math.round(storedValue * 100)",
+      "storeExpression": "displayValue / 100",
+      "visibleWhen": "halftoneMode",
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ]
+    },
+    "halftone.grayAngle": {
+      "label": "Screen Angle",
+      "control": "dial",
+      "min": 0,
+      "max": 360,
+      "step": 1,
+      "defaultStoredValue": 45,
+      "storageScale": 1,
+      "displayExpression": "storedValue",
+      "storeExpression": "displayValue",
+      "visibleWhen": "halftone.mode === \"grayscale\"",
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ]
+    },
+    "halftone.gcr": {
+      "label": "Black Mix",
+      "control": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "defaultStoredValue": 1,
+      "storageScale": 0.01,
+      "displayExpression": "Math.round(storedValue * 100)",
+      "storeExpression": "displayValue / 100",
+      "visibleWhen": "halftone.mode === \"cmyk\"",
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ]
+    },
+    "halftone.cyanAngle": {
+      "label": "Cyan Angle",
+      "control": "dial",
+      "min": 0,
+      "max": 360,
+      "step": 1,
+      "defaultStoredValue": 15,
+      "storageScale": 1,
+      "displayExpression": "storedValue",
+      "storeExpression": "displayValue",
+      "visibleWhen": "halftone.mode === \"cmyk\"",
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ]
+    },
+    "halftone.magentaAngle": {
+      "label": "Magenta Angle",
+      "control": "dial",
+      "min": 0,
+      "max": 360,
+      "step": 1,
+      "defaultStoredValue": 75,
+      "storageScale": 1,
+      "displayExpression": "storedValue",
+      "storeExpression": "displayValue",
+      "visibleWhen": "halftone.mode === \"cmyk\"",
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ]
+    },
+    "halftone.yellowAngle": {
+      "label": "Yellow Angle",
+      "control": "dial",
+      "min": 0,
+      "max": 360,
+      "step": 1,
+      "defaultStoredValue": 0,
+      "storageScale": 1,
+      "displayExpression": "storedValue",
+      "storeExpression": "displayValue",
+      "visibleWhen": "halftone.mode === \"cmyk\"",
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ]
+    },
+    "halftone.blackAngle": {
+      "label": "Black Angle",
+      "control": "dial",
+      "min": 0,
+      "max": 360,
+      "step": 1,
+      "defaultStoredValue": 45,
+      "storageScale": 1,
+      "displayExpression": "storedValue",
+      "storeExpression": "displayValue",
+      "visibleWhen": "halftone.mode === \"cmyk\"",
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ]
+    },
+    "dither.colorDepth": {
+      "label": "Color Depth",
+      "control": "slider",
+      "min": 2,
+      "maxExpression": "palette.length",
+      "step": 1,
+      "storageScale": 1,
+      "disabledExpression": "!algorithm.features.supportsColorDepth || animationPaths.includes(\"dither.colorDepth\")",
+      "sourceComponent": "$x",
+      "sourceRange": [
+        402840,
+        428418
+      ]
+    }
+  },
+  "boolean": {
+    "postProcessing.enabled": {
+      "label": "Enable Post Processing",
+      "defaultStoredValue": null
+    },
+    "postProcessing.invert": {
+      "label": "Invert",
+      "defaultStoredValue": false,
+      "disabledWhen": "!postProcessing.enabled"
+    },
+    "tint.enabled": {
+      "label": "Enable Tint",
+      "defaultStoredValue": false
+    },
+    "epsilonGlow.enabled": {
+      "label": "Enable Epsilon Glow",
+      "defaultStoredValue": false
+    },
+    "epsilonGlow.radiusCompensation": {
+      "label": "Radius Compensation",
+      "defaultStoredValue": true,
+      "disabledByOuterEnabled": false
+    },
+    "jpegGlitch.enabled": {
+      "label": "Enable JPEG Glitch",
+      "defaultStoredValue": false
+    },
+    "chromaticEffects.enabled": {
+      "label": "Enable Chromatic Effects",
+      "defaultStoredValue": false
+    },
+    "temporalVariation.enabled": {
+      "label": "Enable Temporal Variation",
+      "defaultStoredValue": false
+    },
+    "halftone.usePhaseOffsets": {
+      "label": "Phase Offsets",
+      "defaultStoredValue": true,
+      "visibleWhen": "halftone.mode === \"cmyk\""
+    },
+    "dither.orderedCycling": {
+      "label": "Ordered Cycling",
+      "defaultStoredValue": null
+    }
+  },
+  "dropdown": {
+    "tint.blendMode": {
+      "label": "Blend Mode",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "multiply",
+          "label": "Multiply"
+        },
+        {
+          "value": "screen",
+          "label": "Screen"
+        },
+        {
+          "value": "overlay",
+          "label": "Overlay"
+        },
+        {
+          "value": "darken",
+          "label": "Darken"
+        },
+        {
+          "value": "lighten",
+          "label": "Lighten"
+        },
+        {
+          "value": "color-dodge",
+          "label": "Color Dodge"
+        },
+        {
+          "value": "color-burn",
+          "label": "Color Burn"
+        },
+        {
+          "value": "hard-light",
+          "label": "Hard Light"
+        },
+        {
+          "value": "soft-light",
+          "label": "Soft Light"
+        },
+        {
+          "value": "difference",
+          "label": "Difference"
+        },
+        {
+          "value": "exclusion",
+          "label": "Exclusion"
+        },
+        {
+          "value": "hue",
+          "label": "Hue"
+        },
+        {
+          "value": "saturation",
+          "label": "Saturation"
+        },
+        {
+          "value": "color",
+          "label": "Color"
+        },
+        {
+          "value": "luminosity",
+          "label": "Luminosity"
+        }
+      ],
+      "defaultStoredValue": "multiply",
+      "disabledWhen": "!tint.enabled",
+      "sourceRange": [
+        261569,
+        262149
+      ]
+    },
+    "temporalVariation.pattern": {
+      "label": "Pattern",
+      "options": [
+        {
+          "value": "noise",
+          "label": "Noise"
+        },
+        {
+          "value": "blue-noise",
+          "label": "Blue Noise"
+        },
+        {
+          "value": "wave",
+          "label": "Wave"
+        },
+        {
+          "value": "interference",
+          "label": "Interference"
+        },
+        {
+          "value": "horizontal-scan",
+          "label": "Horizontal Scan"
+        },
+        {
+          "value": "vertical-scan",
+          "label": "Vertical Scan"
+        },
+        {
+          "value": "diagonal",
+          "label": "Diagonal"
+        },
+        {
+          "value": "spiral",
+          "label": "Spiral"
+        },
+        {
+          "value": "random-walk",
+          "label": "Random Walk"
+        }
+      ],
+      "defaultStoredValue": "noise",
+      "disabledWhen": "!temporalVariation.enabled",
+      "sourceRange": [
+        446342,
+        448360
+      ]
+    },
+    "halftone.mode": {
+      "label": "Mode",
+      "options": [
+        {
+          "value": "grayscale",
+          "label": "Grayscale"
+        },
+        {
+          "value": "cmyk",
+          "label": "CMYK"
+        }
+      ],
+      "defaultStoredValue": "grayscale",
+      "sourceRange": [
+        402840,
+        428418
+      ]
+    }
+  },
+  "color": {
+    "tint.color": {
+      "label": "Color",
+      "control": "color",
+      "defaultStoredValue": "#ff0000",
+      "disabledWhen": "!tint.enabled"
+    }
+  },
+  "defaults": {
+    "adjustments": {
+      "brightness": 100,
+      "contrast": 100,
+      "saturation": 100,
+      "midtones": 50,
+      "highlights": 50,
+      "blur": 0,
+      "denoise": 0,
+      "hue": 0
+    },
+    "dither": {
+      "style": "none",
+      "category": "all",
+      "scaleDpi": 45,
+      "luminanceThreshold": 50
+    },
+    "palette": {
+      "category": "Monochrome",
+      "paletteId": "monochrome-grayscale",
+      "colorDepth": 8,
+      "customColors": [
+        "#000000",
+        "#ffffff"
+      ]
+    },
+    "halftone": {
+      "mode": "grayscale",
+      "cellSize": 10,
+      "dotGain": 0.2,
+      "grayAngle": 45,
+      "cyanAngle": 15,
+      "magentaAngle": 75,
+      "yellowAngle": 0,
+      "blackAngle": 45,
+      "gcr": 1,
+      "usePhaseOffsets": true
+    },
+    "postProcessing": {
+      "invert": false,
+      "sharpen": 0,
+      "blur": 0,
+      "hue": 0,
+      "denoise": 0,
+      "grain": 0,
+      "vignette": 0
+    },
+    "tint": {
+      "enabled": false,
+      "color": "#ff0000",
+      "blendMode": "multiply",
+      "opacity": 50
+    },
+    "epsilonGlow": {
+      "enabled": false,
+      "threshold": 25,
+      "thresholdSmoothing": 25,
+      "radius": 25,
+      "radiusCompensation": true,
+      "intensity": 500,
+      "aspectRatio": 100,
+      "direction": 0,
+      "falloff": 10,
+      "epsilon": 50,
+      "distanceScale": 150
+    },
+    "jpegGlitch": {
+      "enabled": false,
+      "blockShift": {
+        "enabled": false,
+        "amount": 0
+      },
+      "channelSwap": {
+        "enabled": false,
+        "amount": 0
+      },
+      "scanlineOffset": {
+        "enabled": false,
+        "amount": 0
+      },
+      "blockScramble": {
+        "enabled": false,
+        "amount": 0
+      },
+      "interlaceCorruption": {
+        "enabled": false,
+        "amount": 0
+      }
+    },
+    "chromaticEffects": {
+      "enabled": false,
+      "maxDisplace": 0,
+      "redChannel": 50,
+      "greenChannel": 50,
+      "blueChannel": 50
+    },
+    "temporalVariation": {
+      "enabled": false,
+      "intensity": 5,
+      "speed": 5,
+      "pattern": "noise"
+    }
+  },
+  "reset": {
+    "postProcessing": {
+      "enabled": true,
+      "invert": false,
+      "sharpen": 0,
+      "blur": 0,
+      "hue": 0
+    },
+    "tint": {
+      "enabled": false,
+      "color": "#ff0000",
+      "blendMode": "multiply",
+      "opacity": 50
+    },
+    "epsilonGlow": {
+      "enabled": false,
+      "threshold": 25,
+      "thresholdSmoothing": 25,
+      "radius": 25,
+      "radiusCompensation": true,
+      "intensity": 500,
+      "aspectRatio": 100,
+      "direction": 0,
+      "falloff": 10,
+      "epsilon": 50,
+      "distanceScale": 150
+    },
+    "jpegGlitch": {
+      "enabled": false,
+      "blockShift": {
+        "enabled": false,
+        "amount": 0
+      },
+      "channelSwap": {
+        "enabled": false,
+        "amount": 0
+      },
+      "scanlineOffset": {
+        "enabled": false,
+        "amount": 0
+      },
+      "blockScramble": {
+        "enabled": false,
+        "amount": 0
+      },
+      "interlaceCorruption": {
+        "enabled": false,
+        "amount": 0
+      }
+    },
+    "chromaticEffects": {
+      "enabled": false,
+      "maxDisplace": 0,
+      "redChannel": 50,
+      "greenChannel": 50,
+      "blueChannel": 50
+    },
+    "temporalVariation": {
+      "enabled": false,
+      "intensity": 5,
+      "speed": 5,
+      "pattern": "noise"
+    }
+  },
+  "interactionRules": [
+    {
+      "rule": "JPEG amount update",
+      "paths": [
+        "jpegGlitch.blockShift.amount",
+        "jpegGlitch.channelSwap.amount",
+        "jpegGlitch.scanlineOffset.amount",
+        "jpegGlitch.blockScramble.amount",
+        "jpegGlitch.interlaceCorruption.amount"
+      ],
+      "onChange": "set amount to value; if value > 0, set sibling enabled=true; zero leaves sibling enabled unchanged",
+      "processingGate": "outer jpegGlitch.enabled && subeffect.enabled && subeffect.amount > 0",
+      "sourceRange": [
+        438902,
+        442950
+      ]
+    },
+    {
+      "rule": "Outer enabled gates",
+      "detail": "All six effects require outer enabled for execution. Their numeric controls and dropdowns disable while outer enabled=false. Epsilon Radius Compensation lacks disabled prop in original UI and remains editable."
+    },
+    {
+      "rule": "Parameter edit does not enable effect",
+      "detail": "Except the five nested JPEG flags, changing a numeric value does not implicitly enable its outer effect."
+    },
+    {
+      "rule": "Temporal still time",
+      "detail": "Temporal Variation executes only when state.time is defined. Still images ordinarily pass undefined, not zero; zero is a real timeline position."
+    },
+    {
+      "rule": "Animation UI gate",
+      "detail": "Property paths named in animationPaths disable manual numeric edits. Pure effect helpers interpolate stored values; halftone dotGain/gcr animation values use stored fractional units."
+    },
+    {
+      "rule": "Slider lock",
+      "detail": "Original ut/Qs disable input when locked, disabled, or animationLocked. Locked is also used to exclude randomization; it is more than a shuffle-only flag."
+    },
+    {
+      "rule": "Numeric input semantics",
+      "detail": "Numeric inputs clamp min/max, do not explicitly quantize entered decimals to step. Range controls and dial pointer/keyboard interactions apply step."
+    },
+    {
+      "rule": "Latent default keys",
+      "detail": "postProcessing defaults contain denoise, grain, vignette but original Gx exposes no controls for them. Preserve them in payloads; do not invent UI controls."
+    },
+    {
+      "rule": "Misleading original tooltips",
+      "detail": "Epsilon threshold actual max is100 although title says255; intensity actual max is1000 although title says500. Use actual min/max props."
+    },
+    {
+      "rule": "Dither feature flags",
+      "detail": "DPI disabled when supportsDpiScale=false. Threshold visible only supportsLuminanceThreshold. Palette controls disabled when supportsColorPalettes=false; depth disabled when supportsColorDepth=false. Numeric algorithm controls use current controlValues[id] ?? defaultValue."
+    }
+  ]
+}

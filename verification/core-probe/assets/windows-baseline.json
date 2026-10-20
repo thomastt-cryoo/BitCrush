@@ -1,0 +1,1688 @@
+{
+  "schemaVersion": 1,
+  "platform": "win32",
+  "architecture": "x64",
+  "runtime": {
+    "node": "24.14.1",
+    "acorn": "8.15.0",
+    "ada": "3.4.2",
+    "amaro": "1.1.7",
+    "ares": "1.34.6",
+    "brotli": "1.0.9",
+    "cldr": "47.0",
+    "icu": "77.1",
+    "llhttp": "9.3.0",
+    "merve": "1.0.0",
+    "modules": "145",
+    "napi": "10",
+    "nbytes": "0.1.1",
+    "ncrypto": "0.0.1",
+    "nghttp2": "1.68.0",
+    "openssl": "0.0.0",
+    "simdjson": "4.2.4",
+    "simdutf": "7.7.0",
+    "sqlite": "3.51.2",
+    "tz": "2025b",
+    "undici": "7.24.4",
+    "unicode": "16.0",
+    "uv": "1.51.0",
+    "uvwasi": "0.0.23",
+    "v8": "14.6.202.33-electron.0",
+    "zlib": "1.3.1",
+    "zstd": "1.6.0",
+    "electron": "41.2.1",
+    "chrome": "146.0.7680.188"
+  },
+  "originalArtifactSha256": "ff648aef8e28f383cc523213838d07b07c293f79186e5d0b3048f7c7549adb6a",
+  "assetIntegrity": [
+    {
+      "name": "index-aa597334.jsc",
+      "expected": "aa5973342b26eae4d3f7bcdf81f428a72b20d562b1d54ad141d3df5393061aa1",
+      "actual": "aa5973342b26eae4d3f7bcdf81f428a72b20d562b1d54ad141d3df5393061aa1",
+      "valid": true
+    },
+    {
+      "name": "halftone-a3bff44b.jsc",
+      "expected": "a3bff44b21a96a47c0e8930c3e3187491a1626c5ea552ce23dbdd7d8f5a5ea58",
+      "actual": "a3bff44b21a96a47c0e8930c3e3187491a1626c5ea552ce23dbdd7d8f5a5ea58",
+      "valid": true
+    }
+  ],
+  "sourceMode": "electron-renderer",
+  "dither": [
+    {
+      "id": "color-separation",
+      "category": "basic",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {}
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "4adfff86a6ea127c73f3f26641c1f16c3f1685e683c3836abaeceec6e857d46f"
+    },
+    {
+      "id": "none",
+      "category": "basic",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {}
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "b3fccf889e097b0398db7ebdf861cfecbca501467cd5bde98ae170a64e90d480"
+    },
+    {
+      "id": "artifact-modulation",
+      "category": "error-diffusion",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "serpentine": false,
+          "errorStrength": 100
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "38ca5ea0a8f9a70a64086db30d3dbcd621884c741f6aaad140ee451c780e92cb"
+    },
+    {
+      "id": "atkinson",
+      "category": "error-diffusion",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "serpentine": false,
+          "errorReduction": 1
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "150b8d88a39ef8a2b9a741c5725aa0d9ffd6ec9025858258c4692b381057f60b"
+    },
+    {
+      "id": "burkes",
+      "category": "error-diffusion",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "serpentine": true,
+          "errorStrength": 100
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "61113833a1ef745e9ba5173b255210498685e1f3593c51849eede3feb08f8596"
+    },
+    {
+      "id": "cracked-diffuse",
+      "category": "error-diffusion",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "cracked": 100
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "371628e407c270f63a219118eac4f9e0564f6826823dc91f6564ec4af3df9d22"
+    },
+    {
+      "id": "floyd-steinberg",
+      "category": "error-diffusion",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "serpentine": false
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "5ca146590013f5dfc4c2fe0206d772d43e02d010e3ec7437e548f3cb8034fa9c"
+    },
+    {
+      "id": "fractal-diffuse",
+      "category": "error-diffusion",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "strength": 75
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "e1c08078a77eff450f9c5c263cab678dffb69f640708a002d60d9a0351c189dd"
+    },
+    {
+      "id": "gaussian",
+      "category": "error-diffusion",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "distributionSpread": 1,
+          "errorStrength": 100
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "818991126c1322c92a5acc41577de45baab0ef097f8f1c8abbf5678ccc4ee4db"
+    },
+    {
+      "id": "jarvis-judice-ninke",
+      "category": "error-diffusion",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "serpentine": true,
+          "errorStrength": 100
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "b20f58e99ebe6ea4844c6852e9a466f922704cb544fcc07e2a891c758b3f21fa"
+    },
+    {
+      "id": "ostromukhov",
+      "category": "error-diffusion",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "serpentine": true,
+          "errorStrength": 100
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "35fcc6ce153a3b06f953d1225c01bc28857916ebe14479fe71d78ec65fedb0d2"
+    },
+    {
+      "id": "sierra-lite",
+      "category": "error-diffusion",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "serpentine": true,
+          "errorStrength": 100
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "6ff218ea0bc4882de0d0ff11c713d2741eb629ed9c82619ded961b2deefb1d14"
+    },
+    {
+      "id": "sierra",
+      "category": "error-diffusion",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "serpentine": true,
+          "errorStrength": 100
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "7e75885a35454f4c50bec1f572b94928a7b9b9a7fbc0793e786ce7bbbb2dedf6"
+    },
+    {
+      "id": "stevenson-arce",
+      "category": "error-diffusion",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "serpentine": true,
+          "errorStrength": 100
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "f58b66b99f0d4929c3f3e20fb8e9843be26f32e636f35c8600944f240d0544b3"
+    },
+    {
+      "id": "stucki",
+      "category": "error-diffusion",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "serpentine": true,
+          "errorStrength": 100
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "242512c7adf9cdc230e80ff4fcb98df4b5a89c644870c99fe2336e1aabb8b02a"
+    },
+    {
+      "id": "two-row-sierra",
+      "category": "error-diffusion",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "serpentine": true,
+          "errorStrength": 100
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "506fc31f67194990008a0c1df24b3ad74fa61957353a6e0753ca9f29da122c87"
+    },
+    {
+      "id": "vortex-diffusion",
+      "category": "error-diffusion",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "twistStrength": 0,
+          "spiralFrequency": 5
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "64fd4ff3dfb7ab4b054d73791d38a40f575324eee0b063bb0538378e50276f39"
+    },
+    {
+      "id": "artifact-modulation-glitch",
+      "category": "glitch-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "lineScale": 5
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "c4e2ff7f41c4e98220507dcf451bb0f7cd1dad4c70635a47573605989887ee3c"
+    },
+    {
+      "id": "atkinson-line-modulation",
+      "category": "glitch-effects",
+      "deterministic": false,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "modulationStrength": 5,
+          "horizontalBias": 5
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "1290b84bc902bbb7398ae7c5948831dfe4c671e798afa59c3c2e431001b2385d"
+    },
+    {
+      "id": "atkinson-vhs",
+      "category": "glitch-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "lineCount": 1
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "b025c1cf4e0d0cc5283ef117d535cb215ed2a4bee5bae3db295388b243dff600"
+    },
+    {
+      "id": "contrast-aware-x",
+      "category": "glitch-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "lineScale": 1
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "d7f4fe19c3ff623b8652050022dce6714b6cf51f49b49417a30a525e65cf63bb"
+    },
+    {
+      "id": "contrast-aware-y",
+      "category": "glitch-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "lineScale": 1
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "2f7d1f42145150ffa00d27ecc44f85d194f69871ebc62c5270087820b8bac749"
+    },
+    {
+      "id": "glitch",
+      "category": "glitch-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "glitchIntensity": 1
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "dbc523b8ced3c87fc259599f616165b4da03e77995ffc2e26355c5f414024e09"
+    },
+    {
+      "id": "modulated-diffuse-x",
+      "category": "glitch-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "lineScale": 1
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "d7f4fe19c3ff623b8652050022dce6714b6cf51f49b49417a30a525e65cf63bb"
+    },
+    {
+      "id": "modulated-diffuse-y",
+      "category": "glitch-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "lineScale": 1
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "5a2b72b1fb603a2e6675c5564095b5388f46aa56dee799ce10799346ea18d325"
+    },
+    {
+      "id": "ordered-modulation",
+      "category": "glitch-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "lineScale": 5
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "05aef47627f9f3af600a7e3090c49edcff28b66e8b537e72e0f6a16c337bc58e"
+    },
+    {
+      "id": "smooth-diffuse",
+      "category": "glitch-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "lineScale": 5,
+          "smoothness": 5
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "c8eac846fb01eeaeb6e784ba45329c2dcea117ffb3aaa113a2bc0177ff2cc956"
+    },
+    {
+      "id": "stucki-diffusion-lines",
+      "category": "glitch-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "lineEmphasis": 5
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "8734bf5e7e810c60f469cb69cbbe01c7859baf6d8448b4c823b02b95d8071092"
+    },
+    {
+      "id": "uniform-modulation-x",
+      "category": "glitch-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "lineScale": 1,
+          "smoothingFactor": false,
+          "bleedFraction": 0
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "384aa4471a39c8d1591a1359b5529146e35b097d6e1643615f60390e762e1e55"
+    },
+    {
+      "id": "uniform-modulation-y",
+      "category": "glitch-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "lineScale": 1,
+          "smoothingFactor": false,
+          "bleedFraction": 0
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "675f488da5f6ee40b4d1f73795bac8e18fdeffae3796610437f071a043950744"
+    },
+    {
+      "id": "wave-modulation-x",
+      "category": "glitch-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "frequency": 5,
+          "amplitude": 50
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "2abf595442ae8bb3fefd5d0547da9f69addb7cc4bcdad39d348c86317c73b766"
+    },
+    {
+      "id": "wave-modulation-y",
+      "category": "glitch-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "frequency": 5,
+          "amplitude": 50
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "f6d5e5b2be192a0aa8af44f10a80cad970bf3929e9136f6f30604f0948f536ed"
+    },
+    {
+      "id": "waveform-alt",
+      "category": "glitch-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "modulationBlend": 1
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "d0212aa57dd4328208cbccd461be0376735b01c637ff93eac9cddf8b8adeb7d6"
+    },
+    {
+      "id": "waveform",
+      "category": "glitch-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "waveDensity": 1
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "23e4f13cce75bc4993f8a4930d0ccd4e42f168ae61b3604a86f41848735a6ef5"
+    },
+    {
+      "id": "bayer-matrix",
+      "category": "ordered",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "matrixSize": "4x4"
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "2a32d9a94209e87b46358ff2151efee07dea13d3171a3dfb4331dede6e060479"
+    },
+    {
+      "id": "bayer-void",
+      "category": "ordered",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "warpIntensity": 10
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "c24faabd92917ee72bc8a9efe6cc7f9cfd32be8bbc5d698ab4b9bbff0bb6ae6e"
+    },
+    {
+      "id": "bit-tone",
+      "category": "ordered",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "dotSize": 1
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "2a32d9a94209e87b46358ff2151efee07dea13d3171a3dfb4331dede6e060479"
+    },
+    {
+      "id": "mosaic",
+      "category": "ordered",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "blockSize": 10
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "5e9d5b686a0c4122c77d69144a5874dcbbcd05c1b4717bb11d8d730cc17a6659"
+    },
+    {
+      "id": "random-ordered",
+      "category": "ordered",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {}
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "b2c724448c408b8fef66a027a8a02ea482902ff7b2879d9f5eb0479cbed03995"
+    },
+    {
+      "id": "block-tone",
+      "category": "patterned",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "dotSize": 4
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "6aea531dac52ad502a80568f3fa133202b80a753d8f8fa8499777c50e2a82c7f"
+    },
+    {
+      "id": "camo",
+      "category": "patterned",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "density": 30
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "4997cf83e666bc29bb2df9792a4226d95aaf5b0ad9003d3c887863d6314e17e9"
+    },
+    {
+      "id": "checkers",
+      "category": "patterned",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "checkersSize": "medium"
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "c8698d41348bf747a8a80e722a35f29e801d8ff83e463f360344996969302781"
+    },
+    {
+      "id": "circle-grid",
+      "category": "patterned",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {}
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "cdef2cbbbc65d604f06ad5ad9c12b9e637741e943140f40c22984291c49a6633"
+    },
+    {
+      "id": "crosshatch",
+      "category": "patterned",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "lineSpacing": 1
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "c8698d41348bf747a8a80e722a35f29e801d8ff83e463f360344996969302781"
+    },
+    {
+      "id": "diamond-grid",
+      "category": "patterned",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {}
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "3d4bc25d03b888dc50b636891aac5ebdfbd1d6696a972334aff7a5d012632005"
+    },
+    {
+      "id": "diamond",
+      "category": "patterned",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "period": 8
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "b091fd686902bb1bfd55ce3d6da923204863dbfa2038d5a5fac0d8dd099d927a"
+    },
+    {
+      "id": "gridlock-traffic",
+      "category": "patterned",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {}
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "f7278fbcc844772cfaa67a0372c6b428f742f5dd8bd96abd6929e7c7a237f12a"
+    },
+    {
+      "id": "heart-grid",
+      "category": "patterned",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {}
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "5d6afd949c63df5b4efd735accd70de3bbf0e57800cc8bdef96ac2b3b053bdeb"
+    },
+    {
+      "id": "pop-tone",
+      "category": "patterned",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "density": 20,
+          "variation": 45
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "4874f994b7a4db676ebe6d0b8cdf82ab0c3269d2accd8fac0f854c38d3ca0e78"
+    },
+    {
+      "id": "print-pattern",
+      "category": "patterned",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "dotScale": 8
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "b462d14969600071b63052490f66cefbfd8680f59670a44ca2b8b0c7d4495c8a"
+    },
+    {
+      "id": "square-mosaic",
+      "category": "patterned",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {}
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "8bf74fd1d5fbeae100fc10173e99bf07c4d809138567fa58959e360fd65c287d"
+    },
+    {
+      "id": "stippling",
+      "category": "patterned",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "dotDensity": 1
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "d802d2d78fe46d884511cd8b4b76e547c2cb0ae9bf6d52758f97e27a64e9bb9c"
+    },
+    {
+      "id": "hexa-poly",
+      "category": "polygon",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {}
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "4fa3b91435007b35f15356f06e65beda0bee1993594afd2877848ebb3e39250e"
+    },
+    {
+      "id": "low-poly",
+      "category": "polygon",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "triangleType": "isosceles"
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "e6b5cf53914e20db451398bdbf17ee248888349eff05f952c003733736d13b65"
+    },
+    {
+      "id": "penta-poly",
+      "category": "polygon",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "vertical": false
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "0ac46a63a3bd04440e97a6d0050d16fe2f9a280101ca0bdfc15b1b8202d175a7"
+    },
+    {
+      "id": "tri-poly",
+      "category": "polygon",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {}
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "3a9f2318618dd8d9eee20978d9fa8ff76939cdbb0495e62a8160a4c0b6b542c3"
+    },
+    {
+      "id": "beehive",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "cellSize": 8
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "2a32d9a94209e87b46358ff2151efee07dea13d3171a3dfb4331dede6e060479"
+    },
+    {
+      "id": "diagonal",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "edgeSensitivity": 1
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "52f2fa671fc042afd78eec269b0b213165b577834ba7e3f3edbcafec904de623"
+    },
+    {
+      "id": "displace-contour",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "contourThreshold": 50,
+          "lineMode": 1,
+          "smoothing": 0,
+          "lineSpacing": 1
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "2a32d9a94209e87b46358ff2151efee07dea13d3171a3dfb4331dede6e060479"
+    },
+    {
+      "id": "dotted-lines",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "lineDensity": 10,
+          "dotting": 40,
+          "lineAngle": 45
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "f2822064d18fed9fae21382c5ca600fe5e79e5d4cf38ecb368ece783fa0156fd"
+    },
+    {
+      "id": "noise",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {}
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "cbbe4ce7eb45267b99b17600f31df56e620ca888c2cc0e6a347686084c511a65"
+    },
+    {
+      "id": "orb-diffuse-x",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "lineScale": 1,
+          "orbCount": 8,
+          "orbSize": 80,
+          "orbIntensity": 60,
+          "orbRandom": 0,
+          "orbOffset": 0,
+          "orbVertical": false
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "2a32d9a94209e87b46358ff2151efee07dea13d3171a3dfb4331dede6e060479"
+    },
+    {
+      "id": "orb-diffuse-y",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "lineScale": 1,
+          "orbCount": 8,
+          "orbSize": 80,
+          "orbIntensity": 60,
+          "orbRandom": 0,
+          "orbOffset": 0,
+          "orbVertical": false
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "2a32d9a94209e87b46358ff2151efee07dea13d3171a3dfb4331dede6e060479"
+    },
+    {
+      "id": "orb-diffuse",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "serpentine": true,
+          "orbCount": 8,
+          "orbSize": 80,
+          "orbIntensity": 60,
+          "orbRandom": 0,
+          "orbOffset": 0,
+          "orbVertical": false
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "2a32d9a94209e87b46358ff2151efee07dea13d3171a3dfb4331dede6e060479"
+    },
+    {
+      "id": "orb-matrix",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "matrixSize": "4x4",
+          "orbCount": 8,
+          "orbSize": 80,
+          "orbIntensity": 60,
+          "orbRandom": 0,
+          "orbOffset": 0,
+          "orbVertical": false
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "2a32d9a94209e87b46358ff2151efee07dea13d3171a3dfb4331dede6e060479"
+    },
+    {
+      "id": "radial-burst",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "divisor": 5
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "c8698d41348bf747a8a80e722a35f29e801d8ff83e463f360344996969302781"
+    },
+    {
+      "id": "radial-peaks",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "peakThreshold": 50,
+          "minPeakDistance": 60,
+          "maxPeaks": 20,
+          "divisor": 5,
+          "interference": false
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "c8698d41348bf747a8a80e722a35f29e801d8ff83e463f360344996969302781"
+    },
+    {
+      "id": "sine-distort",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "freqA": 8,
+          "freqB": 12,
+          "angle": 45
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "9f843a66b1a55e60f6888588ce2cd6acb9c96585d1f0568c4411aca7c4bbcb18"
+    },
+    {
+      "id": "sine-wave-modulation",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "waveFrequency": 5,
+          "waveThreshold": 10
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "28d7fe5e2bb373d95c7646ea0e97e21ce75e0f0d90b83047e4bcafb47b65a7d2"
+    },
+    {
+      "id": "thresholder",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "modulationFrequency": 1
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "1bb088ddeb036a4bdcbff917fe67e75366000dee0d381f1ce91429ee634ead42"
+    },
+    {
+      "id": "topography",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "warpIntensity": 1
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "2a32d9a94209e87b46358ff2151efee07dea13d3171a3dfb4331dede6e060479"
+    },
+    {
+      "id": "vortex",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "swirl": 5
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "c8698d41348bf747a8a80e722a35f29e801d8ff83e463f360344996969302781"
+    },
+    {
+      "id": "wave",
+      "category": "special-effects",
+      "deterministic": true,
+      "params": {
+        "palette": [
+          "#000000",
+          "#ffffff"
+        ],
+        "orderedCycling": false,
+        "scale": 45,
+        "luminanceThreshold": 50,
+        "controls": {
+          "frequency": 5
+        }
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "c8698d41348bf747a8a80e722a35f29e801d8ff83e463f360344996969302781"
+    }
+  ],
+  "halftone": [
+    {
+      "name": "grayscale",
+      "params": {
+        "enabled": true,
+        "mode": "grayscale",
+        "cellSize": 10,
+        "dotGain": 0.2,
+        "supersample": 4,
+        "grayAngle": 45,
+        "cyanAngle": 15,
+        "magentaAngle": 75,
+        "yellowAngle": 0,
+        "blackAngle": 45,
+        "gcr": 1,
+        "usePhaseOffsets": true
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "b1dfa082090826f7b078b217436a70afde8b640a6a7a7c43fc953e5b028148e0"
+    },
+    {
+      "name": "cmyk",
+      "params": {
+        "enabled": true,
+        "mode": "cmyk",
+        "cellSize": 10,
+        "dotGain": 0.37,
+        "supersample": 4,
+        "grayAngle": 45,
+        "cyanAngle": 15,
+        "magentaAngle": 75,
+        "yellowAngle": 0,
+        "blackAngle": 45,
+        "gcr": 0.7,
+        "usePhaseOffsets": true
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "9f7c0ece8bb8624990c050ed779c8dba03b14eb97c03ce686d536cdedfbe2665"
+    },
+    {
+      "name": "cmyk-no-phase",
+      "params": {
+        "enabled": true,
+        "mode": "cmyk",
+        "cellSize": 10,
+        "dotGain": 0.17,
+        "supersample": 4,
+        "grayAngle": 45,
+        "cyanAngle": 15,
+        "magentaAngle": 75,
+        "yellowAngle": 0,
+        "blackAngle": 45,
+        "gcr": 0.5,
+        "usePhaseOffsets": false
+      },
+      "width": 64,
+      "height": 48,
+      "bytes": 12288,
+      "pixelSha256": "6721fafd46044d420af6ee849f5b3449fa2eed535efdcb4ffd09080f0f70636c"
+    }
+  ],
+  "scope": "Captured from unchanged original .jsc engines in stock Electron41.2.1 hidden renderer on Windows x64, synthetic64x48 RGBA input. 72deterministic algorithm hashes also matched Node/main contexts; the single non-deterministic algorithm is excluded from exact-hash comparison."
+}

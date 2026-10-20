@@ -1,0 +1,158 @@
+{
+  "officialRelease": "https://github.com/ffmpegwasm/ffmpeg.wasm/releases/tag/v12.15",
+  "sourceCommit": "71aa99d37c02a7b4c435275ca9ef50e612f6efa1",
+  "configuration": "configuration: --target-os=none --arch=x86_32 --enable-cross-compile --disable-asm --disable-stripping --disable-programs --disable-doc --disable-debug --disable-runtime-cpudetect --disable-autodetect --nm=emnm --ar=emar --ranlib=emranlib --cc=emcc --cxx=em++ --objcc=emcc --dep-cc=emcc --extra-cflags='-I/opt/include -O3 -msimd128' --extra-cxxflags='-I/opt/include -O3 -msimd128' --disable-pthreads --disable-w32threads --disable-os2threads --enable-gpl --enable-libx264 --enable-libx265 --enable-libvpx --enable-libmp3lame --enable-libtheora --enable-libvorbis --enable-libopus --enable-zlib --enable-libwebp --enable-libfreetype --enable-libfribidi --enable-libass --enable-libzimg",
+  "checks": [
+    {
+      "name": "release package declares core0.12.10",
+      "passed": true
+    },
+    {
+      "name": "source Docker selects FFmpeg n5.1.4",
+      "passed": true
+    },
+    {
+      "name": "source Docker selects observed Emscripten3.1.40",
+      "passed": true
+    },
+    {
+      "name": "production make target selects observed O3 SIMD flags",
+      "passed": true
+    },
+    {
+      "name": "single-thread flags present in source and actual banner",
+      "passed": true
+    },
+    {
+      "name": "all enabled libraries in runtime occur in source Dockerfile",
+      "passed": true
+    },
+    {
+      "name": "all original pre-JS function ASTs match source release",
+      "passed": true
+    }
+  ],
+  "preJsFunctions": [
+    {
+      "name": "stringToPtr",
+      "sourceRange": [
+        482,
+        655
+      ],
+      "matchingGeneratedFunctions": 1,
+      "astEquivalentIgnoringPositionsCommentsAndShorthand": true,
+      "sourceAstSha256": "dab67a7908b75df30f09fb38762ae57959cc930c90e5098bb5770ee571b1ab19"
+    },
+    {
+      "name": "stringsToPtr",
+      "sourceRange": [
+        657,
+        890
+      ],
+      "matchingGeneratedFunctions": 1,
+      "astEquivalentIgnoringPositionsCommentsAndShorthand": true,
+      "sourceAstSha256": "f4dc66acf5e2fad0ae6a00d34ff03691f63887558cdda50467bc03fb94293235"
+    },
+    {
+      "name": "print",
+      "sourceRange": [
+        892,
+        968
+      ],
+      "matchingGeneratedFunctions": 1,
+      "astEquivalentIgnoringPositionsCommentsAndShorthand": true,
+      "sourceAstSha256": "e3bcc266ff6b2de084664deb7f6c09595044531bff85f2a93b51226d01cc5768"
+    },
+    {
+      "name": "printErr",
+      "sourceRange": [
+        970,
+        1117
+      ],
+      "matchingGeneratedFunctions": 1,
+      "astEquivalentIgnoringPositionsCommentsAndShorthand": true,
+      "sourceAstSha256": "b9c13c9fa7d152885c2665fb47c3f4d96ca0368366901b20de641ae8884011fe"
+    },
+    {
+      "name": "exec",
+      "sourceRange": [
+        1119,
+        1373
+      ],
+      "matchingGeneratedFunctions": 1,
+      "astEquivalentIgnoringPositionsCommentsAndShorthand": true,
+      "sourceAstSha256": "89a3550b193b54173d7f3f8232e36002b3f104f664de84f733d4a4a3236c7f65"
+    },
+    {
+      "name": "ffprobe",
+      "sourceRange": [
+        1375,
+        1641
+      ],
+      "matchingGeneratedFunctions": 1,
+      "astEquivalentIgnoringPositionsCommentsAndShorthand": true,
+      "sourceAstSha256": "569103daaa4835a32f5e59d870581f367bab95336d76fd070e5f76cdf406887c"
+    },
+    {
+      "name": "setLogger",
+      "sourceRange": [
+        1643,
+        1702
+      ],
+      "matchingGeneratedFunctions": 1,
+      "astEquivalentIgnoringPositionsCommentsAndShorthand": true,
+      "sourceAstSha256": "c76fa892bf939879f5f274bb01beee3f312f950bfafe01de07812816b03adbcf"
+    },
+    {
+      "name": "setTimeout",
+      "sourceRange": [
+        1704,
+        1767
+      ],
+      "matchingGeneratedFunctions": 1,
+      "astEquivalentIgnoringPositionsCommentsAndShorthand": true,
+      "sourceAstSha256": "2b4118c9667f905d2bc81f58ce1af2647be9ba4aba46cc99b451a0efcd95118f"
+    },
+    {
+      "name": "setProgress",
+      "sourceRange": [
+        1769,
+        1834
+      ],
+      "matchingGeneratedFunctions": 1,
+      "astEquivalentIgnoringPositionsCommentsAndShorthand": true,
+      "sourceAstSha256": "1d91fe3d702846023a477baf2b4df0bd1720b5381fe6f38fb5e0c56bc38f9076"
+    },
+    {
+      "name": "receiveProgress",
+      "sourceRange": [
+        1836,
+        1922
+      ],
+      "matchingGeneratedFunctions": 1,
+      "astEquivalentIgnoringPositionsCommentsAndShorthand": true,
+      "sourceAstSha256": "8ad53e10ca11d620f8bbf77b595fae344c78944e22cb5e19e765f5f8acb826c1"
+    },
+    {
+      "name": "reset",
+      "sourceRange": [
+        1924,
+        1992
+      ],
+      "matchingGeneratedFunctions": 1,
+      "astEquivalentIgnoringPositionsCommentsAndShorthand": true,
+      "sourceAstSha256": "5ad9cbbb3f690a31a7be84b192bcfdbb9b61a832e6ba967684fa0869133ba528"
+    },
+    {
+      "name": "_locateFile",
+      "sourceRange": [
+        2900,
+        3293
+      ],
+      "matchingGeneratedFunctions": 1,
+      "astEquivalentIgnoringPositionsCommentsAndShorthand": true,
+      "sourceAstSha256": "84100e3b7ef96f2c60b18963abfc8247211b9b2327bf895ea8042c96539fa4a5"
+    }
+  ],
+  "scope": "Direct release identity, configuration and JS binding source correspondence. No clean-room rebuild of entire Wasm and no official signed npm build attestation was obtained. Dependency branches resolved/frozen with commit identities and pre-release dates in separate manifest."
+}

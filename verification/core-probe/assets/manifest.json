@@ -1,0 +1,28 @@
+{
+  "sourceArtifactSha256": "ff648aef8e28f383cc523213838d07b07c293f79186e5d0b3048f7c7549adb6a",
+  "sourceVersion": "6.0.3",
+  "originalExecutableRuntimeStrings": {
+    "electron": "41.2.1",
+    "chromium": "146.0.7680.188",
+    "v8": "14.6.202.33-electron.0"
+  },
+  "files": [
+    {
+      "name": "index-aa597334.jsc",
+      "bytes": 387224,
+      "sha256": "aa5973342b26eae4d3f7bcdf81f428a72b20d562b1d54ad141d3df5393061aa1",
+      "role": "dither-registry"
+    },
+    {
+      "name": "halftone-a3bff44b.jsc",
+      "bytes": 52344,
+      "sha256": "a3bff44b21a96a47c0e8930c3e3187491a1626c5ea552ce23dbdd7d8f5a5ea58",
+      "role": "halftone-processor"
+    }
+  ],
+  "metadata": {
+    "sourceMember": "dist/renderer/assets/metadata.prod-BOBIde2r.js",
+    "sourceSha256": "7dd48df6a9c2eb0da046b404b11b6cb3a5e223ee0160901d1318b4a25bfce98f",
+    "count": 73
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "artwork": "User-supplied BitCrush logo",
+  "sourceFile": "Make_logo_variations_2K_20261020214041.jpg",
+  "sourceSha256": "6ee2f093609e20e5e8e08e08d252f0dfe42b8588fe07686c5c2d077f6cd38707",
+  "treatment": "Original JPEG bytes embedded unchanged in an SVG presentation frame. Black outer margins are framed with a viewBox; an inset rounded rectangle provides transparent outer corners. Native ICO/ICNS/PNG sizes are produced by the Tauri icon tool.",
+  "headerSizeCssPixels": 36,
+  "startupSizeCssPixels": 76
+}

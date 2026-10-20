@@ -1,0 +1,33 @@
+{
+  "scope": "Golden pixel hashes captured from the actual supplied renderer worker with partial alpha. Opaque-only algebraic identity assertions are not applicable to canvas alpha rounding and are excluded.",
+  "fixture": {
+    "width": 64,
+    "height": 48,
+    "alpha": [
+      0,
+      51,
+      127,
+      204,
+      255
+    ],
+    "assignment": "alpha[(x+y)%5]"
+  },
+  "hashes": {
+    "input": "2fae314bd3a15076837864bafcb68120d43061e12d74b78eabd05caeb9a9ee7b",
+    "singleInvert": "85c4d805ae6b5f17864c0fa2da1cdc9cb068f8038d6b5ae35b4aa1e74a15caa8",
+    "duplicateInvert": "d22fd3241940a9dbadaf6acae3d29c4b0ca457fa021a6a59ebd19e6d3d9b0743",
+    "distinctInvertInstances": "d22fd3241940a9dbadaf6acae3d29c4b0ca457fa021a6a59ebd19e6d3d9b0743",
+    "postThenTint": "57b681c8e0dd7c8a48e29cc47e943903b67811803fcf6c45b65126b500d12cc8",
+    "tintThenPost": "9e3e4071a91ae58435073c325a0e02ffd232434e1a50a017a48b5cde92f539f7",
+    "hiddenEnabled": "85c4d805ae6b5f17864c0fa2da1cdc9cb068f8038d6b5ae35b4aa1e74a15caa8",
+    "disabled": "d22fd3241940a9dbadaf6acae3d29c4b0ca457fa021a6a59ebd19e6d3d9b0743",
+    "outsideOrder": "d22fd3241940a9dbadaf6acae3d29c4b0ca457fa021a6a59ebd19e6d3d9b0743",
+    "missingReferenceFallback": "85c4d805ae6b5f17864c0fa2da1cdc9cb068f8038d6b5ae35b4aa1e74a15caa8",
+    "typeMismatch": "85c4d805ae6b5f17864c0fa2da1cdc9cb068f8038d6b5ae35b4aa1e74a15caa8",
+    "halftoneDisabledDither": "bf51b03442f822974ffc21e33c8211f9aaa99ec804aecebc65e0b51524cc550a",
+    "halftoneWithoutDitherSlot": "d22fd3241940a9dbadaf6acae3d29c4b0ca457fa021a6a59ebd19e6d3d9b0743",
+    "standaloneHalftoneId": "d22fd3241940a9dbadaf6acae3d29c4b0ca457fa021a6a59ebd19e6d3d9b0743",
+    "temporalUndefinedTime": "d22fd3241940a9dbadaf6acae3d29c4b0ca457fa021a6a59ebd19e6d3d9b0743",
+    "temporalExplicitZero": "3f1ebd1ca6942cd3628ed301ba35f4c6c265d9085395fb76dd2fe2e9779528bb"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "originalMember": "dist/renderer/assets/index-Cc7ZI13O.js",
+  "originalMemberSha256": "215edb78c0b48d23993fd21f44e9e686116dbbf2e139900bf1bf0f7a7c6532f0",
+  "copiedUtf16Ranges": [
+    {
+      "start": 466888,
+      "end": 474774
+    },
+    {
+      "start": 367445,
+      "end": 367460
+    },
+    {
+      "start": 367477,
+      "end": 367487
+    }
+  ],
+  "output": "preset-original.mjs",
+  "outputSha256": "190c2424910e83f62609f51b70c2e4c056bf7276ed1bd2b68dce9881f8ca6a01",
+  "transformation": "Retain original declaration expressions and helpers; add const declarations, comments and named exports. No helper formulas/validation logic edited.",
+  "localStorageKey": "dither-boy-presets",
+  "originalPresetProvider": "useState([]), then localStorage load. No default factory preset data was initialized in the inspected provider."
+}

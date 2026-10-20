@@ -1,0 +1,180 @@
+name: Desktop preview builds and tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: desktop-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  codec-source:
+    name: Offline codec corresponding sources
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: python scripts/package-codec-sources.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ffmpeg-core-0.12.10-sources
+          path: |
+            artifacts/ffmpeg-core-0.12.10-sources.zip
+            artifacts/ffmpeg-core-0.12.10-sources.json
+          retention-days: 14
+
+  ui:
+    name: UI and original browser processing
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-verification
+          path: |
+            artifacts/*.png
+            test-results/
+
+  native:
+    name: Native ${{ matrix.name }}
+    needs: codec-source
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows
+            runner: windows-2025
+            target: x86_64-pc-windows-msvc
+            args: --no-bundle
+            executable: src-tauri/target/x86_64-pc-windows-msvc/release/bitcrush.exe
+            package: src-tauri/target/x86_64-pc-windows-msvc/release/bitcrush.exe
+            zip: BitCrush-Windows-preview.zip
+          - name: Mac-Intel
+            runner: macos-15-intel
+            target: x86_64-apple-darwin
+            args: --bundles app
+            executable: src-tauri/target/x86_64-apple-darwin/release/bundle/macos/BitCrush.app/Contents/MacOS/bitcrush
+            package: src-tauri/target/x86_64-apple-darwin/release/bundle/macos/BitCrush.app
+            zip: BitCrush-Mac-Intel-preview.zip
+          - name: Mac-Apple-Silicon
+            runner: macos-15
+            target: aarch64-apple-darwin
+            args: --bundles app
+            executable: src-tauri/target/aarch64-apple-darwin/release/bundle/macos/BitCrush.app/Contents/MacOS/bitcrush
+            package: src-tauri/target/aarch64-apple-darwin/release/bundle/macos/BitCrush.app
+            zip: BitCrush-Mac-Apple-Silicon-preview.zip
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+          cache-on-failure: true
+          cache-workspace-crates: true
+      - run: npm ci
+      - run: npm run tauri build -- --target ${{ matrix.target }} ${{ matrix.args }}
+      - name: Start actual native app and test its system WebView
+        run: node scripts/desktop-smoke.mjs "${{ matrix.executable }}"
+      - name: Package and enforce the 20 MB ZIP limit
+        run: python scripts/package.py "${{ matrix.package }}" "${{ matrix.zip }}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ${{ matrix.name }}-preview
+          path: artifacts/
+          retention-days: 14
+
+  universal-mac:
+    name: Universal Mac package
+    needs: [ui, codec-source]
+    runs-on: macos-15-intel
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-apple-darwin,aarch64-apple-darwin
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+          cache-on-failure: true
+          cache-workspace-crates: true
+      - run: npm ci
+      - name: Build both architectures into one app
+        run: npm run tauri build -- --target universal-apple-darwin --bundles app
+      - name: Verify signature and architecture slices
+        run: |
+          codesign --verify --deep --strict src-tauri/target/universal-apple-darwin/release/bundle/macos/BitCrush.app
+          lipo src-tauri/target/universal-apple-darwin/release/bundle/macos/BitCrush.app/Contents/MacOS/bitcrush -verify_arch x86_64 arm64
+      - name: Test universal app natively on Intel
+        run: node scripts/desktop-smoke.mjs src-tauri/target/universal-apple-darwin/release/bundle/macos/BitCrush.app/Contents/MacOS/bitcrush
+      - run: python scripts/package.py src-tauri/target/universal-apple-darwin/release/bundle/macos/BitCrush.app BitCrush-macOS-Universal-preview.zip
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: macOS-Universal-preview
+          path: artifacts/
+          retention-days: 14
+
+  engine-compatibility:
+    name: Original bytecode probe ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows-x64
+            runner: windows-2025
+          - name: Mac-Intel
+            runner: macos-15-intel
+          - name: Mac-Apple-Silicon
+            runner: macos-15
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: verification/core-probe
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci
+      - run: node install-electron.cjs
+      - name: Test untouched original dither and halftone bytecode
+        run: npm run probe
+      - name: Compare deterministic results to the Windows reference
+        run: npm run compare
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bytecode-probe-${{ matrix.name }}
+          path: verification/core-probe/reports/
+

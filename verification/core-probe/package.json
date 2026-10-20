@@ -1,0 +1,17 @@
+{
+  "name": "bitcrush-original-engine-probe",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Isolated compatibility probe for unchanged Dither Boy bytecode",
+  "main": "probe-electron.cjs",
+  "scripts": {
+    "probe": "node run-probe.cjs",
+    "compare": "node compare-baseline.cjs"
+  },
+  "dependencies": {
+    "bytenode": "1.5.7"
+  },
+  "devDependencies": {
+    "electron": "41.2.1"
+  }
+}

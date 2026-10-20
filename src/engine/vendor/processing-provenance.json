@@ -1,0 +1,331 @@
+{
+  "originalArtifact": "resources/app.asar",
+  "originalArtifactSha256": "ff648aef8e28f383cc523213838d07b07c293f79186e5d0b3048f7c7549adb6a",
+  "originalMember": "dist/renderer/assets/imageProcessor.worker-DvXeYfV0.js",
+  "originalMemberSha256": "e66e06a5196fb1b21923005d3f409e6b1bd11b68c3721d0d973efb3190ba76aa",
+  "originalMemberBytes": 33451,
+  "originalPrefixUtf16Range": {
+    "start": 0,
+    "end": 28868
+  },
+  "originalPrefixSha256": "a5bc1a95b7af1c4bb719357265ed54d723cd0ca9d5cbee73c45f2bb6fec30fe3",
+  "copiedDeclarationUtf16Ranges": [
+    {
+      "name": "Q",
+      "start": 6,
+      "end": 67
+    },
+    {
+      "name": "Z",
+      "start": 68,
+      "end": 159
+    },
+    {
+      "name": "xt",
+      "start": 160,
+      "end": 328
+    },
+    {
+      "name": "tt",
+      "start": 329,
+      "end": 450
+    },
+    {
+      "name": "et",
+      "start": 451,
+      "end": 571
+    },
+    {
+      "name": "bt",
+      "start": 572,
+      "end": 1178
+    },
+    {
+      "name": "wt",
+      "start": 1179,
+      "end": 2139
+    },
+    {
+      "name": "Ct",
+      "start": 2140,
+      "end": 2696
+    },
+    {
+      "name": "At",
+      "start": 2697,
+      "end": 3271
+    },
+    {
+      "name": "kt",
+      "start": 3272,
+      "end": 4232
+    },
+    {
+      "name": "It",
+      "start": 4233,
+      "end": 4971
+    },
+    {
+      "name": "Dt",
+      "start": 4972,
+      "end": 5081
+    },
+    {
+      "name": "vt",
+      "start": 5082,
+      "end": 5688
+    },
+    {
+      "name": "St",
+      "start": 5689,
+      "end": 6008
+    },
+    {
+      "name": "it",
+      "start": 8865,
+      "end": 9008
+    },
+    {
+      "name": "st",
+      "start": 9014,
+      "end": 9089
+    },
+    {
+      "name": "Xt",
+      "start": 9090,
+      "end": 9144
+    },
+    {
+      "name": "yt",
+      "start": 9145,
+      "end": 9213
+    },
+    {
+      "name": "ct",
+      "start": 9214,
+      "end": 9228
+    },
+    {
+      "name": "Yt",
+      "start": 9229,
+      "end": 9586
+    },
+    {
+      "name": "$t",
+      "start": 9587,
+      "end": 9864
+    },
+    {
+      "name": "V",
+      "start": 9865,
+      "end": 10656
+    },
+    {
+      "name": "qt",
+      "start": 10657,
+      "end": 11271
+    },
+    {
+      "name": "zt",
+      "start": 11272,
+      "end": 11533
+    },
+    {
+      "name": "Lt",
+      "start": 11534,
+      "end": 13013
+    },
+    {
+      "name": "Nt",
+      "start": 13014,
+      "end": 13166
+    },
+    {
+      "name": "ft",
+      "start": 13167,
+      "end": 14055
+    },
+    {
+      "name": "z",
+      "start": 14056,
+      "end": 14326
+    },
+    {
+      "name": "K",
+      "start": 14327,
+      "end": 14648
+    },
+    {
+      "name": "Ht",
+      "start": 14649,
+      "end": 15096
+    },
+    {
+      "name": "Wt",
+      "start": 15097,
+      "end": 15261
+    },
+    {
+      "name": "F",
+      "start": 15262,
+      "end": 15511
+    },
+    {
+      "name": "ut",
+      "start": 15512,
+      "end": 15522
+    },
+    {
+      "name": "dt",
+      "start": 15523,
+      "end": 15533
+    },
+    {
+      "name": "N",
+      "start": 15534,
+      "end": 15540
+    },
+    {
+      "name": "_t",
+      "start": 15541,
+      "end": 15651
+    },
+    {
+      "name": "Vt",
+      "start": 15652,
+      "end": 15687
+    },
+    {
+      "name": "ht",
+      "start": 15688,
+      "end": 15948
+    },
+    {
+      "name": "Kt",
+      "start": 15949,
+      "end": 16194
+    },
+    {
+      "name": "rt",
+      "start": 16195,
+      "end": 17034
+    },
+    {
+      "name": "Jt",
+      "start": 17035,
+      "end": 17219
+    },
+    {
+      "name": "mt",
+      "start": 17220,
+      "end": 17931
+    },
+    {
+      "name": "gt",
+      "start": 17932,
+      "end": 18615
+    },
+    {
+      "name": "Qt",
+      "start": 18616,
+      "end": 18855
+    },
+    {
+      "name": "Zt",
+      "start": 18856,
+      "end": 19348
+    },
+    {
+      "name": "te",
+      "start": 19349,
+      "end": 19638
+    },
+    {
+      "name": "ee",
+      "start": 19639,
+      "end": 19902
+    },
+    {
+      "name": "ne",
+      "start": 19903,
+      "end": 22541
+    },
+    {
+      "name": "W",
+      "start": 22542,
+      "end": 22706
+    },
+    {
+      "name": "oe",
+      "start": 22712,
+      "end": 23451
+    },
+    {
+      "name": "se",
+      "start": 23452,
+      "end": 23799
+    },
+    {
+      "name": "re",
+      "start": 23800,
+      "end": 24225
+    },
+    {
+      "name": "ae",
+      "start": 24226,
+      "end": 24813
+    },
+    {
+      "name": "ce",
+      "start": 24814,
+      "end": 25463
+    },
+    {
+      "name": "le",
+      "start": 25464,
+      "end": 26059
+    },
+    {
+      "name": "at",
+      "start": 26060,
+      "end": 26226
+    },
+    {
+      "name": "ie",
+      "start": 26227,
+      "end": 26763
+    },
+    {
+      "name": "fe",
+      "start": 26764,
+      "end": 27953
+    },
+    {
+      "name": "ue",
+      "start": 27954,
+      "end": 28097
+    }
+  ],
+  "output": "processing-original.mjs",
+  "outputSha256": "2dad28c55038221c04e5bdc6235d3b1b7abea01761b9ec98432e43da30ea0680",
+  "transformation": "Copy original declaration expressions needed by portable exports. Omit unused registry/dither/IPC/pipeline and worker lifecycle declarations; preserve original order; join retained variable declarators with their original declaration kind and add named exports. No retained declaration expression or processing formula changed.",
+  "portableExports": [
+    "adjustments",
+    "postProcessing",
+    "tint",
+    "epsilonGlow",
+    "jpegGlitch",
+    "chromaticEffects",
+    "temporalVariation",
+    "halftoneWorkerOnly",
+    "createProcessingCanvas"
+  ],
+  "limitations": [
+    "Core 73 dither algorithm implementations are absent from the renderer; registry entries are metadata-only throw stubs.",
+    "Halftone fallback exists in original worker and must execute with no window global. Equivalence to compiled main-process halftone remains unverified.",
+    "Original worker effect loops can swallow dither failures and return original pixels; replacement adapter explicitly rejects unavailable engine requests.",
+    "Removing registry, IPC and startup changes module lifecycle and integration; all retained calculation expressions remain unchanged.",
+    "Browser execution and WebView support require runtime verification."
+  ],
+  "reaParentEvidence": "ev_7c7ecb888d4afd1dc8cc9077c23051eeca2d5c3fdade1de92ef3986009bcc8a1"
+}

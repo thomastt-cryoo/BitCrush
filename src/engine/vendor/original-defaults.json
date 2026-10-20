@@ -1,0 +1,152 @@
+{
+  "adjustments": {
+    "brightness": 100,
+    "contrast": 100,
+    "saturation": 100,
+    "midtones": 50,
+    "highlights": 50,
+    "blur": 0,
+    "denoise": 0,
+    "hue": 0
+  },
+  "postProcessing": {
+    "invert": false,
+    "sharpen": 0,
+    "blur": 0,
+    "hue": 0,
+    "denoise": 0,
+    "grain": 0,
+    "vignette": 0
+  },
+  "tint": {
+    "enabled": false,
+    "color": "#ff0000",
+    "blendMode": "multiply",
+    "opacity": 50
+  },
+  "epsilonGlow": {
+    "enabled": false,
+    "threshold": 25,
+    "thresholdSmoothing": 25,
+    "radius": 25,
+    "radiusCompensation": true,
+    "intensity": 500,
+    "aspectRatio": 100,
+    "direction": 0,
+    "falloff": 10,
+    "epsilon": 50,
+    "distanceScale": 150
+  },
+  "jpegGlitch": {
+    "enabled": false,
+    "blockShift": {
+      "enabled": false,
+      "amount": 0
+    },
+    "channelSwap": {
+      "enabled": false,
+      "amount": 0
+    },
+    "scanlineOffset": {
+      "enabled": false,
+      "amount": 0
+    },
+    "blockScramble": {
+      "enabled": false,
+      "amount": 0
+    },
+    "interlaceCorruption": {
+      "enabled": false,
+      "amount": 0
+    }
+  },
+  "chromaticEffects": {
+    "enabled": false,
+    "maxDisplace": 0,
+    "redChannel": 50,
+    "greenChannel": 50,
+    "blueChannel": 50
+  },
+  "temporalVariation": {
+    "enabled": false,
+    "intensity": 5,
+    "speed": 5,
+    "pattern": "noise"
+  },
+  "ranges": {
+    "ditherSettings": {
+      "scaleDpi": {
+        "min": 1,
+        "max": 50
+      },
+      "luminanceThreshold": {
+        "min": 0,
+        "max": 100
+      }
+    },
+    "adjustments": {
+      "brightness": {
+        "min": 0,
+        "max": 200
+      },
+      "contrast": {
+        "min": 0,
+        "max": 200
+      },
+      "saturation": {
+        "min": 0,
+        "max": 200
+      },
+      "midtones": {
+        "min": 0,
+        "max": 100
+      },
+      "highlights": {
+        "min": 0,
+        "max": 100
+      },
+      "hue": {
+        "min": 0,
+        "max": 360
+      },
+      "blur": {
+        "min": 0,
+        "max": 200
+      },
+      "denoise": {
+        "min": 0,
+        "max": 100
+      }
+    },
+    "halftone": {
+      "cellSize": {
+        "min": 4,
+        "max": 50
+      },
+      "dotGain": {
+        "min": 0,
+        "max": 100
+      },
+      "angle": {
+        "min": 0,
+        "max": 360
+      },
+      "gcr": {
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  "halftone": {
+    "mode": "grayscale",
+    "cellSize": 10,
+    "dotGain": 0.2,
+    "grayAngle": 45,
+    "cyanAngle": 15,
+    "magentaAngle": 75,
+    "yellowAngle": 0,
+    "blackAngle": 45,
+    "gcr": 1,
+    "usePhaseOffsets": true
+  }
+}
