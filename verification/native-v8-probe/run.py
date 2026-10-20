@@ -11,7 +11,7 @@ executable = package / 'target/release' / ('bitcrush-native-v8-probe.exe' if sys
 directory = root / 'artifacts/native-v8'
 directory.mkdir(parents=True, exist_ok=True)
 attempts = []
-for mode in ['strict', 'flags', 'host', 'magic']:
+for mode in ['strict', 'flags', 'host', 'magic', 'snapshot']:
     try:
         result = subprocess.run([str(executable), mode], cwd=root, text=True, capture_output=True, timeout=60)
         report_files = sorted(directory.glob(f'{mode}-*.json'))

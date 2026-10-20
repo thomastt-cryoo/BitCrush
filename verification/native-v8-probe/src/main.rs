@@ -46,20 +46,24 @@ fn execute(mode: &str) -> Result<Value, String> {
     let mut cache = CORE.to_vec();
     let mut normalized = Vec::new();
     // Experimental compatibility modes are isolated child processes in CI. A pass requires all original output comparisons.
-    if mode == "flags" || mode == "host" || mode == "magic" {
+    if mode == "flags" || mode == "host" || (mode == "magic" || mode == "snapshot") {
         cache[12..16].copy_from_slice(&own_cache[12..16]);
         normalized.push("flags@12..16");
     }
-    if mode == "host" || mode == "magic" {
+    if mode == "host" || (mode == "magic" || mode == "snapshot") {
         cache[4..8].copy_from_slice(&own_cache[4..8]);
         normalized.push("version@4..8");
     }
-    if mode == "magic" {
+    if (mode == "magic" || mode == "snapshot") {
         if cache[2..4] != own_cache[2..4] {
             return Err("V8 cache magic family differs".into());
         }
         cache[..4].copy_from_slice(&own_cache[..4]);
         normalized.push("host-magic@0..4");
+    }
+    if mode == "snapshot" {
+        cache[16..20].copy_from_slice(&own_cache[16..20]);
+        normalized.push("experimental-snapshot-identity@16..20");
     }
     let length = u32::from_le_bytes(CORE[8..12].try_into().unwrap()) as usize;
     if !(2..=2_000_000).contains(&length) {
