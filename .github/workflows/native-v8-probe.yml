@@ -20,6 +20,8 @@ jobs:
         with:
           workspaces: verification/native-v8-probe -> target
           cache-on-failure: true
+      - name: Refresh V8 native archive after cache restore
+        run: cargo clean --release --package v8 --manifest-path verification/native-v8-probe/Cargo.toml
       - name: Build isolated host
         run: cargo build --release --manifest-path verification/native-v8-probe/Cargo.toml
       - name: Try guarded compatibility modes and compare original outputs
