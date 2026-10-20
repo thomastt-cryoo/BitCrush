@@ -78,7 +78,9 @@ fn main() {
         .invoke_handler(tauri::generate_handler![runtime_info, media_runtime_path, complete_smoke_test, smoke_progress])
         .setup(|app| {
             if let Some(window) = app.get_webview_window("main") {
-                if smoke_path().is_some() {
+                // macOS WebKit may throttle media work in an entirely hidden
+                // window. Exercise the same visible window as ordinary startup.
+                if smoke_path().is_some() && cfg!(target_os = "windows") {
                     window.hide()?;
                 }
             }

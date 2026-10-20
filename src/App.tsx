@@ -5,6 +5,7 @@ import { algorithms, allPalettes, categories, grayscale, hex, initialProject, la
 import { defaults, effectNames, makeEffect, processImage } from './engine';
 import { chooseImage, isTauri, saveBlob, setWindowAppearance } from './native';
 import { desktopSmoke } from './smoke';
+import { encodeRaster } from './raster-export';
 import originalControls from './data/original-control-schema.json';
 import { exportClip, importClip } from './video';
 import type { VideoClip, MediaProgress } from './video';
@@ -181,10 +182,7 @@ export default function App() {
       }
       const image = outputRef.current;
       if (!image || error) throw new Error('A successful preview is needed before exporting this image.');
-      const canvas = document.createElement('canvas'); canvas.width = image.width; canvas.height = image.height; canvas.getContext('2d')!.putImageData(image, 0, 0);
-      const blob = await new Promise<Blob>((resolve, reject) => canvas.toBlob(b => b ? resolve(b) : reject(new Error('This image format is unavailable.')), `image/${format === 'jpg' ? 'jpeg' : format}`, quality / 100));
-      const expectedType = `image/${format === 'jpg' ? 'jpeg' : format}`;
-      if (blob.type !== expectedType) throw new Error('This image format is unavailable in this system WebView. Choose PNG instead.');
+      const blob = await encodeRaster(image, format, quality);
       if (await saveBlob(blob, `${filename.replace(/\.[^.]+$/, '')}-bitcrush.${format}`)) { setDialog(''); setNotice('Image exported'); }
     } catch (e) { setNotice(String(e)); }
   }

@@ -68,9 +68,12 @@ wd = class extends OriginalFFmpegClient {
     this.load = async (...args) => {
       let timer;
       try {
-        return await Promise.race([load(...args), new Promise((_, reject) => {
+        window.__bitcrushSmokeProgress?.('Codec worker: load requested');
+        const result = await Promise.race([load(...args), new Promise((_, reject) => {
           timer = setTimeout(() => { this.terminate(); reject(new Error('The offline media worker did not start within 45 seconds')); }, 45000);
         })]);
+        window.__bitcrushSmokeProgress?.('Codec worker: ready');
+        return result;
       } finally { clearTimeout(timer); }
     };
     const terminate = this.terminate;

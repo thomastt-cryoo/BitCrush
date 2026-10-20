@@ -247,6 +247,6 @@
       "Use scoped external Tauri asset URL for one shared Wasm copy",
       "Bound worker load time and emit smoke progress; stage native resources as same-origin Blob URLs for WebKit worker loading"
     ],
-    "deployedWorkflowsSha256": "e2dad16347d2f366345d5e7027c43207f9d66f95c59082664e0fb31032db07f6"
+    "deployedWorkflowsSha256": "e6f2a71faaebd6b84a89d79a542893aa7793af004eb87142ed009f5b170a961d"
   }
 }
