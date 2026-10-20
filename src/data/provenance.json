@@ -1,0 +1,409 @@
+{
+  "sourceApplication": "Dither Boy 6.0.3",
+  "sourceArchiveSha256": "ff648aef8e28f383cc523213838d07b07c293f79186e5d0b3048f7c7549adb6a",
+  "transformations": "Original exported data serialized to JSON. No values, names, parameter ranges, or palette colors changed.",
+  "algorithms": 73,
+  "palettes": 79,
+  "records": [
+    {
+      "name": "Acid-DiPBTtp7.js",
+      "bytes": 534,
+      "sha256": "db4283bfd4f16c9bd64b3c970577ae567e05691eea3d02f9bb40927e87a37d5e"
+    },
+    {
+      "name": "Acidic-47UQJEkE.js",
+      "bytes": 543,
+      "sha256": "6076e92f2494c5763e028ad6dc8454f84f33c111f76de55962a079fdbb997a50"
+    },
+    {
+      "name": "Ammonia-CF6lWXKK.js",
+      "bytes": 538,
+      "sha256": "25110f2e0e235a1b5fe5efb7057afd1b702755ce706a9ce47ab9ed15598147da"
+    },
+    {
+      "name": "Apple-Gnj0_YDL.js",
+      "bytes": 534,
+      "sha256": "81447883c0c9492f07332eb024bafc927390a162a1e09b7d5294f38bad512460"
+    },
+    {
+      "name": "Autumn-BT5O9e0C.js",
+      "bytes": 534,
+      "sha256": "ca857562b3a97fbb2c18fe45e9b3b6beefbf426c8131204c630863383c07d05d"
+    },
+    {
+      "name": "Bacterial-D7c9lqV1.js",
+      "bytes": 546,
+      "sha256": "ff73074c444ac9832162a6c4e94a5cc9d36c7517ae3fa7c7b9fc3987b5ce3d72"
+    },
+    {
+      "name": "Bleach-CcI_KzqP.js",
+      "bytes": 531,
+      "sha256": "bb73a75a2583ef4a58ae373ce0a86d405ba1611054508398687d55253249978c"
+    },
+    {
+      "name": "Blue Sky-DpKUUNkn.js",
+      "bytes": 545,
+      "sha256": "801fde608782bc52ee7c543f7d5eb8143c06f026fa0be4a7532841798783a3ff"
+    },
+    {
+      "name": "Botanical-Cu0QPEKH.js",
+      "bytes": 542,
+      "sha256": "0d25b53d44702991103d58dd75debe53cbc2ae77905e20c1d93feacd58d02698"
+    },
+    {
+      "name": "Bubblegum-BcfrU7es.js",
+      "bytes": 535,
+      "sha256": "d23ef4777d96c6c449eb9edc02cbee464876e895748981ed21ca6ff03717bd83"
+    },
+    {
+      "name": "Bubbles-ns1lAnbm.js",
+      "bytes": 529,
+      "sha256": "daa7292e2dbcd1660bf6602955ac5fedda64f71a6e272ac85a0fccd5dca3c2d0"
+    },
+    {
+      "name": "Candyfloss-BFMbqHHZ.js",
+      "bytes": 544,
+      "sha256": "f530d752302d7234f6748b1e843e86aa1bdfba8dd4bc5a9c9f7837cf65e801d1"
+    },
+    {
+      "name": "Chroma-Bne2NU4m.js",
+      "bytes": 536,
+      "sha256": "4fe77318bf038894c5a6a1aebfd63ecb866747fdff17403b502c6e713a718654"
+    },
+    {
+      "name": "Chromed-izz9vjyt.js",
+      "bytes": 541,
+      "sha256": "c9bfb942df22be89a67fa6f788f00ae32a66789156bb8974eb59a1fd9b04b790"
+    },
+    {
+      "name": "Coral-CBDyM2cQ.js",
+      "bytes": 540,
+      "sha256": "83f4e9808153f012427ffec84d937ccf3c15c277342ad0029d2d7969320f2fca"
+    },
+    {
+      "name": "Corrosive-Bgn_QWmK.js",
+      "bytes": 542,
+      "sha256": "dda033ca2faf37de64b1e73d8924ade10784c39e9c53fe04f95636e9db3bc3b3"
+    },
+    {
+      "name": "Crimson-BIk0ySZV.js",
+      "bytes": 541,
+      "sha256": "d1fdba216e18aece6018eab94fdb77ad799ea2f52c9e442690ded7d1abbf0aa0"
+    },
+    {
+      "name": "Crystalline-CmSoR7UC.js",
+      "bytes": 553,
+      "sha256": "6b93bc5662423257d0f7dcf26f251222dc09b5dc94b46418a79754e23af69bb5"
+    },
+    {
+      "name": "Dandelion-B-ylRaOv.js",
+      "bytes": 348,
+      "sha256": "f2b2bda5d2966f0ba773e556f88ea87b13de8e4b9462cfe3e67246a0d84ee727"
+    },
+    {
+      "name": "Dawn-D0Zvhw6p.js",
+      "bytes": 535,
+      "sha256": "c6ff2b0662b84057e8ac733f401567fb169574009f6564adc373c82417f30513"
+    },
+    {
+      "name": "Earth-CdMd3C0D.js",
+      "bytes": 537,
+      "sha256": "b2a837aa9763ff198773b84266335e972b6c7df110e4a6eb076a9a24a4b7c50c"
+    },
+    {
+      "name": "Earthling-ChpYMEKA.js",
+      "bytes": 536,
+      "sha256": "1939d12db3656367696cffb7ebcb4651a7c2b36c706bdd4722e65bee040094cf"
+    },
+    {
+      "name": "Farmland-CZjltGfz.js",
+      "bytes": 546,
+      "sha256": "56c86b4f2594f1fca6bf89b951825b798a1bb430c48498e225278d88a7d4b0ad"
+    },
+    {
+      "name": "Ferns-n-SnkjOT.js",
+      "bytes": 516,
+      "sha256": "455e7166a3bdc1eafa47cd1124a3b604fb7be6494f79deed62f08dc5f2099858"
+    },
+    {
+      "name": "Forest-oAnQDN4i.js",
+      "bytes": 544,
+      "sha256": "2a72910f7e39cd7b282a5b71138b0d7cab2bbc01495720561b544febe77b3d82"
+    },
+    {
+      "name": "Fuchsia-XZrJX8BV.js",
+      "bytes": 534,
+      "sha256": "12c27688310b206722ddc9c072abcf943a5bdc6bedf17f84b8bc2c7dacce296e"
+    },
+    {
+      "name": "Gleam-6MqxnCVO.js",
+      "bytes": 545,
+      "sha256": "a8e2fdb117350dac2da8e571b06a483e3ed33fc749651814cb9db4ebf24ac4da"
+    },
+    {
+      "name": "Grove-D6ogUCHB.js",
+      "bytes": 538,
+      "sha256": "52487333cc38b36acabee14431b9349a127f4ee3d87fb07889b40222fe5ad7aa"
+    },
+    {
+      "name": "Grunge-CPiQ3faG.js",
+      "bytes": 541,
+      "sha256": "d4e2df51e93b42582aeed69c86f86d724f87c3f430e853718d25ea9b84c4c366"
+    },
+    {
+      "name": "Handheld-Dvw2L1M7.js",
+      "bytes": 285,
+      "sha256": "28433ec5f462981bdd5ebeb560ed68f0e594befe5aba4f8eb265267e79c9af86"
+    },
+    {
+      "name": "Harvest-dpKDbsFN.js",
+      "bytes": 539,
+      "sha256": "91806838720d3dbd7d54e133b05a3b0734b16c081a0dd45c428a4b6a258963e4"
+    },
+    {
+      "name": "Heat-DwpzFX8y.js",
+      "bytes": 531,
+      "sha256": "df9a8e3a1a7a91ef1329a145ee590b8d4cec71acf6296a1faeb697a5ee4ed20a"
+    },
+    {
+      "name": "Hot Rod-COVtVAdE.js",
+      "bytes": 546,
+      "sha256": "9fb64ff8497bdf79f4d38d61f9ef95ac06877886202447251e85cd2525c7d6bd"
+    },
+    {
+      "name": "Hyper-CmCnYin4.js",
+      "bytes": 350,
+      "sha256": "b83c340d4841d7b4a3a4aa0d6f9f32cb7aaf9a6fc5c21483d05829107c3e47af"
+    },
+    {
+      "name": "Juice-DESzpjgX.js",
+      "bytes": 538,
+      "sha256": "07344475b899f4979ab53d383a04b82b731a8c69d7875bc8a76f7ad97dcb664a"
+    },
+    {
+      "name": "Lava Lamp-jY3e42sd.js",
+      "bytes": 541,
+      "sha256": "461caa9aa4774fbec03fcb1c6bfa3926167554fe41f884301eb2a27964ba08b0"
+    },
+    {
+      "name": "Leaves-BhmF9l9r.js",
+      "bytes": 925,
+      "sha256": "eb4d7a7ec606d7855af83fd17b3a7034d7c3719a816c2d054d640c9e70badbef"
+    },
+    {
+      "name": "Lime-DHm-8_C6.js",
+      "bytes": 536,
+      "sha256": "78834fe84f5eacacae291b1eb4fb23fea5f129266d9f2513b2b05b3873c21536"
+    },
+    {
+      "name": "Low-Acidic-snmOmJH8.js",
+      "bytes": 543,
+      "sha256": "252f21fb20a044ecabecb3381e63adbb5b932164a81950c147369c360782ee8e"
+    },
+    {
+      "name": "Low-Ammonia-Ciqs8irM.js",
+      "bytes": 549,
+      "sha256": "31ca7c40dc0d8275be5d399e1031ad73490b27ae7a4aa9b9bba74c1131778d0a"
+    },
+    {
+      "name": "Low-Bleach-L70fpchA.js",
+      "bytes": 548,
+      "sha256": "5a8baa2b41b2f260f5777db281028e741f1a3099455e65592aaecbd9b2624794"
+    },
+    {
+      "name": "Low-Chromed-D8fwDvEn.js",
+      "bytes": 544,
+      "sha256": "3ee6fce0c0e08426c56e886ee13280a753b6a35eab642c03a7a6e5fa0195aa1d"
+    },
+    {
+      "name": "Low-Toxic-C8I9LtFa.js",
+      "bytes": 557,
+      "sha256": "e191c52fe32a7b7c8f9619f7e0c73452b8af674d437f7c188e66e0c2a288ad07"
+    },
+    {
+      "name": "Luma-BF4_DIP9.js",
+      "bytes": 543,
+      "sha256": "f88b7eba46bd5b438ff8363dc05c90a7f0d6b6c53bdff50013c383e585041c1a"
+    },
+    {
+      "name": "Magma-C7xszNdk.js",
+      "bytes": 540,
+      "sha256": "debaa7c353cae1a741e47c8388e5fc92442bc0f0a965877b03ed4af592e44bae"
+    },
+    {
+      "name": "metadata.prod-BOBIde2r.js",
+      "bytes": 47746,
+      "sha256": "7dd48df6a9c2eb0da046b404b11b6cb3a5e223ee0160901d1318b4a25bfce98f"
+    },
+    {
+      "name": "Mint-a5iKgL9W.js",
+      "bytes": 927,
+      "sha256": "ee83d5d4b83accdd4955b522180bc30759e8a8a03680246d65f6b1b8da31f851"
+    },
+    {
+      "name": "Mint-Bubblegum-DoB9AWyf.js",
+      "bytes": 542,
+      "sha256": "0164860a21a05b84ea0138e6a2294cefe15e76782c326b1786b713d9041cca4f"
+    },
+    {
+      "name": "Nebula-Bi2biSqh.js",
+      "bytes": 542,
+      "sha256": "6c98c60fd45c773f9eea4fe20ede0918c141e5f8217b7c5079453659be8e7f7e"
+    },
+    {
+      "name": "Oxide-7e-YIYUs.js",
+      "bytes": 543,
+      "sha256": "98d4a42e4e16de65b02d9a5165bf41125b17d1d5e8fe448d2e32f74f0138a810"
+    },
+    {
+      "name": "Pale-Ps7iULV1.js",
+      "bytes": 549,
+      "sha256": "476a50e2cd80dabe1a1caabc6afbc3323ef82ef2c86779e2fc69670e35de66f3"
+    },
+    {
+      "name": "PBacterial-yF9UfMkE.js",
+      "bytes": 541,
+      "sha256": "cf92df641e77c3f36aa4262369d54645fe5297d38c1e038950a95c99de801d6b"
+    },
+    {
+      "name": "PCorrosive-CiI6Dm8l.js",
+      "bytes": 551,
+      "sha256": "9ad950c499273043a3f1fb1866d9f767e610b9ca404260fbe81846f35c3098e1"
+    },
+    {
+      "name": "Peach-CtQ9xqGT.js",
+      "bytes": 534,
+      "sha256": "0303e031e2ecf609c5f6896f0a65ddc408159c1666adbfe5636a27f930c5464d"
+    },
+    {
+      "name": "Photonic-5fgWHQuM.js",
+      "bytes": 540,
+      "sha256": "b526d38d9d650a4f42529d76285f1938a6c3ace35b4a2d1f14bfe2c37129872b"
+    },
+    {
+      "name": "Plasma-C-HZ14SJ.js",
+      "bytes": 536,
+      "sha256": "65a66c432c4a3c600f0c22638cccd6ce6c49941e41117b392841c3d7d4f168f9"
+    },
+    {
+      "name": "Pond-N6_Uy7bH.js",
+      "bytes": 538,
+      "sha256": "862fe69766ebb9ed0aad69acaad85b71e5250c07737e3b0053a6f574e685ec32"
+    },
+    {
+      "name": "Pop-N5iYNYI2.js",
+      "bytes": 540,
+      "sha256": "e406bfc7d6195cab271815902853ebad9d8c93c14ba6d4f980292336bdf088c7"
+    },
+    {
+      "name": "PRadioactive-BsYpZOdL.js",
+      "bytes": 553,
+      "sha256": "6eacdc4f291a894258c9352796e2369c455c750c895184f64170c13ef52656d0"
+    },
+    {
+      "name": "Primaries-BVATLi4m.js",
+      "bytes": 536,
+      "sha256": "75172ca71f9e5273e625fa6565c151554ac0a47b657c1e5e4b6fb475128cb0eb"
+    },
+    {
+      "name": "Quantum-DjmaubNi.js",
+      "bytes": 538,
+      "sha256": "dda821713cf456c2c90f6715396b3bef3dfee1df01e805397fd8c4dcba94457f"
+    },
+    {
+      "name": "Radioactive-pcvVz0oW.js",
+      "bytes": 538,
+      "sha256": "758f061471a45b0d2a1eb51d734694b32decefdc5449e617de5e20c467999d27"
+    },
+    {
+      "name": "ReJuiced-Ln7H8eHS.js",
+      "bytes": 550,
+      "sha256": "9b750905c8ec2c7650c6016696e9687ec9577f590de181fd106395aae6fdd36a"
+    },
+    {
+      "name": "Rouge-DZ4Cv5Ql.js",
+      "bytes": 527,
+      "sha256": "9fa16d4c76a1f9317a99d178414a73555f0150fb713b151e903ffb9b026b2283"
+    },
+    {
+      "name": "Rust-OL26hTzf.js",
+      "bytes": 535,
+      "sha256": "c7a03e628398826d20d2bf9343557a8552e4fbe335f16d883a304a79b01d6b39"
+    },
+    {
+      "name": "Sage-B2P3EkTh.js",
+      "bytes": 533,
+      "sha256": "fe68ec48943a87781573ff37840ee4b8ee32b952d6eae53f4f0833c568a9f5a4"
+    },
+    {
+      "name": "Sanguine-CFOIqJnw.js",
+      "bytes": 540,
+      "sha256": "50e2a402875f40eaf184a3c3dc38689c372a5e192581492d175e0a5b27cb960e"
+    },
+    {
+      "name": "Slasher-DpdSYxw0.js",
+      "bytes": 530,
+      "sha256": "f565e08fd530b53c9d49dea764496cc6b026df43f6a18d32162f69980df2f01c"
+    },
+    {
+      "name": "Spectral-BFrXVDCX.js",
+      "bytes": 545,
+      "sha256": "3ef3a8efc8c8c1f00c8ef348b9a3087c7fca95075db7f96dbcdb5d426fd9085b"
+    },
+    {
+      "name": "Sulfur-q0YaWNtE.js",
+      "bytes": 545,
+      "sha256": "eb5b956b6ede8e796808315121ac00a4554315cd46dd3ef1abe2672bf59db101"
+    },
+    {
+      "name": "Sunset-CCh0A0b5.js",
+      "bytes": 544,
+      "sha256": "83a4550a1b374e5e5509a87d1468315da96b59edc2c446a512343888189059d9"
+    },
+    {
+      "name": "Toxic-CVDKtXa-.js",
+      "bytes": 539,
+      "sha256": "c800d4bebe32c7e37daf81a4167423c4805b469f4d87885cd728e4f286e54ed5"
+    },
+    {
+      "name": "Ultrachrome-D0HvR6t_.js",
+      "bytes": 544,
+      "sha256": "0a4f89b82c6a981bc2a4fb8d1794bfb5a56a82ea23e571f13e59583c165cd417"
+    },
+    {
+      "name": "Vapor-Bx8FmlIF.js",
+      "bytes": 532,
+      "sha256": "fcf7049c0e7d59c5569e54a5908923b611b62c0602c893254e1b8130355b2b2a"
+    },
+    {
+      "name": "Vibrant-UyTdM7D3.js",
+      "bytes": 540,
+      "sha256": "24866904b031ddb2750716df0a3923476f0b6b66e09742d20309410083a82978"
+    },
+    {
+      "name": "Violatl-ZcswxBuN.js",
+      "bytes": 537,
+      "sha256": "71396f8bebb3b3ae0d0b396fc2bc02d38b0f21f4766da1ec462b047b488f5100"
+    },
+    {
+      "name": "Violet-zo7jyCol.js",
+      "bytes": 533,
+      "sha256": "f97c81db31d026b177413d01849cd40b03bc6bcc80093cbd6cc2c6c992bab118"
+    },
+    {
+      "name": "Virus-CCAIsTZv.js",
+      "bytes": 518,
+      "sha256": "5d914e36275ba297ecbca802abe5363fdfca8bd679da965858a3c6b59c79990e"
+    },
+    {
+      "name": "Vivid-xfT4Lwmf.js",
+      "bytes": 541,
+      "sha256": "914eab68bae8765dbddf9f59d9a8d6ed2582e2450eddd4341d952efbba976b01"
+    },
+    {
+      "name": "Wavelength-DwdwsjbE.js",
+      "bytes": 544,
+      "sha256": "082d01fed39b1c8835332e08e4936db1f4dd505e74e22b0e0adc4d3621e5afa8"
+    }
+  ]
+}

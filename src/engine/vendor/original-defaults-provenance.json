@@ -1,0 +1,73 @@
+{
+  "member": "dist/renderer/assets/index-Cc7ZI13O.js",
+  "sha256": "215edb78c0b48d23993fd21f44e9e686116dbbf2e139900bf1bf0f7a7c6532f0",
+  "defaults": [
+    {
+      "binding": "$n",
+      "name": "adjustments",
+      "start": 260022,
+      "end": 260115,
+      "source": "{brightness:100,contrast:100,saturation:100,midtones:50,highlights:50,blur:0,denoise:0,hue:0}"
+    },
+    {
+      "binding": "ka",
+      "name": "postProcessing",
+      "start": 260119,
+      "end": 260182,
+      "source": "{invert:!1,sharpen:0,blur:0,hue:0,denoise:0,grain:0,vignette:0}"
+    },
+    {
+      "binding": "Nr",
+      "name": "tint",
+      "start": 260186,
+      "end": 260246,
+      "source": "{enabled:!1,color:\"#ff0000\",blendMode:\"multiply\",opacity:50}"
+    },
+    {
+      "binding": "Dt",
+      "name": "epsilonGlow",
+      "start": 260250,
+      "end": 260411,
+      "source": "{enabled:!1,threshold:25,thresholdSmoothing:25,radius:25,radiusCompensation:!0,intensity:500,aspectRatio:100,direction:0,falloff:10,epsilon:50,distanceScale:150}"
+    },
+    {
+      "binding": "Wt",
+      "name": "jpegGlitch",
+      "start": 260415,
+      "end": 260609,
+      "source": "{enabled:!1,blockShift:{enabled:!1,amount:0},channelSwap:{enabled:!1,amount:0},scanlineOffset:{enabled:!1,amount:0},blockScramble:{enabled:!1,amount:0},interlaceCorruption:{enabled:!1,amount:0}}"
+    },
+    {
+      "binding": "sr",
+      "name": "chromaticEffects",
+      "start": 260613,
+      "end": 260684,
+      "source": "{enabled:!1,maxDisplace:0,redChannel:50,greenChannel:50,blueChannel:50}"
+    },
+    {
+      "binding": "Pr",
+      "name": "temporalVariation",
+      "start": 260688,
+      "end": 260736,
+      "source": "{enabled:!1,intensity:5,speed:5,pattern:\"noise\"}"
+    },
+    {
+      "binding": "St",
+      "name": "ranges",
+      "start": 260825,
+      "end": 261213,
+      "source": "{ditherSettings:{scaleDpi:{min:1,max:50},luminanceThreshold:{min:0,max:100}},adjustments:{brightness:{min:0,max:200},contrast:{min:0,max:200},saturation:{min:0,max:200},midtones:{min:0,max:100},highlights:{min:0,max:100},hue:{min:0,max:360},blur:{min:0,max:200},denoise:{min:0,max:100}},halftone:{cellSize:{min:4,max:50},dotGain:{min:0,max:100},angle:{min:0,max:360},gcr:{min:0,max:100}}}"
+    },
+    {
+      "binding": "Nn",
+      "name": "halftone",
+      "start": 262236,
+      "end": 262372,
+      "source": "{mode:\"grayscale\",cellSize:10,dotGain:.2,grayAngle:45,cyanAngle:15,magentaAngle:75,yellowAngle:0,blackAngle:45,gcr:1,usePhaseOffsets:!0}"
+    }
+  ],
+  "notes": [
+    "adjustments, postProcessing and halftone default objects omit enabled; original instance creation supplies enabled separately.",
+    "The renderer sends halftone supersample:4 as a fixed value; it is not part of the Nn defaults object."
+  ]
+}

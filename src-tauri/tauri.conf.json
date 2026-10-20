@@ -1,0 +1,35 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "BitCrush",
+  "version": "0.1.0",
+  "identifier": "com.bitcrush.studio",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://127.0.0.1:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [{
+      "label": "main",
+      "title": "BitCrush",
+      "width": 1440,
+      "height": 960,
+      "minWidth": 1000,
+      "minHeight": 680,
+      "backgroundColor": "#0a0a0a",
+      "theme": "Dark"
+    }],
+    "security": {
+      "csp": "default-src 'self' ipc: http://ipc.localhost; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' asset: http://asset.localhost blob: data:; media-src 'self' blob: asset:; worker-src 'self' blob:; connect-src 'self' ipc: http://ipc.localhost"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": ["icons/icon.png", "icons/icon.ico", "icons/icon.icns"],
+    "shortDescription": "Offline image and video effects workspace",
+    "macOS": { "minimumSystemVersion": "13.3", "signingIdentity": "-" },
+    "windows": { "webviewInstallMode": { "type": "skip" } }
+  }
+}

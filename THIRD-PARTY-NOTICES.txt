@@ -1,0 +1,14 @@
+BitCrush uses third-party open-source software. No license gallery is needed in the application interface; these distribution notices remain included.
+
+Tauri and its plugins: Copyright Tauri Contributors. MIT OR Apache-2.0.
+https://github.com/tauri-apps/tauri
+
+React and React DOM: Copyright Meta Platforms, Inc. and affiliates. MIT.
+https://github.com/facebook/react
+
+Inter font: Copyright the Inter Project Authors. SIL Open Font License 1.1.
+https://github.com/rsms/inter
+
+Original Dither Boy 6.0.3 renderer processing expressions, palette data and preset helpers are reused under the permission confirmed by the project owner. Provenance files record their source archive and transformations. That permission does not grant a public license to the original application or its branding.
+
+Full installed dependency license texts are collected in the repository's notices/ directory before distribution.

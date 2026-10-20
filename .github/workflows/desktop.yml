@@ -1,0 +1,127 @@
+name: Desktop preview builds and tests
+
+on:
+  push:
+    branches: [main, 'codex/**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: desktop-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ui:
+    name: UI and original browser processing
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-verification
+          path: |
+            artifacts/*.png
+            test-results/
+
+  native:
+    name: Native ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows
+            runner: windows-2025
+            target: x86_64-pc-windows-msvc
+            args: --no-bundle
+            executable: src-tauri/target/x86_64-pc-windows-msvc/release/bitcrush.exe
+            package: src-tauri/target/x86_64-pc-windows-msvc/release/bitcrush.exe
+            zip: BitCrush-Windows-preview.zip
+          - name: Mac-Intel
+            runner: macos-15-intel
+            target: x86_64-apple-darwin
+            args: --bundles app
+            executable: src-tauri/target/x86_64-apple-darwin/release/bundle/macos/BitCrush.app/Contents/MacOS/bitcrush
+            package: src-tauri/target/x86_64-apple-darwin/release/bundle/macos/BitCrush.app
+            zip: BitCrush-Mac-Intel-preview.zip
+          - name: Mac-Apple-Silicon
+            runner: macos-15
+            target: aarch64-apple-darwin
+            args: --bundles app
+            executable: src-tauri/target/aarch64-apple-darwin/release/bundle/macos/BitCrush.app/Contents/MacOS/bitcrush
+            package: src-tauri/target/aarch64-apple-darwin/release/bundle/macos/BitCrush.app
+            zip: BitCrush-Mac-Apple-Silicon-preview.zip
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+      - run: npm ci
+      - run: npm run tauri build -- --target ${{ matrix.target }} ${{ matrix.args }}
+      - name: Start actual native app and test its system WebView
+        run: node scripts/desktop-smoke.mjs "${{ matrix.executable }}"
+      - name: Package and enforce the 20 MB ZIP limit
+        run: python scripts/package.py "${{ matrix.package }}" "${{ matrix.zip }}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ${{ matrix.name }}-preview
+          path: artifacts/
+          retention-days: 14
+
+  universal-mac:
+    name: Universal Mac package
+    needs: native
+    runs-on: macos-15
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/download-artifact@v4
+        with:
+          name: Mac-Intel-preview
+          path: downloads/intel
+      - uses: actions/download-artifact@v4
+        with:
+          name: Mac-Apple-Silicon-preview
+          path: downloads/arm
+      - name: Combine tested architectures and ad-hoc sign
+        run: |
+          mkdir -p universal intel
+          ditto -x -k downloads/arm/BitCrush-Mac-Apple-Silicon-preview.zip universal
+          ditto -x -k downloads/intel/BitCrush-Mac-Intel-preview.zip intel
+          lipo -create intel/BitCrush.app/Contents/MacOS/bitcrush universal/BitCrush.app/Contents/MacOS/bitcrush -output universal/combined
+          mv universal/combined universal/BitCrush.app/Contents/MacOS/bitcrush
+          codesign --force --deep --sign - universal/BitCrush.app
+          codesign --verify --deep --strict universal/BitCrush.app
+          lipo -verify_arch x86_64 arm64 universal/BitCrush.app/Contents/MacOS/bitcrush
+      - run: node scripts/desktop-smoke.mjs universal/BitCrush.app/Contents/MacOS/bitcrush
+      - run: python scripts/package.py universal/BitCrush.app BitCrush-macOS-Universal-preview.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macOS-Universal-preview
+          path: artifacts/
+          retention-days: 14
