@@ -1,33 +1,36 @@
-name: Standalone original-engine feasibility
+name: Exact original V8 source compatibility
 on:
   push:
     branches: [codex/native-engine-feasibility]
 permissions:
   contents: read
 jobs:
-  probe:
-    name: Standalone V8 ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-24.04]
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 30
+  exact-source:
+    name: Exact V8 14.6.202.33 sandbox host
+    runs-on: ubuntu-24.04
+    timeout-minutes: 220
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      - uses: Swatinem/rust-cache@v2
-        with:
-          workspaces: verification/native-v8-probe -> target
-          cache-on-failure: true
-      - name: Refresh V8 native archive after cache restore
-        run: cargo clean --release --package v8 --manifest-path verification/native-v8-probe/Cargo.toml
-      - name: Build isolated host
-        run: cargo build --release --manifest-path verification/native-v8-probe/Cargo.toml
-      - name: Try guarded compatibility modes and compare original outputs
-        run: python verification/native-v8-probe/run.py
-      - uses: actions/upload-artifact@v4
+      - name: Install source build dependencies
+        run: sudo apt-get update && sudo apt-get install -y clang-19 libclang-19-dev ninja-build pkg-config cmake
+      - name: Prepare pinned exact runtime and original fixture
+        env:
+          LIBCLANG_PATH: /usr/lib/llvm-19/lib
+        run: python verification/exact-v8/prepare-exact-v8.py --probe verification/native-v8-probe --core verification/core-probe --workspace "$RUNNER_TEMP/bitcrush-exact-v8" --execute
+      - name: Compile exact runtime and verify immutable original bytecode
+        env:
+          LIBCLANG_PATH: /usr/lib/llvm-19/lib
+        run: python "$RUNNER_TEMP/bitcrush-exact-v8/build-and-verify.py"
+      - name: Retain diagnostic evidence only
         if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: standalone-v8-${{ matrix.os }}
-          path: artifacts/native-v8/
+          name: exact-v8-source-diagnostics
+          path: |
+            ${{ runner.temp }}/bitcrush-exact-v8/plan.json
+            ${{ runner.temp }}/bitcrush-exact-v8/prepare.log
+            ${{ runner.temp }}/bitcrush-exact-v8/build.log
+            ${{ runner.temp }}/bitcrush-exact-v8/summary.json
+            ${{ runner.temp }}/bitcrush-exact-v8/artifacts/native-v8/*.json
+          retention-days: 14
