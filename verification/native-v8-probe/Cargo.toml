@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-v8 = "=146.9.0"
+v8 = { version = "=146.9.0", features = ["v8_enable_pointer_compression"] }
 serde_json = "1"
 sha2 = "0.10"
 icu_calendar = "=2.1.0"
