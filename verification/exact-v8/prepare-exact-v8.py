@@ -46,10 +46,11 @@ for name,expected in patches:
 plan={
     'workspace':str(workspace),'rustyV8':{'tag':RUSTY_TAG,'commit':RUSTY_SHA},
     'v8':{'tag':V8_TAG,'commit':V8_SHA},'patches':[name for name,_ in patches],
+    'patchDigests':dict(patches),
     'gnArgs':flags,'cargoFeature':'v8_enable_sandbox','jobs':args.jobs,
     'buildTimeoutSeconds':10800,'probeModes':['strict','flags'],
     'snapshotVersionOverrides':False,
-    'status':'Unexecuted source-build experiment; exact engine acceptance and size are unknown.',
+    'status':'Exact-source C++ archive compiled in run39482894060; binding retry and exact engine acceptance/size remain unknown.',
 }
 print(json.dumps(plan,indent=2),flush=True)
 if not args.execute: raise SystemExit(0)
@@ -78,6 +79,25 @@ if actual!=V8_SHA: raise SystemExit('V8 tag moved; stopping')
 for name,_ in patches:
     run(['git','apply','--check',root/name],cwd=rusty/'v8')
     run(['git','apply',root/name],cwd=rusty/'v8')
+
+# CI recovery guard changes only whether the already built archive is rebuilt.
+# The wrapper enables it only after checking our own checkpoint's exact hashes,
+# source/patch/GN identity and archive integrity. Binding generation still runs.
+build_script=rusty/'build.rs'
+build_text=build_script.read_text()
+build_anchor='    build_v8(is_asan);\n    build_binding();'
+if build_text.count(build_anchor)!=1:
+    raise SystemExit('Pinned Rusty build.rs anchor changed; refusing recovery-guard patch')
+build_text=build_text.replace(build_anchor,'''    if env_bool("BITCRUSH_V8_BINDGEN_ONLY") {
+      assert!(static_lib_path().is_file(), "Verified archive missing");
+      assert!(build_dir().join("gn_out/project.json").is_file(), "GN binding metadata missing");
+      println!("cargo:rustc-link-search=native={}", static_lib_dir().display());
+    } else {
+      build_v8(is_asan);
+    }
+    build_binding();''')
+build_text=build_text.replace('    "V8_FROM_SOURCE",','    "V8_FROM_SOURCE",\n    "BITCRUSH_V8_BINDGEN_ONLY",')
+build_script.write_text(build_text)
 destination=workspace/'verification/native-v8-probe'
 destination.mkdir(parents=True)
 shutil.copytree(probe/'src',destination/'src')
@@ -93,27 +113,5 @@ environment={
 }
 (workspace/'build-environment.json').write_text(json.dumps(environment,indent=2)+'\n')
 runner=workspace/'build-and-verify.py'
-runner.write_text('''from pathlib import Path
-import json, os, subprocess, sys, time, zipfile
-root=Path(__file__).resolve().parent
-env=os.environ.copy();env.update(json.loads((root/'build-environment.json').read_text()))
-for key in ['RUSTY_V8_ARCHIVE','RUSTY_V8_MIRROR','RUSTY_V8_SRC_BINDING_PATH']:
-    env.pop(key,None)
-package=root/'verification/native-v8-probe'
-started=time.time()
-with (root/'build.log').open('w') as log:
-    subprocess.run(['cargo','build','--release','--jobs',env['CARGO_BUILD_JOBS'],'--manifest-path',str(package/'Cargo.toml')],cwd=root,env=env,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=10800)
-executable=package/'target/release'/('bitcrush-native-v8-probe.exe' if sys.platform=='win32' else 'bitcrush-native-v8-probe')
-results=[]
-for mode in ['strict','flags']:
-    result=subprocess.run([str(executable),mode],cwd=root,env=env,capture_output=True,text=True,timeout=60)
-    results.append({'mode':mode,'exitCode':result.returncode,'stdout':result.stdout[-8000:],'stderr':result.stderr[-8000:]})
-archive=package/'target/exact-v8-host-size.zip'
-with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as zipped:
-    zipped.write(executable,executable.name)
-summary={'buildSeconds':round(time.time()-started),'passed':any(r['exitCode']==0 for r in results),'attempts':results,'hostBytes':executable.stat().st_size,'hostZipBytes':archive.stat().st_size,'scope':'Exact-version standalone host experiment only; no final application package or universal Mac size established.'}
-(root/'summary.json').write_text(json.dumps(summary,indent=2)+'\\n')
-print(json.dumps(summary,indent=2))
-sys.exit(0 if summary['passed'] else 1)
-''')
+shutil.copy2(root/'exact-v8-ci-runtime.py',runner)
 print(f'Prepared. Build and verify with: {sys.executable} {runner}',flush=True)

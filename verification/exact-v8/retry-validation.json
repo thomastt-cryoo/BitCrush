@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "checks": [
+    "prepare-exact-v8.py: Python syntax valid",
+    "exact-v8-ci-runtime.py: Python syntax valid",
+    "Pinned Rusty build.rs anchor is unique; recovery branch retains binding generation and guarded original build path",
+    "Synthetic restore copies verified bytes; archive validation invocation retained (ar was mocked, no engine)",
+    "Mismatched engine identity rejects before restore",
+    "Mismatched archive digest rejects before use",
+    "Different absolute workspace path rejects rather than silently rebasing GN metadata",
+    "Thin archive explicitly rejects before ar invocation"
+  ],
+  "limits": [
+    "No Linux clang/libclang execution, V8 compilation, GitHub workflow dispatch or original-bytecode loading was performed.",
+    "Checkpoint ar t process was mocked solely in the synthetic file-logic test."
+  ]
+}

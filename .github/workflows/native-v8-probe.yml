@@ -1,36 +1,94 @@
-name: Exact original V8 source compatibility
+# The failed finished run did not preserve an archive; this cannot recover it.
+name: Exact V8 source retry with binding preflight and checkpoint
 on:
   push:
     branches: [codex/native-engine-feasibility]
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  exact-source:
-    name: Exact V8 14.6.202.33 sandbox host
+  source-probe:
     runs-on: ubuntu-24.04
-    timeout-minutes: 220
+    timeout-minutes: 230
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      - name: Install source build dependencies
-        run: sudo apt-get update && sudo apt-get install -y clang-19 libclang-19-dev libglib2.0-dev ninja-build pkg-config cmake
-      - name: Prepare pinned exact runtime and original fixture
+      - name: Set runner-local paths
+        shell: bash
+        run: |
+          echo "EXACT_V8_WORK=$RUNNER_TEMP/bitcrush-exact-v8" >> "$GITHUB_ENV"
+          echo "EXACT_V8_RECOVERY=$RUNNER_TEMP/bitcrush-exact-v8-recovery" >> "$GITHUB_ENV"
+      - name: Install a paired Clang21 and libclang21 toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y ca-certificates curl gnupg libglib2.0-dev pkg-config python3 binutils
+          curl --fail --location --retry 3 https://apt.llvm.org/llvm-snapshot.gpg.key -o "$RUNNER_TEMP/llvm-key.asc"
+          fingerprint="$(gpg --show-keys --with-colons "$RUNNER_TEMP/llvm-key.asc" | awk -F: '$1=="fpr" {print $10; exit}')"
+          test "$fingerprint" = '6084F3CF814B57C1CF12EFD515CF4D18AF4F7421'
+          gpg --dearmor --yes --output "$RUNNER_TEMP/llvm-key.gpg" "$RUNNER_TEMP/llvm-key.asc"
+          sudo install -m 0644 "$RUNNER_TEMP/llvm-key.gpg" /usr/share/keyrings/bitcrush-llvm.gpg
+          echo 'deb [signed-by=/usr/share/keyrings/bitcrush-llvm.gpg] https://apt.llvm.org/noble/ llvm-toolchain-noble-21 main' | sudo tee /etc/apt/sources.list.d/bitcrush-llvm21.list
+          sudo apt-get update
+          sudo apt-get install -y clang-21 libclang-21-dev
+          /usr/lib/llvm-21/bin/clang --version
+          /usr/lib/llvm-21/bin/clang -print-resource-dir
+      - name: Restore our exact archive checkpoint when available
+        id: checkpoint-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ env.EXACT_V8_RECOVERY }}
+          key: exact-v8-f09a9128-linux-x64-sandbox-v1-${{ hashFiles('verification/exact-v8/exact-v8-gn-args.txt', 'verification/exact-v8/*.patch') }}
+      - name: Prepare unchanged engine and pinned exact source
+        run: |
+          python3 verification/exact-v8/prepare-exact-v8.py \
+            --probe verification/native-v8-probe --core verification/core-probe \
+            --workspace "$EXACT_V8_WORK" --jobs 2 --execute
+      - name: Preflight binding parser, build or resume, then strictly test
         env:
-          LIBCLANG_PATH: /usr/lib/llvm-19/lib
-        run: python verification/exact-v8/prepare-exact-v8.py --probe verification/native-v8-probe --core verification/core-probe --workspace "$RUNNER_TEMP/bitcrush-exact-v8" --execute
-      - name: Compile exact runtime and verify immutable original bytecode
-        env:
-          LIBCLANG_PATH: /usr/lib/llvm-19/lib
-        run: python "$RUNNER_TEMP/bitcrush-exact-v8/build-and-verify.py"
-      - name: Retain diagnostic evidence only
+          LIBCLANG_PATH: /usr/lib/llvm-21/lib
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test -f "$EXACT_V8_RECOVERY/manifest.json"; then
+            python3 "$EXACT_V8_WORK/build-and-verify.py" --restore-checkpoint "$EXACT_V8_RECOVERY"
+          else
+            python3 "$EXACT_V8_WORK/build-and-verify.py"
+          fi
+      - name: Stage recoverable own-build checkpoint even after bindgen failure
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test -f "$EXACT_V8_WORK/checkpoint/manifest.json" && ! test -e "$EXACT_V8_RECOVERY"; then
+            cp -a "$EXACT_V8_WORK/checkpoint" "$EXACT_V8_RECOVERY"
+          fi
+      - name: Persist archive cache independently of job success
+        if: always() && steps.checkpoint-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.EXACT_V8_RECOVERY }}
+          key: ${{ steps.checkpoint-cache.outputs.cache-primary-key }}
+      - name: Save exact archive and generated metadata as recovery artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: exact-v8-own-build-recovery-${{ github.run_id }}
+          path: ${{ env.EXACT_V8_WORK }}/checkpoint/
+          compression-level: 0
+          retention-days: 7
+          if-no-files-found: ignore
+      - name: Save diagnostics regardless of build/probe outcome
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: exact-v8-source-diagnostics
           path: |
-            ${{ runner.temp }}/bitcrush-exact-v8/plan.json
-            ${{ runner.temp }}/bitcrush-exact-v8/prepare.log
-            ${{ runner.temp }}/bitcrush-exact-v8/build.log
-            ${{ runner.temp }}/bitcrush-exact-v8/summary.json
-            ${{ runner.temp }}/bitcrush-exact-v8/artifacts/native-v8/*.json
-          retention-days: 14
+            ${{ env.EXACT_V8_WORK }}/plan.json
+            ${{ env.EXACT_V8_WORK }}/prepare.log
+            ${{ env.EXACT_V8_WORK }}/build-environment.json
+            ${{ env.EXACT_V8_WORK }}/build.log
+            ${{ env.EXACT_V8_WORK }}/bindgen-preflight.json
+            ${{ env.EXACT_V8_WORK }}/summary.json
+          retention-days: 7
