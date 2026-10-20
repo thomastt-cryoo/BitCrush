@@ -40,7 +40,7 @@ export function pipeline(project: Project) {
   return effects;
 }
 
-export function processImage(image: ImageData, project: Project, time = 0): Promise<ImageData> {
+export function processImage(image: ImageData, project: Project, time?: number): Promise<ImageData> {
   const current = getWorker();
   const requestId = ++serial;
   const buffer = image.data.slice().buffer;

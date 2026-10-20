@@ -11,7 +11,7 @@ const processors = Object.freeze({
   halftone: original.halftoneWorkerOnly,
 });
 
-export async function processPixels({ width, height, buffer, effects = [], time = 0 }) {
+export async function processPixels({ width, height, buffer, effects = [], time }) {
   if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1 || width * height > 100_000_000) {
     throw new Error('Invalid image dimensions');
   }

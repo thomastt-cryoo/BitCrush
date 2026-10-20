@@ -2,7 +2,7 @@ name: Desktop preview builds and tests
 
 on:
   push:
-    branches: [main, 'codex/**']
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
@@ -77,6 +77,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: src-tauri -> target
+          cache-on-failure: true
       - run: npm ci
       - run: npm run tauri build -- --target ${{ matrix.target }} ${{ matrix.args }}
       - name: Start actual native app and test its system WebView
@@ -125,3 +126,37 @@ jobs:
           name: macOS-Universal-preview
           path: artifacts/
           retention-days: 14
+
+  engine-compatibility:
+    name: Original bytecode probe ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows-x64
+            runner: windows-2025
+          - name: Mac-Intel
+            runner: macos-15-intel
+          - name: Mac-Apple-Silicon
+            runner: macos-15
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: verification/core-probe
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci
+      - run: node install-electron.cjs
+      - name: Test untouched original dither and halftone bytecode
+        run: npm run probe
+      - name: Compare deterministic results to the Windows reference
+        run: npm run compare
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bytecode-probe-${{ matrix.name }}
+          path: verification/core-probe/reports/

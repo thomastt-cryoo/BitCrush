@@ -1,0 +1,20 @@
+[
+  {
+    "name": "grayscale",
+    "compiled": "b1dfa082090826f7b078b217436a70afde8b640a6a7a7c43fc953e5b028148e0",
+    "fallback": "b1dfa082090826f7b078b217436a70afde8b640a6a7a7c43fc953e5b028148e0",
+    "equal": true
+  },
+  {
+    "name": "cmyk",
+    "compiled": "9f7c0ece8bb8624990c050ed779c8dba03b14eb97c03ce686d536cdedfbe2665",
+    "fallback": "9f7c0ece8bb8624990c050ed779c8dba03b14eb97c03ce686d536cdedfbe2665",
+    "equal": true
+  },
+  {
+    "name": "cmyk-no-phase",
+    "compiled": "6721fafd46044d420af6ee849f5b3449fa2eed535efdcb4ffd09080f0f70636c",
+    "fallback": "6721fafd46044d420af6ee849f5b3449fa2eed535efdcb4ffd09080f0f70636c",
+    "equal": true
+  }
+]

@@ -18,13 +18,27 @@ fn runtime_info() -> Value {
 }
 
 #[tauri::command]
-fn complete_smoke_test(report: Value, state: State<'_, SmokeReport>, app: tauri::AppHandle) -> Result<(), String> {
-    let path = state.0.lock().map_err(|e| e.to_string())?.take()
+fn complete_smoke_test(
+    report: Value,
+    state: State<'_, SmokeReport>,
+    app: tauri::AppHandle,
+) -> Result<(), String> {
+    let path = state
+        .0
+        .lock()
+        .map_err(|e| e.to_string())?
+        .take()
         .ok_or_else(|| "No desktop smoke test was requested".to_owned())?;
-    let success = report.get("passed").and_then(Value::as_bool).unwrap_or(false);
+    let success = report
+        .get("passed")
+        .and_then(Value::as_bool)
+        .unwrap_or(false);
     let result = json!({ "runtime": runtime_info(), "webview": report });
-    std::fs::write(path, serde_json::to_vec_pretty(&result).map_err(|e| e.to_string())?)
-        .map_err(|e| e.to_string())?;
+    std::fs::write(
+        path,
+        serde_json::to_vec_pretty(&result).map_err(|e| e.to_string())?,
+    )
+    .map_err(|e| e.to_string())?;
     app.exit(if success { 0 } else { 1 });
     Ok(())
 }
@@ -32,7 +46,9 @@ fn complete_smoke_test(report: Value, state: State<'_, SmokeReport>, app: tauri:
 fn smoke_path() -> Option<PathBuf> {
     let mut args = std::env::args();
     while let Some(arg) = args.next() {
-        if arg == "--smoke-test" { return args.next().map(PathBuf::from); }
+        if arg == "--smoke-test" {
+            return args.next().map(PathBuf::from);
+        }
     }
     None
 }
@@ -45,7 +61,9 @@ fn main() {
         .invoke_handler(tauri::generate_handler![runtime_info, complete_smoke_test])
         .setup(|app| {
             if let Some(window) = app.get_webview_window("main") {
-                if smoke_path().is_some() { window.hide()?; }
+                if smoke_path().is_some() {
+                    window.hide()?;
+                }
             }
             Ok(())
         })
