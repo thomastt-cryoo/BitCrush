@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import logo from '../icon.svg';
 
 const paths: Record<string, React.ReactNode> = {
   plus: <path d="M12 5v14M5 12h14" />,
@@ -31,5 +32,5 @@ export function Icon({ name, size = 18, style }: { name: string; size?: number; 
 }
 
 export function Mark() {
-  return <span className="mark" aria-hidden="true">{Array.from({ length: 9 }, (_, i) => <i key={i} />)}</span>;
+  return <img className="mark" src={logo} alt="" aria-hidden="true" />;
 }

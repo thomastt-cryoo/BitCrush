@@ -24,7 +24,7 @@ npm test
 npm run tauri build
 ```
 
-GitHub Actions builds native Windows x64, Intel Mac and Apple Silicon Mac previews. Each native app starts its own system WebView and verifies the local JavaScript-to-Rust bridge, Canvas, worker startup and original processing operations. A separate job combines the two tested Mac executables into a universal app. Packaging checks enforce ZIP sizes below 20,000,000 bytes.
+GitHub Actions builds native Windows x64, Intel Mac and Apple Silicon Mac previews. Each native app starts its own system WebView and verifies the local JavaScript-to-Rust bridge, Canvas, worker startup and original processing operations. An independent Intel-hosted job also cross-builds both Mac slices into one universal app, checks its signature/architectures and runs its Intel slice. Apple Silicon native runtime tests remain separate, so runner-capacity failures do not prevent producing a universal development package. Packaging checks enforce ZIP sizes below 20,000,000 bytes.
 
 Native startup checks and UI checks do not establish complete engine equivalence. Original extracted processing code, metadata and palettes have provenance records under `src/engine/vendor` and `src/data`.
 

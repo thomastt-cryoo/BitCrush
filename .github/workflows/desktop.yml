@@ -57,7 +57,7 @@ jobs:
             package: src-tauri/target/x86_64-apple-darwin/release/bundle/macos/BitCrush.app
             zip: BitCrush-Mac-Intel-preview.zip
           - name: Mac-Apple-Silicon
-            runner: macos-15
+            runner: macos-26
             target: aarch64-apple-darwin
             args: --bundles app
             executable: src-tauri/target/aarch64-apple-darwin/release/bundle/macos/BitCrush.app/Contents/MacOS/bitcrush
@@ -93,34 +93,32 @@ jobs:
 
   universal-mac:
     name: Universal Mac package
-    needs: native
-    runs-on: macos-15
-    timeout-minutes: 10
+    needs: ui
+    runs-on: macos-15-intel
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - uses: actions/download-artifact@v4
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          name: Mac-Intel-preview
-          path: downloads/intel
-      - uses: actions/download-artifact@v4
+          targets: x86_64-apple-darwin,aarch64-apple-darwin
+      - uses: Swatinem/rust-cache@v2
         with:
-          name: Mac-Apple-Silicon-preview
-          path: downloads/arm
-      - name: Combine tested architectures and ad-hoc sign
+          workspaces: src-tauri -> target
+          cache-on-failure: true
+      - run: npm ci
+      - name: Build both architectures into one app
+        run: npm run tauri build -- --target universal-apple-darwin --bundles app
+      - name: Verify signature and architecture slices
         run: |
-          mkdir -p universal intel
-          ditto -x -k downloads/arm/BitCrush-Mac-Apple-Silicon-preview.zip universal
-          ditto -x -k downloads/intel/BitCrush-Mac-Intel-preview.zip intel
-          lipo -create intel/BitCrush.app/Contents/MacOS/bitcrush universal/BitCrush.app/Contents/MacOS/bitcrush -output universal/combined
-          mv universal/combined universal/BitCrush.app/Contents/MacOS/bitcrush
-          codesign --force --deep --sign - universal/BitCrush.app
-          codesign --verify --deep --strict universal/BitCrush.app
-          lipo -verify_arch x86_64 arm64 universal/BitCrush.app/Contents/MacOS/bitcrush
-      - run: node scripts/desktop-smoke.mjs universal/BitCrush.app/Contents/MacOS/bitcrush
-      - run: python scripts/package.py universal/BitCrush.app BitCrush-macOS-Universal-preview.zip
+          codesign --verify --deep --strict src-tauri/target/universal-apple-darwin/release/bundle/macos/BitCrush.app
+          lipo -verify_arch x86_64 arm64 src-tauri/target/universal-apple-darwin/release/bundle/macos/BitCrush.app/Contents/MacOS/bitcrush
+      - name: Test universal app natively on Intel
+        run: node scripts/desktop-smoke.mjs src-tauri/target/universal-apple-darwin/release/bundle/macos/BitCrush.app/Contents/MacOS/bitcrush
+      - run: python scripts/package.py src-tauri/target/universal-apple-darwin/release/bundle/macos/BitCrush.app BitCrush-macOS-Universal-preview.zip
       - uses: actions/upload-artifact@v4
         with:
           name: macOS-Universal-preview
@@ -138,7 +136,7 @@ jobs:
           - name: Mac-Intel
             runner: macos-15-intel
           - name: Mac-Apple-Silicon
-            runner: macos-15
+            runner: macos-26
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 10
     defaults:

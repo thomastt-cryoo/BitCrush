@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { Icon, Mark } from './Icons';
 import { algorithms, allPalettes, categories, grayscale, hex, initialProject, label, validateProject } from './model';
 import { defaults, effectNames, makeEffect, processImage } from './engine';
-import { chooseImage, isTauri, saveBlob } from './native';
+import { chooseImage, isTauri, saveBlob, setWindowAppearance } from './native';
 import { desktopSmoke } from './smoke';
 import type { Control, Preset, Project, Value } from './types';
 
@@ -80,8 +80,8 @@ export default function App() {
   const undo = useCallback(() => { if (!history.length) return; setFuture(f => [structuredClone(project), ...f]); setProject(history.at(-1)!); setHistory(h => h.slice(0, -1)); }, [history, project]);
   const redo = useCallback(() => { if (!future.length) return; setHistory(h => [...h, structuredClone(project)]); setProject(future[0]); setFuture(f => f.slice(1)); }, [future, project]);
 
-  useEffect(() => { document.documentElement.dataset.appearance = appearance; localStorage.setItem('bitcrush-appearance', appearance); }, [appearance]);
-  useEffect(() => { localStorage.setItem('bitcrush-presets', JSON.stringify(presets)); }, [presets]);
+  useEffect(() => { document.documentElement.dataset.appearance = appearance; localStorage.setItem('bitcrush-appearance', appearance); void setWindowAppearance(appearance as 'dark' | 'light').catch(() => setNotice('The window appearance could not be updated.')); }, [appearance]);
+  useEffect(() => { try { localStorage.setItem('bitcrush-presets', JSON.stringify(presets)); } catch { setNotice('Preset storage is full. Save your project to a file before closing.'); } }, [presets]);
   useEffect(() => { void desktopSmoke(); }, []);
   useEffect(() => { if (!notice) return; const timer = setTimeout(() => setNotice(''), 4000); return () => clearTimeout(timer); }, [notice]);
   useEffect(() => {

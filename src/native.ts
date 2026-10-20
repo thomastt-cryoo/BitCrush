@@ -2,6 +2,12 @@ import { isTauri, invoke } from '@tauri-apps/api/core';
 
 export { isTauri, invoke };
 
+export async function setWindowAppearance(appearance: 'dark' | 'light') {
+  if (!isTauri()) return;
+  const { getCurrentWindow } = await import('@tauri-apps/api/window');
+  await getCurrentWindow().setTheme(appearance);
+}
+
 export async function chooseImage(): Promise<{ name: string; blob: Blob } | null> {
   const { open } = await import('@tauri-apps/plugin-dialog');
   const path = await open({ multiple: false, filters: [{ name: 'Images', extensions: ['png', 'jpg', 'jpeg', 'webp', 'bmp', 'gif'] }] });
