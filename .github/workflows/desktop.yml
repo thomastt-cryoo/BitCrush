@@ -78,6 +78,7 @@ jobs:
         with:
           workspaces: src-tauri -> target
           cache-on-failure: true
+          cache-workspace-crates: true
       - run: npm ci
       - run: npm run tauri build -- --target ${{ matrix.target }} ${{ matrix.args }}
       - name: Start actual native app and test its system WebView
@@ -109,13 +110,14 @@ jobs:
         with:
           workspaces: src-tauri -> target
           cache-on-failure: true
+          cache-workspace-crates: true
       - run: npm ci
       - name: Build both architectures into one app
         run: npm run tauri build -- --target universal-apple-darwin --bundles app
       - name: Verify signature and architecture slices
         run: |
           codesign --verify --deep --strict src-tauri/target/universal-apple-darwin/release/bundle/macos/BitCrush.app
-          lipo -verify_arch x86_64 arm64 src-tauri/target/universal-apple-darwin/release/bundle/macos/BitCrush.app/Contents/MacOS/bitcrush
+          lipo src-tauri/target/universal-apple-darwin/release/bundle/macos/BitCrush.app/Contents/MacOS/bitcrush -verify_arch x86_64 arm64
       - name: Test universal app natively on Intel
         run: node scripts/desktop-smoke.mjs src-tauri/target/universal-apple-darwin/release/bundle/macos/BitCrush.app/Contents/MacOS/bitcrush
       - run: python scripts/package.py src-tauri/target/universal-apple-darwin/release/bundle/macos/BitCrush.app BitCrush-macOS-Universal-preview.zip
@@ -158,3 +160,4 @@ jobs:
         with:
           name: bytecode-probe-${{ matrix.name }}
           path: verification/core-probe/reports/
+
