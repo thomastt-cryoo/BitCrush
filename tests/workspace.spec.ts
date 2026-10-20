@@ -98,3 +98,26 @@ test('fits supported desktop window sizes in both appearances', async ({ page })
     await expect(page.locator('.inspector')).toBeVisible();
   }
 });
+
+test('retains original JPEG activation, control bounds and reset semantics in saved looks', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Effects', exact: true }).click();
+  await page.getByRole('button', { name: 'Add effect', exact: true }).click();
+  await page.getByRole('button', { name: /JPEG glitch Digital/ }).click();
+  const amount = page.getByLabel('Block Shift (0-20px) value', { exact: true });
+  await expect(amount).toHaveAttribute('max', '20');
+  await amount.fill('5');
+  await page.getByRole('button', { name: 'Save look', exact: true }).click();
+  await page.getByPlaceholder('Give your look a name').fill('Glitch activation');
+  await page.getByRole('dialog').getByRole('button', { name: 'Save look', exact: true }).click();
+  const preset = await page.evaluate(() => JSON.parse(localStorage.getItem('bitcrush-presets')!)[0]);
+  expect(preset.project.effects[0].params.blockShift).toEqual({ enabled: true, amount: 5 });
+  await page.locator('.effect-card').getByRole('button', { name: 'Reset', exact: true }).click();
+  await expect(page.getByRole('switch', { name: 'JPEG glitch', exact: true })).not.toBeChecked();
+  await page.getByRole('switch', { name: 'JPEG glitch', exact: true }).check();
+  await expect(amount).toHaveValue('0');
+  await page.getByRole('button', { name: 'Add effect', exact: true }).click();
+  await page.getByRole('button', { name: /Epsilon glow Soft/ }).click();
+  await expect(page.getByLabel('Intensity value', { exact: true })).toHaveAttribute('max', '1000');
+  await expect(page.getByLabel('Falloff n value', { exact: true })).toHaveAttribute('min', '10');
+});
