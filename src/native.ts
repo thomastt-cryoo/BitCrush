@@ -17,6 +17,16 @@ export async function chooseImage(): Promise<{ name: string; blob: Blob } | null
   return { name: path.split(/[\\/]/).at(-1)!, blob: new Blob([bytes]) };
 }
 
+export async function choosePreset(): Promise<{ name: string; text: string } | null> {
+  const { open } = await import('@tauri-apps/plugin-dialog');
+  const path = await open({ multiple: false, filters: [{ name: 'Dither Boy preset', extensions: ['preset', 'json'] }] });
+  if (typeof path !== 'string') return null;
+  const { readFile } = await import('@tauri-apps/plugin-fs');
+  const bytes = await readFile(path);
+  if (bytes.byteLength > 4 * 1024 * 1024) throw new Error('This preset file is too large.');
+  return { name: path.split(/[\\/]/).at(-1)!, text: new TextDecoder('utf-8', { fatal: true }).decode(bytes) };
+}
+
 export async function saveBlob(blob: Blob, name: string) {
   if (isTauri()) {
     const { save } = await import('@tauri-apps/plugin-dialog');

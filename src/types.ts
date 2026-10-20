@@ -1,3 +1,5 @@
+import type { OriginalPresetDocument } from './original-preset';
+
 export type Value = string | number | boolean;
 export interface Control {
   id: string;
@@ -23,7 +25,7 @@ export interface Palette {
   color_count: number;
   colors: Array<{ r: number; g: number; b: number; percentage?: number }>;
 }
-export interface Stage { id: string; type: string; name: string; enabled: boolean; params: Record<string, any> }
+export interface Stage { id: string; type: string; name: string; enabled: boolean; params: Record<string, any>; originalInstanceId?: string }
 export interface Project {
   version: 1;
   algorithmId: string;
@@ -33,5 +35,6 @@ export interface Project {
   adjustments: Record<string, any>;
   halftone: Record<string, any>;
   effects: Stage[];
+  originalCompatibility?: OriginalPresetDocument;
 }
 export interface Preset { name: string; project: Project }

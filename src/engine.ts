@@ -1,5 +1,7 @@
 import defaults from './engine/vendor/original-defaults.json';
 import { buildOriginalPipeline } from './engine/vendor/pipeline-original.mjs';
+import { buildOriginalPresetPipeline } from './original-preset';
+import { restoreOriginalCompatibility } from './original-project';
 import type { Project, Stage } from './types';
 
 export { defaults };
@@ -40,6 +42,7 @@ function getWorker() {
 }
 
 export function pipeline(project: Project) {
+  if (project.originalCompatibility) return buildOriginalPresetPipeline(restoreOriginalCompatibility(project.originalCompatibility));
   const { scaleDpi, colorDepth, luminanceThreshold, orderedCycling, ...controls } = project.ditherParams;
   const instances: Record<string, { settings: Record<string, any> }> = {
     adjustments: { settings: { ...project.adjustments, enabled: true } },

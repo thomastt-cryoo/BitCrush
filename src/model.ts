@@ -2,6 +2,7 @@ import originalAlgorithms from './data/algorithms.json';
 import originalPalettes from './data/palettes.json';
 import { defaults } from './engine';
 import type { Algorithm, Palette, Project } from './types';
+import { projectFromOriginalPreset, restoreOriginalCompatibility } from './original-project';
 
 export const algorithms = originalAlgorithms as Algorithm[];
 export const palettes = originalPalettes as Palette[];
@@ -20,6 +21,9 @@ export const initialProject = (): Project => ({
 
 export function validateProject(input: unknown): Project {
   const p = input as Project;
+  if (p?.version === 1 && p.originalCompatibility) {
+    return { ...structuredClone(p), ...projectFromOriginalPreset(restoreOriginalCompatibility(p.originalCompatibility)) };
+  }
   if (!p || p.version !== 1 || !algorithms.some(a => a.metadata.id === p.algorithmId) || !['dither', 'halftone'].includes(p.mode)
     || !Array.isArray(p.palette?.colors) || !p.palette.colors.length || !p.adjustments || !p.ditherParams || !p.halftone || !Array.isArray(p.effects)) {
     throw new Error('This file is not a supported BitCrush project. The original file has not been changed.');
