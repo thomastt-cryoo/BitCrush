@@ -63,7 +63,20 @@ try{
   await mediaWindow.evaluate(win=>win.show());
   const probe=await page.evaluate(async file=>window.electron.ffmpeg.execNative(['-hide_banner','-i',file]),path.join(exportDir,'native.mp4'));
   if(!/Video: h264/.test(probe.logs.join(' '))||!/Audio: aac/.test(probe.logs.join(' ')))throw new Error('Native export lacks video or audio');
-  check('Native MP4 export retains video and audio while hidden with simulated 64-core concurrency');
+  const visibleVideo=page.locator('.studio-canvas video');
+  await expect(visibleVideo).toHaveCSS('opacity','1');
+  const coloredPixels=await page.evaluate(async file=>{
+    const count=video=>{const canvas=document.createElement('canvas');canvas.width=video.videoWidth;canvas.height=video.videoHeight;if(!canvas.width||!canvas.height)return 0;const context=canvas.getContext('2d',{willReadFrequently:true});context.drawImage(video,0,0);const pixels=context.getImageData(0,0,canvas.width,canvas.height).data;let colors=0;for(let i=0;i<pixels.length;i+=4)if(pixels[i+3]&&Math.max(pixels[i],pixels[i+1],pixels[i+2])-Math.min(pixels[i],pixels[i+1],pixels[i+2])>20)colors++;return colors;};
+    const preview=document.querySelector('.studio-canvas video');
+    const read=await window.electron.readFile(file);if(!read.success)throw new Error(read.error);
+    const url=URL.createObjectURL(new Blob([read.data],{type:'video/mp4'})),video=document.createElement('video');video.muted=true;
+    try{await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('Exported video decode timed out')),15000);video.onloadeddata=()=>{clearTimeout(timer);resolve();};video.onerror=()=>{clearTimeout(timer);reject(new Error('Exported video could not be decoded'));};video.src=url;video.load();});
+      return {preview:count(preview),exported:count(video)};
+    }finally{video.removeAttribute('src');video.load();URL.revokeObjectURL(url);}
+  },path.join(exportDir,'native.mp4'));
+  if(coloredPixels.preview<1000||coloredPixels.exported<1000)throw new Error('Blank or monochrome native preview/export: '+JSON.stringify(coloredPixels));
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+  check('Native MP4 retains colored pixels, audio and visible Original preview after hidden export',{coloredPixels});
   await page.screenshot({path:path.join(root,'test-results/electron-video-native.png')});
   // Exercise fast extraction beyond the previous MediaRecorder 60-second cutoff.
   const longPath=path.join(env.BITCRUSH_USER_DATA,'long-silent.mp4');

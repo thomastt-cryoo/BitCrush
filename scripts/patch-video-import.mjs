@@ -47,6 +47,9 @@ export function patchVideoImport(source) {
       text=replace(text,'=>{const w=', '=>{const [bitcrushImportError,setBitcrushImportError]=f.useState(null);const w=');
       text=replace(text,'s.name!==g.current?(g.current=s.name,tt(s,','s!==g.current?(g.current=s,setBitcrushImportError(null),tt(s,');
       text=replace(text,'console.error("Import failed:",Ae),alert(`Failed to import video: ${Ae.message}`)','setBitcrushImportError(Ae.message||"Video import failed")');
+      // Export fills the frame cache even in Original mode. Only hide the video
+      // when the corresponding processed overlay is actually being displayed.
+      text=replace(text,'videoData:se,processedFrameUrl:te,onVideoRef:$','videoData:se,processedFrameUrl:N?te:null,onVideoRef:$');
       text=replace(text,'!se||pe?n.jsx(',`bitcrushImportError?n.jsxs("div",{className:"video-viewport-loading-container",role:"alert",children:[n.jsx("h3",{children:"Could not import video"}),n.jsx("p",{className:"bc-video-error",children:bitcrushImportError}),n.jsx("button",{className:"bc-button",onClick:()=>{setBitcrushImportError(null);tt(s,{extractAllFrames:true}).then(()=>d?.()).catch(error=>setBitcrushImportError(error.message))},children:"Retry video import"}),n.jsx("button",{className:"bc-button",onClick:()=>h?.(),children:"Choose another file"})]}):!se||pe?n.jsx(`);
     }
     if(name==='Nv')text=replace(text,'n.jsx(J0,{videoFile:s.file,','n.jsx(J0,{onCancelImport:()=>o(null),videoFile:s.file,');
