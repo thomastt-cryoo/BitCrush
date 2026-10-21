@@ -43,7 +43,7 @@ jobs:
             runner: macos-15-intel
             packaged: artifacts/BitCrush-Mac-Intel-Electron/BitCrush.app/Contents/MacOS/Electron
           - name: Mac-Apple-Silicon
-            runner: macos-15
+            runner: macos-26
             packaged: artifacts/BitCrush-Mac-Apple-Silicon-Electron/BitCrush.app/Contents/MacOS/Electron
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 20

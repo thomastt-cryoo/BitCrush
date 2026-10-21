@@ -5,7 +5,7 @@ export function patchVideoImport(source) {
   const replace=(text,old,value)=>{if(!text.includes(old))throw new Error('Video import patch anchor changed: '+old.slice(0,100));return text.replace(old,value);};
   walk(parse(source,{sourceType:'module'}),node=>{
     const name=node.type==='FunctionDeclaration'?node.id?.name:node.type==='VariableDeclarator'?node.id?.name:null;
-    if(!['b0','w0','Kp','Y0','Op','j0','Nv'].includes(name))return;
+    if(!['b0','w0','Kp','Y0','Op','j0','Nv','eh','sp'].includes(name))return;
     let text=source.slice(node.start,node.end);
     if(name==='b0')text='async function b0(s,o,a){return importNativeVideo(s,o,a,{fit:qp,maxDimension:fn.MAX_SAFE_IMPORT_DIMENSION,defaultFrameRate:fn.DEFAULT_FRAME_RATE,minFrameRate:fn.MIN_FRAME_RATE,maxFrameRate:fn.MAX_FRAME_RATE})}';
     if(name==='w0'){
@@ -21,6 +21,13 @@ export function patchVideoImport(source) {
       text=replace(text,'finally{for(const b of p)','finally{bitcrushExtractor?.terminate();for(const b of p)');
     }
     if(name==='j0')text=replace(text,'["-i",l,"-f","null","-"]','["-i",l]');
+    if(name==='eh'){
+      text=replace(text,'at=Math.min(dt,zt)','at=Math.min(dt,zt,fn.WORKER_POOL_SIZE)');
+      text=replace(text,'const Xt=await sp(Qe);','const Xt=await videoFrameTask(sp(Qe),`Reading video frame ${ft+1}`);');
+      text=replace(text,'await R.processFrame(ft,Xt,_t,kt?void 0:Ct,Pt,"normal",void 0,!!Qe.filePath)','await videoFrameTask(R.processFrame(ft,Xt,_t,kt?void 0:Ct,Pt,"normal",void 0,!!Qe.filePath),`Rendering video frame ${ft+1}`)');
+      text=replace(text,'await he.writeFileBinary(Me,ze)','await videoFrameTask(he.writeFileBinary(Me,ze),`Saving video frame ${ft+1}`)');
+    }
+    if(name==='sp')text=text.replaceAll('c.getContext("2d")','c.getContext("2d",{willReadFrequently:true})');
     if(name==='Kp')text=`async function Kp(s,o,a){
       if(o?.aborted)throw new ls;
       const codec=new wd, abort=()=>codec.terminate();o?.addEventListener("abort",abort,{once:true});
@@ -45,7 +52,7 @@ export function patchVideoImport(source) {
     if(name==='Nv')text=replace(text,'n.jsx(J0,{videoFile:s.file,','n.jsx(J0,{onCancelImport:()=>o(null),videoFile:s.file,');
     seen.add(name);edits.push([node.start,node.end,text]);
   });
-  if(seen.size!==7)throw new Error('Missing video adapters: '+[...seen].join(','));
+  if(seen.size!==9)throw new Error('Missing video adapters: '+[...seen].join(','));
   for(const [start,end,text]of edits.sort((a,b)=>b[0]-a[0]))source=source.slice(0,start)+text+source.slice(end);
-  return 'import {importNativeVideo,waitForVideoMetadata} from "../../video-import.mjs";\n'+source;
+  return 'import {importNativeVideo,waitForVideoMetadata,videoFrameTask} from "../../video-import.mjs";\n'+source;
 }

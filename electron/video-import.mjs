@@ -1,4 +1,9 @@
 // Media orchestration only. The original image/effect engines remain unchanged.
+export async function videoFrameTask(task, label, timeout = 120000) {
+  let timer;
+  try { return await Promise.race([task,new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error(`${label} timed out. Retry the export or reopen the video.`)),timeout);})]); }
+  finally { clearTimeout(timer); }
+}
 export function waitForVideoMetadata(video, url, signal, timeout = 15000) {
   return new Promise((resolve,reject) => {
     const done = error => { clearTimeout(timer); video.removeEventListener('loadedmetadata',loaded); video.removeEventListener('error',failed); signal?.removeEventListener('abort',aborted); error ? reject(error) : resolve(); };

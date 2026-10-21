@@ -35,7 +35,7 @@ ipcMain.handle('license:periodicCheck',()=>({success:true}));
 let win,allowClose=false,quitRequested=false;
 ipcMain.on('allow-close',()=>{allowClose=true;win?.destroy();if(quitRequested)app.quit();});
 ipcMain.on('cancel-close',()=>{quitRequested=false;});
-function createWindow(){allowClose=false;win=new BrowserWindow({title:'BitCrush Studio',icon:path.join(__dirname,'icon.png'),width:1500,height:960,minWidth:1050,minHeight:700,backgroundColor:'#101113',show:false,autoHideMenuBar:true,webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true}});
+function createWindow(){allowClose=false;win=new BrowserWindow({title:'BitCrush Studio',icon:path.join(__dirname,'icon.png'),width:1500,height:960,minWidth:1050,minHeight:700,backgroundColor:'#101113',show:false,autoHideMenuBar:true,webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true,backgroundThrottling:false}});
  legacy.attachWindow(win);Menu.setApplicationMenu(process.platform==='darwin'?Menu.buildFromTemplate([{label:'BitCrush',submenu:[{role:'hide'},{role:'hideOthers'},{role:'unhide'},{type:'separator'},{role:'quit'}]},{label:'Edit',submenu:[{role:'undo'},{role:'redo'},{type:'separator'},{role:'cut'},{role:'copy'},{role:'paste'},{role:'selectAll'}]},{label:'Window',submenu:[{role:'minimize'},{role:'zoom'},{role:'front'}]}]):null);
  win.on('enter-full-screen',()=>win?.webContents.send('fullscreen-changed',true));
  win.on('leave-full-screen',()=>win?.webContents.send('fullscreen-changed',false));

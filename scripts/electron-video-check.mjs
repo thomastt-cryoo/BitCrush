@@ -13,7 +13,9 @@ const check=(name,details={})=>{report.checks.push({name,passed:true,...details}
 let page;
 try{
   page=await app.firstWindow();page.on('pageerror',error=>report.errors.push(error.stack));
+  await page.evaluate(()=>Object.defineProperty(navigator,'hardwareConcurrency',{configurable:true,get:()=>64}));
   page.on('console',message=>{if(message.type()==='error')console.log('Renderer: '+message.text());});
+  await page.evaluate(()=>{window.alert=message=>console.error('Alert: '+message);});
   page.on('dialog',async dialog=>{console.log('Dialog: '+dialog.message());report.dialogs??=[];report.dialogs.push(dialog.message());await dialog.dismiss();});
   await expect(page.locator('.studio-style')).toHaveCount(73);
   await expect(page.locator('.studio-style .studio-pattern,.studio-style img')).toHaveCount(0);
@@ -39,7 +41,7 @@ try{
   await importFile.setInputFiles(path.join(root,'tests/fixtures/one-second.mp4'));
   const palettePrompt=page.getByRole('button',{name:'No',exact:true});
   await palettePrompt.click();
-  await expect(page.getByRole('button',{name:'Next frame',exact:true})).toBeVisible({timeout:60000});
+  await expect(page.getByRole('button',{name:'Next frame',exact:true})).toBeVisible({timeout:150000});
   await expect(page.getByText('Importing Video',{exact:true})).toHaveCount(0);
   await page.getByRole('button',{name:'Next frame',exact:true}).click();
   const frames=await page.evaluate(async()=>{const result=await window.electron.ffmpeg.execNative(['-hide_banner','-f','lavfi','-i','testsrc=size=64x48:rate=12','-t','0.25','-fps_mode','passthrough','-f','null','-']);return result;});
@@ -47,12 +49,16 @@ try{
   check('Native video import and scrubbing with current FFmpeg; replacement frame-sync option runs');
   const exportDir=path.join(env.BITCRUSH_USER_DATA,'exports');fs.mkdirSync(exportDir);
   await app.evaluate(({ipcMain},directory)=>{ipcMain.removeHandler('show-save-dialog');ipcMain.handle('show-save-dialog',()=>({canceled:false,filePath:directory+'/native.mp4'}));},exportDir);
-  await page.getByRole('button',{name:'Export',exact:true}).click();
-  await expect.poll(()=>fs.existsSync(path.join(exportDir,'native.mp4'))?fs.statSync(path.join(exportDir,'native.mp4')).size:0,{timeout:60000}).toBeGreaterThan(1000);
-  await expect(page.getByRole('button',{name:'Export',exact:true})).toBeEnabled({timeout:60000});
+  await expect(page.getByRole('button',{name:'Export',exact:true})).toBeEnabled();
+  const window=await app.browserWindow(page);await window.evaluate(win=>win.hide());
+  // Exercise the real button callback without depending on OS input focus after a long download.
+  await page.getByRole('button',{name:'Export',exact:true}).dispatchEvent('click');
+  await expect.poll(()=>fs.existsSync(path.join(exportDir,'native.mp4'))?fs.statSync(path.join(exportDir,'native.mp4')).size:0,{timeout:150000}).toBeGreaterThan(1000);
+  await expect(page.getByRole('button',{name:'Export',exact:true})).toBeEnabled({timeout:150000});
+  await window.evaluate(win=>win.show());
   const probe=await page.evaluate(async file=>window.electron.ffmpeg.execNative(['-hide_banner','-i',file]),path.join(exportDir,'native.mp4'));
   if(!/Video: h264/.test(probe.logs.join(' '))||!/Audio: aac/.test(probe.logs.join(' ')))throw new Error('Native export lacks video or audio');
-  check('Native MP4 export retains video and audio');
+  check('Native MP4 export retains video and audio while hidden with simulated 64-core concurrency');
   await page.screenshot({path:path.join(root,'test-results/electron-video-native.png')});
   // Exercise fast extraction beyond the previous MediaRecorder 60-second cutoff.
   const longPath=path.join(env.BITCRUSH_USER_DATA,'long-silent.mp4');
@@ -81,7 +87,7 @@ try{
   await page.screenshot({path:path.join(root,'test-results/electron-video-recovery.png')});
   await importFile.setInputFiles({name:'broken.mp4',mimeType:'video/mp4',buffer:fs.readFileSync(path.join(root,'tests/fixtures/one-second.mp4'))});
   await palettePrompt.click({timeout:2000}).catch(()=>{});
-  await expect(page.getByRole('button',{name:'Next frame',exact:true})).toBeVisible({timeout:60000});
+  await expect(page.getByRole('button',{name:'Next frame',exact:true})).toBeVisible({timeout:150000});
   await expect(page.getByRole('alert')).toHaveCount(0);
   check('A valid replacement with the same filename imports after failure');
   if(report.errors.length)throw new Error(report.errors.join('\n'));
