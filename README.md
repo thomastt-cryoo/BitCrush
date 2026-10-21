@@ -2,7 +2,7 @@
 
 An offline Electron desktop workspace using the approved Studio design: a left library, center canvas and right inspector, with neutral dark and light appearances and the supplied BitCrush logo.
 
-The original renderer remains responsible for effects, documents, history, timeline and exports. The unchanged compiled engines run in Electron 41.2.1: dithering in a worker and halftone in a hidden local Chromium renderer. The visible workspace uses a sandboxed preload bridge. Settings and palette writes use a separate BitCrush application-data directory.
+The Studio library, inspector widgets, effect cards, processing order, presets, settings and canvas chrome are new views. They consume the original renderer’s controlled values and callbacks; the original hooks remain responsible for effects, documents, history, timeline and exports. The unchanged compiled engines run in Electron 41.2.1: dithering in a worker and halftone in a hidden local Chromium renderer. The visible workspace uses a sandboxed preload bridge. Settings and palette writes use a separate BitCrush application-data directory.
 
 Tauri is abandoned. Its earlier source and reports remain for history; active build, test, packaging and CI commands use Electron. The original Downloads application remains untouched.
 
@@ -26,6 +26,7 @@ The importer accepts only the recorded SHA-256 and verifies packed member integr
 ```sh
 npm run build
 npm test
+npm run test:design
 npm run package:zip
 ```
 
@@ -35,6 +36,6 @@ Set `BITCRUSH_ELECTRON` to an existing Electron 41.2.1 executable to reuse a loc
 
 Packaging produces a full runtime folder and ZIP under `artifacts`, with engine files, offline codec, fonts, notices and validation report. The packaging command refuses to overwrite an existing output; `BITCRUSH_PACKAGE_SUFFIX` can select a fresh name. The previous 20 MB app limit is abandoned. Keep the whole extracted folder together when running the Windows app.
 
-CI targets Windows x64, Intel Mac and Apple Silicon Mac independently. [Run 39532481237](https://github.com/thomastt-cryoo/BitCrush/actions/runs/39532481237) passed all 18 checks in the source and copied packaged app on every platform. Both Mac bundles passed signature verification and use ad-hoc signing. These remain development builds without Apple notarization or installer signing.
+CI targets Windows x64, Intel Mac and Apple Silicon Mac independently. It runs the engine/workflow checks, captures the Studio design states, packages each platform, and tests the copied app. `npm run test:design` captures the empty, dither, halftone, light, saved-look and settings views using a 960 × 768 image at a 1440 × 960 window size. These remain development builds without Apple notarization or installer signing. Earlier run 39532481237 validated the Electron host before the complete inspector redesign; it does not validate the current views.
 
 The exact FFmpeg Wasm core is included once. Codec licenses are distributed with the app, and CI publishes its pinned official source/dependency corpus as a separate artifact. See `verification/codec-source/PACKAGE-README.md` for source identity and reproducibility limits.

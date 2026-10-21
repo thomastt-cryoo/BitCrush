@@ -6,7 +6,7 @@ const provenance=JSON.parse(fs.readFileSync('electron/vendor/provenance.json','u
 for(const file of provenance.files){const bytes=fs.readFileSync('electron/vendor/'+file.file.slice(5));if(crypto.createHash('sha256').update(bytes).digest('hex')!==file.sha256)throw new Error('Reference asset changed: '+file.file);}
 const output='dist/electron';fs.mkdirSync(output,{recursive:true});
 fs.cpSync('electron/vendor/renderer',output+'/renderer',{recursive:true});
-for(const name of ['main.cjs','engine-worker.cjs','engine-renderer.cjs','engine-renderer.html','studio-shell.mjs','studio.css','mp4.mjs'])fs.copyFileSync('electron/'+name,output+'/'+name);
+for(const name of ['main.cjs','engine-worker.cjs','engine-renderer.cjs','engine-renderer.html','studio-shell.mjs','studio-components.mjs','studio.css','mp4.mjs'])fs.copyFileSync('electron/'+name,output+'/'+name);
 fs.copyFileSync('electron/vendor/preload.js',output+'/preload.cjs');
 fs.copyFileSync('icon.svg',output+'/renderer/brand.svg');
 fs.copyFileSync('src/fonts/inter-latin-wght-normal.woff2',output+'/renderer/inter.woff2');
@@ -45,11 +45,12 @@ if(!header||!sessionInput)throw new Error('Timeline session input anchor changed
 const headerReturn=header.body.body.findLast(x=>x.type==='ReturnStatement');
 edits.push([headerReturn.argument.start,headerReturn.argument.end,source.slice(sessionInput.start,sessionInput.end)]);
 const ret=root.body.body.findLast(x=>x.type==='ReturnStatement');
-edits.push([ret.argument.start,ret.argument.end,`n.jsx(BitCrushStudio,{legacy:${source.slice(ret.argument.start,ret.argument.end)},media:v,animation:q,dimensions:S,registry:Tt,instances:Ee,order:vt,tab:T,onTab:Dn,onAddEffect:Wr,onImport:Xr,onExport:Ln,format:yt,onFormat:Gt,svg:on,screens:Yt,exporting:Pt,processing:Fe,status:be,onSave:()=>window.dispatchEvent(new CustomEvent("request-save-preset")),presetLibrary:n.jsx(F1,{ditherRegistry:Tt,allPalettes:Fn,palettesByCategory:nn,onLoadPreset:ar}),onLibrary:()=>{An("library");Rt(true)},onSettings:()=>{An("general");Rt(true)},onBatch:Mn,onAnimate:dr,onClear:()=>_n(null),onRotateLeft:Qn,onRotateRight:kn,onFlipH:Wn,onFlipV:Yn,onTheme:d,canUndo:De.canUndo,canRedo:De.canRedo,onUndo:()=>{Be.current=true;De.undo()},onRedo:()=>{Be.current=true;De.redo()}})`]);
+edits.push([ret.argument.start,ret.argument.end,`n.jsx(BitCrushStudio,{legacy:${source.slice(ret.argument.start,ret.argument.end)},media:v,animation:q,dimensions:S,registry:Tt,instances:Ee,order:vt,tab:T,onTab:Dn,onAddEffect:Wr,onRemoveEffect:Re,onMoveEffect:Ne,onDuplicateEffect:Xn,onRenameEffect:qe,onResetEffects:ee,onImport:Xr,onExport:Ln,format:yt,onFormat:Gt,svg:on,screens:Yt,exporting:Pt,processing:Fe,status:be,onSave:()=>window.dispatchEvent(new CustomEvent("request-save-preset")),libraryPreferences:Sh(),presetLibrary:n.jsx(F1,{ditherRegistry:Tt,allPalettes:Fn,palettesByCategory:nn,onLoadPreset:ar}),onLibrary:()=>{An("library");Rt(true)},onSettings:()=>{An("general");Rt(true)},onBatch:Mn,onAnimate:dr,onClear:()=>_n(null),onRotateLeft:Qn,onRotateRight:kn,onFlipH:Wn,onFlipV:Yn,onTheme:d,canUndo:De.canUndo,canRedo:De.canRedo,onUndo:()=>{Be.current=true;De.undo()},onRedo:()=>{Be.current=true;De.redo()}})`]);
 // The original control state remains authoritative; the library selects through its existing setters.
 const ctrlRet=controls.body.body.findLast(x=>x.type==='ReturnStatement');
 edits.push([ctrlRet.start,ctrlRet.start,`f.useEffect(()=>{window.__bitcrushControls={style:ge,category:at,paletteId:Xt,paletteColors:Zn,palettes:ze,depth:an,selectStyle:(id,category)=>{si(category);ri(id)},selectPalette:p=>{kt(p.category);Ae(p.id);ts(p.hexColors);Qt(p.hexColors.length)},setMode:mode=>si(mode==="halftone"?"halftone":"all")};window.dispatchEvent(new Event("bitcrush-editor-state"));},[ge,at,Xt,Zn,ze,an]);`]);
-walk(controls,node=>{if(node.type==='CallExpression'&&node.callee?.object?.name==='n'){const className=property(node.arguments[1],'className');if(className?.type==='StringLiteral'&&['controls-header','action-buttons-section'].includes(className.value))edits.push([node.start,node.end,'null']);}});
+const adapters={'$x':'Primary',Gx:'Post',Vx:'Tint',Hx:'Glow',Wx:'Glitch',Zx:'Chromatic',Kx:'Temporal',Xx:'Pipeline',Jx:'Picker'};
+walk(controls,node=>{if(node.type==='CallExpression'&&node.callee?.object?.name==='n'){const className=property(node.arguments[1],'className');if(className?.type==='StringLiteral'&&['controls-header','action-buttons-section'].includes(className.value))edits.push([node.start,node.end,'null']);else if(adapters[node.arguments[0]?.name])edits.push([node.arguments[0].start,node.arguments[0].end,'BitCrush'+adapters[node.arguments[0].name]]);}});
 walk(settings,node=>{if(node.type==='CallExpression'&&node.callee?.object?.name==='n'){const props=node.arguments[1],title=property(props,'title');if(['About this app','Third-party licenses'].includes(title?.value))edits.push([node.start,node.end,'null']);}
  if(node.type==='LogicalExpression'&&node.left?.type==='BinaryExpression'&&['about','licenses'].includes(node.left.right?.value))edits.push([node.start,node.end,'null']);
  if(node.type==='StringLiteral'&&node.value==='about') { // defaults only; removed branches are already covered
@@ -58,6 +59,12 @@ walk(settings,node=>{if(node.type==='CallExpression'&&node.callee?.object?.name=
 });
 // Remove appearance galleries and social integration from preferences.
 walk(general,node=>{if(node.type==='CallExpression'&&node.callee?.object?.name==='n'&&property(node.arguments[1],'className')?.value==='settings-section'){const text=source.slice(node.start,node.end);if(text.includes('"Themes"')||text.includes('"Discord Rich Presence"'))edits.push([node.start,node.end,'null']);}});
+// Replace the remaining library and canvas chrome views while retaining their hooks.
+walk(ast,node=>{if(node.type==='VariableDeclarator'&&['x1','I1','O1'].includes(node.id?.name)){
+ const result=node.init.body.body.findLast(n=>n.type==='ReturnStatement');
+ if(!result)throw new Error('Studio view adapter anchor missing: '+node.id.name);
+ edits.push([result.argument.start,result.argument.end,`n.jsx(StudioViews.${node.id.name==='x1'?'Footer':node.id.name==='O1'?'SavePreset':'Presets'},{legacy:(${source.slice(result.argument.start,result.argument.end)})})`]);
+}});
 // Original animation images are replaced by the approved logo (no unused branding payload).
 walk(ast,node=>{if(node.type==='StringLiteral'&&/\.(gif)$/.test(node.value)&&/branding|loading/.test(node.value))edits.push([node.start,node.end,'"../brand.svg"']);});
 walk(root,node=>{if(node.type==='AssignmentExpression'&&source.slice(node.left.start,node.left.end)==='document.title')edits.push([node.right.start,node.right.end,'"BitCrush Studio"']);});
@@ -69,10 +76,19 @@ let encoderPatches=0;
 walk(ast,node=>{if(node.type==='IfStatement'&&source.slice(node.test.start,node.test.end)==='M.byteLength<I'){encoderPatches++;edits.push([node.start,node.end,'if(!isValidMp4(M))throw new Error("Video encoder returned an invalid MP4 container");']);}});
 if(encoderPatches!==1)throw new Error('MP4 validation anchor changed');
 source=apply(source,edits);
-source=source.replaceAll('Dither Boy','BitCrush Studio');
-source='import {createStudioShell} from "../../studio-shell.mjs";\nimport {isValidMp4} from "../../mp4.mjs";\n'+source;
+// A second pass wraps views whose nested controls were patched above.
+const chromeEdits=[];
+walk(parse(source,{sourceType:'module'}),node=>{if(node.type==='VariableDeclarator'&&['M1','L1','T1'].includes(node.id?.name)){
+ const result=node.init.body.body.findLast(n=>n.type==='ReturnStatement');
+ chromeEdits.push([result.argument.start,result.argument.end,`n.jsx(StudioViews.${node.id.name==='M1'?'Settings':'SettingsPane'},{legacy:(${source.slice(result.argument.start,result.argument.end)})})`]);
+}});
+source=apply(source,chromeEdits);
+source=source.replaceAll('Dither Boy','BitCrush Studio').replaceAll('Dither_Boy','BitCrush');
+source='import {createStudioShell} from "../../studio-shell.mjs";\nimport {createStudioComponents} from "../../studio-components.mjs";\nimport {isValidMp4} from "../../mp4.mjs";\n'+source;
 const mount='Ag.createRoot(document.getElementById("root"))';if(!source.includes(mount))throw new Error('Missing mount');
-source=source.replace(mount,'const BitCrushStudio=createStudioShell(f,n);'+mount);
+const views=Object.entries(adapters).map(([original,view])=>`const BitCrush${view}=props=>n.jsx(StudioViews.${['Primary','Picker','Pipeline'].includes(view)?view:'Effect'},{...props,legacy:${original}(props)});`).join('');
+source=source.replace(mount,'const StudioViews=createStudioComponents(f);const BitCrushStudio=createStudioShell(f,n,StudioViews);'+views+mount);
+parse(source,{sourceType:'module'});
 fs.writeFileSync(output+'/renderer/assets/index-Cc7ZI13O.js',source);
 let html=fs.readFileSync(output+'/renderer/index.html','utf8').replace(/<title>[^<]*<\/title>/,'<title>BitCrush Studio</title>').replace('</head>','<link rel="stylesheet" href="../studio.css"></head>');
 fs.writeFileSync(output+'/renderer/index.html',html);
@@ -81,5 +97,5 @@ for(const dependency of ['bytenode','adm-zip'])fs.cpSync('node_modules/'+depende
 fs.copyFileSync('THIRD-PARTY-NOTICES.txt',output+'/THIRD-PARTY-NOTICES.txt');
 fs.cpSync('verification/codec-source/licenses',output+'/notices/media',{recursive:true});
 fs.writeFileSync(output+'/CODEC-SOURCES.txt',`The bundled FFmpeg WebAssembly core is the unchanged @ffmpeg/core 0.12.10 binary.\nOfficial release and pinned dependency sources are supplied by the ffmpeg-core-0.12.10-sources artifact:\nhttps://github.com/thomastt-cryoo/BitCrush/actions/runs/${process.env.GITHUB_RUN_ID||'39517388069'}\nSource acquisition manifests and verification: verification/codec-source in the BitCrush repository.\nRun python scripts/package-codec-sources.py to assemble the corresponding source corpus.\n`);
-for(const file of ['main.cjs','legacy-main.cjs','engine-worker.cjs','engine-renderer.cjs','studio-shell.mjs'])parse(fs.readFileSync(output+'/'+file,'utf8'),{sourceType:file.endsWith('.mjs')?'module':'script'});
+for(const file of ['main.cjs','legacy-main.cjs','engine-worker.cjs','engine-renderer.cjs','studio-shell.mjs','studio-components.mjs'])parse(fs.readFileSync(output+'/'+file,'utf8'),{sourceType:file.endsWith('.mjs')?'module':'script'});
 console.log('Built BitCrush Electron workspace with the original renderer and exact engines.');

@@ -7,6 +7,7 @@
     "dev": "node scripts/build-electron.mjs && node scripts/start-electron.mjs",
     "build": "node scripts/build-electron.mjs",
     "test": "node scripts/electron-smoke.mjs",
+    "test:design": "node scripts/electron-design-check.mjs",
     "desktop:build": "node scripts/build-electron.mjs && node scripts/package-electron.mjs",
     "desktop:smoke": "node scripts/electron-smoke.mjs",
     "package:zip": "node scripts/package-electron.mjs",

@@ -57,6 +57,8 @@ jobs:
       - run: npm run build
       - name: Original engines and Studio workflows in Electron
         run: npm test
+      - name: Studio design states and settings controls
+        run: npm run test:design
       - name: Package full Electron runtime
         run: npm run package:zip
       - name: Verify copied application runtime and resources
