@@ -38,12 +38,18 @@ jobs:
         include:
           - name: Windows
             runner: windows-2025
+            arch: x64
+            appRoot: artifacts/BitCrush-Windows-Electron/resources/app
             packaged: artifacts/BitCrush-Windows-Electron/BitCrush.exe
           - name: Mac-Intel
             runner: macos-15-intel
+            arch: x64
+            appRoot: artifacts/BitCrush-Mac-Intel-Electron/BitCrush.app/Contents/Resources/app
             packaged: artifacts/BitCrush-Mac-Intel-Electron/BitCrush.app/Contents/MacOS/Electron
           - name: Mac-Apple-Silicon
-            runner: macos-26
+            runner: macos-14
+            arch: arm64
+            appRoot: artifacts/BitCrush-Mac-Apple-Silicon-Electron/BitCrush.app/Contents/Resources/app
             packaged: artifacts/BitCrush-Mac-Apple-Silicon-Electron/BitCrush.app/Contents/MacOS/Electron
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 20
@@ -53,7 +59,11 @@ jobs:
         with:
           node-version: '24'
           cache: npm
+      - name: Verify runner architecture
+        run: node -e "if(process.arch!=='${{ matrix.arch }}')throw new Error('Unexpected runner architecture '+process.arch)"
       - run: npm ci
+      - name: FFmpeg extraction responsiveness without a download
+        run: node scripts/ffmpeg-extract-check.mjs
       - run: npm run build
       - name: Original engines and Studio workflows in Electron
         run: npm test
@@ -68,6 +78,10 @@ jobs:
           BITCRUSH_TEST_FFMPEG_CACHE: test-results/native-ffmpeg
       - name: Package full Electron runtime
         run: npm run package:zip
+      - name: Verify copied FFmpeg extraction worker without downloading
+        run: node scripts/ffmpeg-extract-check.mjs
+        env:
+          BITCRUSH_TEST_APP_ROOT: ${{ github.workspace }}/${{ matrix.appRoot }}
       - name: Verify copied application runtime and resources
         run: npm test
         env:

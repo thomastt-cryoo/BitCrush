@@ -5,7 +5,19 @@ const os = require('node:os');
 const https = require('node:https');
 const {pipeline} = require('node:stream/promises');
 const {spawn, execFile} = require('node:child_process');
-const AdmZip = require('adm-zip');
+const {Worker} = require('node:worker_threads');
+
+function extractBinary(archive,candidate,binaryName,timeout=120000) {
+  return new Promise((resolve,reject)=>{
+    const worker=new Worker(path.join(__dirname,'ffmpeg-extract-worker.cjs'),{workerData:{archive,candidate,binaryName}});
+    let settled=false;
+    const finish=async error=>{if(settled)return;settled=true;clearTimeout(timer);await worker.terminate();error?reject(error):resolve();};
+    const timer=setTimeout(()=>finish(new Error('FFmpeg extraction timed out. Please retry.')),timeout);
+    worker.on('message',result=>finish(result.success?null:new Error(result.error)));
+    worker.on('error',finish);
+    worker.on('exit',code=>{if(!settled)finish(new Error(`FFmpeg extractor exited before completing (${code})`));});
+  });
+}
 
 function downloadURL(platform = process.platform, arch = process.arch) {
   if (platform === 'win32' && arch === 'x64') return 'https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip';
@@ -32,11 +44,11 @@ async function download(url, destination, progress, redirects = 0, signal) {
   }
   if (response.statusCode !== 200) { response.resume(); throw new Error(`FFmpeg download failed: HTTP ${response.statusCode}`); }
   const total = Number(response.headers['content-length']) || 0;
-  let bytes = 0;
+  let bytes = 0, lastProgress=0;
   let inactivity;
   const touch = () => { clearTimeout(inactivity); inactivity = setTimeout(() => response.destroy(new Error('FFmpeg download stopped responding. Please retry.')),30000); };
   touch();
-  response.on('data', chunk => { touch(); bytes += chunk.length; progress({phase:'downloading', percent:total ? Math.min(85,Math.round(bytes/total*85)) : 0, message:`Downloading… ${Math.round(bytes/1024/1024)} MB`}); });
+  response.on('data', chunk => { touch(); bytes += chunk.length; const now=Date.now();if(now-lastProgress>=100||bytes===total){lastProgress=now;progress({phase:'downloading', percent:total ? Math.min(85,Math.round(bytes/total*85)) : 0, message:`Downloading… ${Math.round(bytes/1024/1024)} MB`});} });
   try { await pipeline(response, fs.createWriteStream(destination), {signal}); } finally { clearTimeout(inactivity); }
   if (!bytes || (total && bytes !== total)) throw new Error('FFmpeg download was incomplete. Please retry.');
 }
@@ -64,14 +76,11 @@ function register({app, ipcMain}) {
         catch (error) { if(attempt>=1) throw error; progress({phase:'downloading',percent:0,message:'Connection interrupted. Retrying…'}); }
       }
       progress({phase:'extracting',percent:87,message:'Extracting…'});
-      const entries = new AdmZip(archive).getEntries();
       const name = process.platform === 'win32' ? 'ffmpeg.exe' : 'ffmpeg';
-      const entry = entries.find(e => !e.isDirectory && path.posix.basename(e.entryName) === name);
-      if (!entry) throw new Error(`${name} was missing from the downloaded archive`);
-      fs.mkdirSync(directory(),{recursive:true});
-      fs.writeFileSync(candidate,entry.getData(),{mode:0o755});
+      await extractBinary(archive,candidate,name);
       if (process.platform === 'darwin') {
-        const header = fs.readFileSync(candidate).subarray(0,8);
+        const header=Buffer.alloc(8), file=await fs.promises.open(candidate,'r');
+        try{await file.read(header,0,8,0);}finally{await file.close();}
         const cpu = process.arch === 'arm64' ? 0x0100000c : 0x01000007;
         if (header.readUInt32LE(0) !== 0xfeedfacf || header.readUInt32LE(4) !== cpu) throw new Error('Downloaded FFmpeg has the wrong Mac architecture');
         await runFile('/usr/bin/codesign',['--force','--sign','-',candidate]);
@@ -80,7 +89,7 @@ function register({app, ipcMain}) {
       const installedVersion = await version(candidate);
       if (!installedVersion) throw new Error('Downloaded FFmpeg could not run. The existing installation was kept.');
       // Candidate is on the same volume. Never remove a working installation before verification.
-      fs.renameSync(candidate,binary());
+      await fs.promises.rename(candidate,binary());
       progress({phase:'done',percent:100,message:`Installed FFmpeg ${installedVersion}`});
       return {success:true,version:installedVersion};
     } catch (error) {
@@ -89,7 +98,7 @@ function register({app, ipcMain}) {
         : error.message || String(error);
       progress({phase:'error',percent:0,message}); return {success:false,error:message};
     } finally {
-      fs.rmSync(candidate,{force:true}); fs.rmSync(stage,{recursive:true,force:true}); installing = false;
+      try{await fs.promises.rm(candidate,{force:true});await fs.promises.rm(stage,{recursive:true,force:true});}finally{installing=false;}
     }
   });
   ipcMain.handle('ffmpeg:uninstall', () => {
@@ -116,4 +125,4 @@ function register({app, ipcMain}) {
   }));
   app.on('before-quit',() => { for (const child of executions.values()) child.kill(); });
 }
-module.exports = {register, downloadURL};
+module.exports = {register, downloadURL, extractBinary};

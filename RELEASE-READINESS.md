@@ -6,6 +6,8 @@ Latest manual evidence: the user confirmed successful Windows video import in th
 
 The test harness now requires an existing native binary or an explicit one-time-install flag. CI downloads once per platform and reuses that verified binary for copied-app checks. Reinstallation checks are not repeated. No local app launches, repeated downloads, or rebuilding of the live `dist` are needed for the current CI work.
 
+Windows Event1002 confirms an application hang at 19:03:27 Dubai time during the earlier session; the exact cause remains unproven. The installer formerly decompressed the large native ZIP synchronously on Electron's main thread. That work now runs in a disposable worker, progress updates are limited to ten per second, Mac architecture reads use only eight header bytes, and staging cleanup/rename use asynchronous file operations. A local download-free 32MiB fixture verifies exact extracted bytes, continued caller-event-loop responsiveness and failure preservation. CI also checks the copied extraction worker without another download.
+
 | Area | Implemented / verified | Remaining |
 | --- | --- | --- |
 | Studio / original engines | Approved Studio views and byte-identical dither/halftone engines; existing bounded workflow, colors and design checks pass on Windows after the video changes. | Broader feature/parameter combinations and real customer files. Preserve exact engine/runtime compatibility when addressing advisories. |
