@@ -1,39 +1,43 @@
-## Current video verification — 21 October 2026
+# Electron Studio preview status — 21 October 2026
 
-The user manually verified Windows video import. The live app and its installed FFmpeg are being left untouched. Source removes all 73 effect/style placeholders and the downloader logo while preserving preset images. Native extraction now runs off the main Electron thread. A fresh source/copied-app run passed the earlier bounded checks on all three architectures (39623902318), but stronger browser pixel checks subsequently exposed a blank initial playback frame and an Original-mode preview visibility defect. Those packages are superseded for delivery.
+The current application is Electron-only. It retains the approved BitCrush Studio interface, the exact original dither/halftone engines and the completed Original colors/default-import and inspector-visibility fixes. Tauri is abandoned. The original Downloads application and the user's running source build were left untouched during final CI and packaging.
 
-The preview visibility correction is implemented. Diagnostic capture confirmed that imported PNGs, processed PNGs and native-decoded MP4 frames retain their colors. The original fragmented native MP4 starts video at 0.083333 seconds and lasts1.08 seconds for the one-second fixture; finalized-MP4/faststart output starts at zero and lasts1.00 seconds. A pixel read on loadeddata alone also occurs before Chromium presents its decoded frame, so the test now waits for actual frame presentation and checks another frame after seeking. Isolated Windows CI39627358634 passed all seven native checks, including presented/seeked colors, audio, 66-second extraction and invalid/retry/same-name recovery. The final three-platform source/copied-app run is next; current fixes are not yet verified in final deliverables.
+## Implemented
 
-See RELEASE-READINESS.md for unfinished customer-release work. No customer-readiness claim is made.
+- Native import supports the current FFmpeg frame-sync option, header-only probing, validated frame extraction and complete audio extraction. Native failures fall back to the bundled codec; invalid files exit loading and expose retry/choose-another-file controls. A valid replacement can share the failed filename.
+- Native installation uses architecture-specific Windows/Intel/ARM downloads, verifies the staged executable before replacement and performs ZIP decompression in a worker. Progress, downloads and commands are bounded; concurrent installation is guarded.
+- Export uses the original four-worker pool with bounded frame tasks and software readback for native PNGs. Original-mode preview remains visible after export. Native MP4 finalization uses faststart with zero video start.
+- All 73 effect/style thumbnail placeholders are removed. The Video Engine downloader header is text only. Preset images and presentation are preserved.
 
-## Earlier manual verification and continuing Mac work — 21 October 2026
+## Verified
 
-The user manually confirmed Windows video import works in the reopened current build. Their app remains running and the live dist is not being rebuilt. The FFmpeg test now requires an existing binary or explicit single-install opt-in; CI performs one download per platform and reuses it for copied-app testing. Windows/Intel CI39619509047 passed the preceding video-fix code, while Apple Silicon did not acquire a runner. Final current-code CI is being prepared on Windows, Intel Mac and the alternative macos-26 Apple Silicon runner. A local same-process post-install native-export stall remains unresolved; fresh-launch native exports passed. See RELEASE-READINESS.md for exact verification limits and customer release work.
+The user manually confirmed Windows video import in their reopened build.
 
-# Video import correction — 21 October 2026
+Final implementation `d5dde4f9649c09b24731c4df4d8851bb4cfe9c2d` passed every job in [CI39627680072](https://github.com/thomastt-cryoo/BitCrush/actions/runs/39627680072). Windows x64, Intel Mac and actual Apple Silicon hardware each passed:
 
-The earlier packages below are superseded for video testing: their optional native FFmpeg import uses an option removed by the current downloaded binary and leaves a spinner after failure. The bundled-codec smoke checks did not cover this route. The new source fixes native import, full-length audio, recoverable import errors, Mac architecture selection and installer transfer handling. All 73 style placeholders and the FFmpeg header logo are removed; preset views are unchanged. Windows existing 18 workflows, four color checks and design check pass. Windows native import/export with audio, a 66-second audio fixture and error/retry/same-name replacement checks pass using the affected FFmpeg binary. New install/reinstall and refreshed three-platform packages are still being verified.
+- 18 original-engine/Studio workflow checks and four color checks in both source and copied applications.
+- Five design/settings checks, plus source/copied extraction-worker responsiveness checks without another download.
+- Seven native-video checks in both source and copied applications: one fresh installation, current FFmpeg import/scrubbing, presented and seeked export pixels/audio, 66-second complete audio/frame extraction, invalid import/retry and same-name replacement. The copied app reused the verified binary. No reinstall loop is performed.
+- Both Mac apps passed deep/strict ad-hoc signature verification. The corresponding codec-source job passed.
 
-See RELEASE-READINESS.md for implemented, verified and unfinished work, including dependency advisories, signing/installers and notarization. Historical package hashes below identify older previews, not this correction.
+The export check waits for a real Chromium-presented frame before reading pixels. Diagnostic imported PNGs, processed PNGs and native-decoded MP4 frames contained correct colors; the earlier claim that all exported frames were black was incorrect. Native finalized output corrects the fragmented file's initial timestamp offset. The final copied-app reports verify colored first and middle frames with first-frame time zero.
 
-# Electron Studio status
+Downloaded wrappers/package digests, ZIP integrity, CPU headers, current runtime/views, unchanged engines, exactly one unchanged codec and included source/copied reports all passed local verification. Final Windows and both Mac screenshots were reviewed with visible colored video and inspector controls; effect rows contain names only.
 
-The active application is Electron 41.2.1 with the approved BitCrush Studio views. Tauri is abandoned and the original Downloads installation remains untouched. New library, inspector controls, palette selector, effect cards, processing-order editor, presets, settings and canvas chrome consume the original renderer’s controlled values and callbacks. Original graphs, history, timeline, media/export handlers and workflow-specific dialogs remain authoritative.
+## Verified local packages
 
-Color palette exposes **Original colors** first and groups the complete available palette library. Original colors uses the original renderer’s Original (`none`) style without clearing the stored palette, adjustments or other effect instances. Selecting a retained/custom palette from that mode activates the original Color Separation processor. New image/video file imports select Original colors; transforms and edits to existing media retain the chosen mode. Studio switches inspector views directly so a canceled legacy tab fade cannot leave controls invisible.
+These supersede earlier Original-Colors, unversioned video-fix and historical Tauri previews for this work. Earlier files are preserved.
 
-The unchanged 73-algorithm bytecode runs in a worker. Halftone runs its exact bytecode in a hidden local Chromium renderer for OffscreenCanvas. Engine hashes are checked before loading, and vendor assets are verified before narrow AST transforms. The visible renderer is sandboxed with node integration disabled. Edition status initializes locally; no activation module is distributed. Settings and palette writes use separate BitCrush data. Cat branding, About/Licenses tabs and theme galleries are removed from the displayed workspace; notices remain distribution files.
+- Windows: `artifacts/github/electron-video-fix-v2-windows/BitCrush-Windows-Electron.zip` — 157714963 bytes; SHA256 `4261aac2a68ad56bed557b21be31531329118b101fa557fb7eae0394c2ff76ae`.
+- Intel Mac: `artifacts/github/electron-video-fix-v2-intel/BitCrush-Mac-Intel-Electron.zip` — 133954324 bytes; SHA256 `46e5b716004138d8969f01d2652ec6cc16c516465f31bd6a466d75bfbaf888b2`.
+- Apple Silicon Mac: `artifacts/github/electron-video-fix-v2-arm/BitCrush-Mac-Apple-Silicon-Electron.zip` — 126947105 bytes; SHA256 `9237e79e0bae2c1ed8ad80adc3df3eeb8c2ea9fcdc95d675ed10cb970e4fc3c4`.
 
-Final run **39542469388** passed every job on Windows x64, Intel Mac and Apple Silicon Mac: all 18 workflow checks and four color checks passed in both source and copied executable, every platform passed the design-state check, and both Mac signatures passed deep/strict verification. The codec corresponding-source job passed. Run: https://github.com/thomastt-cryoo/BitCrush/actions/runs/39542469388 .
+Reports and screenshots are beside each ZIP, including `package-verification.json`, source/copied native reports and final workflow/color/design reports. Preserve the existing corresponding-source corpus at `artifacts/github/electron-run12-codec/ffmpeg-core-0.12.10-sources.zip` and notices with distribution.
 
-The color checks verify exact original RGB pixels in default image exports, full palette category access, actual palette application, returning to source colors with custom palette/brightness/Tint retained, reapplying the custom palette, and colored video imports after a monochrome style. Inspector opacity is asserted after image round trips and video import. The existing suite covers engine oracles, raster/SVG/screens/clipboard exports, presets, effects/order, transforms/Undo, batch, palette ZIP imports, animation/video MP4 with audio, timeline sessions and preferences. These are bounded fixtures, not exhaustive media/parameter validation.
+## Unfinished customer-release work
 
-Current verified local packages:
+These remain development previews. Fixture passes do not establish exhaustive feature parity or customer readiness. [RELEASE-READINESS.md](RELEASE-READINESS.md) tracks dependency advisories (six recorded: two high/four moderate), Windows signing/installers, Developer ID signing/Mac notarization, native-binary/source pinning and licensing, clean-machine testing, broader real-media/codec/parameter QA and accessibility. Mac ad-hoc signatures are not notarization.
 
-- Windows: artifacts/BitCrush-Windows-Electron-Original-Colors-v2.zip, SHA256 be10889127f259acbfdc74f66c58d0e79e7d7e9b98a29963a1180d10d0c2ccc6.
-- Intel Mac: artifacts/github/electron-original-colors-v2-intel/BitCrush-Mac-Intel-Electron.zip, SHA256 dc579d3cf9e0d80e82410f3d2a8c80fb212a86ac0574a65a3bee18bd5ddee233.
-- Apple Silicon: artifacts/github/electron-original-colors-v2-arm/BitCrush-Mac-Apple-Silicon-Electron.zip, SHA256 abc7718198aa4f15f8421c7ce8e0a8e2df22f7d098c259f568069df0f24693c8.
+A local same-process export stall and Windows application-hang event were observed earlier. ZIP extraction was moved off the main thread and final source/copied CI passes, but the precise local hang cause remains unproven; the user's active app was not disturbed for another local install test. Large/long/VFR/HDR/rotated/multistream media and arbitrary codec combinations remain outside these bounded checks.
 
-ZIP digests/integrity, exact engines, one unchanged codec, current views and visibility CSS, Mac CPU headers and passed reports were verified. Final Mac screenshots were reviewed with visible controls. Earlier `-final`, `-Studio-UI`, and unversioned `-Original-Colors` packages are superseded. Packages include workflow/color/design reports, notices and codec-source information.
-
-These remain development previews: Mac signing is ad-hoc, Apple notarization and installer signing are unfinished, and the compatible pinned Electron runtime/development download dependencies retain documented npm advisories. Full Electron ZIPs replace the abandoned 20 MB limit. Preserve the pinned codec source corpus and licenses with distribution.
+No release, installer publication, deployment or merge was performed.
