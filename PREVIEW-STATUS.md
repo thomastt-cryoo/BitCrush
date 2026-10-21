@@ -1,3 +1,9 @@
+# Video import correction — 21 October 2026
+
+The earlier packages below are superseded for video testing: their optional native FFmpeg import uses an option removed by the current downloaded binary and leaves a spinner after failure. The bundled-codec smoke checks did not cover this route. The new source fixes native import, full-length audio, recoverable import errors, Mac architecture selection and installer transfer handling. All 73 style placeholders and the FFmpeg header logo are removed; preset views are unchanged. Windows existing 18 workflows, four color checks and design check pass. Windows native import/export with audio, a 66-second audio fixture and error/retry/same-name replacement checks pass using the affected FFmpeg binary. New install/reinstall and refreshed three-platform packages are still being verified.
+
+See RELEASE-READINESS.md for implemented, verified and unfinished work, including dependency advisories, signing/installers and notarization. Historical package hashes below identify older previews, not this correction.
+
 # Electron Studio status
 
 The active application is Electron 41.2.1 with the approved BitCrush Studio views. Tauri is abandoned and the original Downloads installation remains untouched. New library, inspector controls, palette selector, effect cards, processing-order editor, presets, settings and canvas chrome consume the original renderer’s controlled values and callbacks. Original graphs, history, timeline, media/export handlers and workflow-specific dialogs remain authoritative.

@@ -61,6 +61,8 @@ jobs:
         run: npm run test:design
       - name: Source colors and palette round trips
         run: npm run test:colors
+      - name: Native FFmpeg installation, video import and recovery
+        run: npm run test:video
       - name: Package full Electron runtime
         run: npm run package:zip
       - name: Verify copied application runtime and resources
@@ -69,6 +71,10 @@ jobs:
           BITCRUSH_PACKAGED_EXECUTABLE: ${{ github.workspace }}/${{ matrix.packaged }}
       - name: Verify source colors in copied application
         run: npm run test:colors
+        env:
+          BITCRUSH_PACKAGED_EXECUTABLE: ${{ github.workspace }}/${{ matrix.packaged }}
+      - name: Verify native video in copied application
+        run: npm run test:video
         env:
           BITCRUSH_PACKAGED_EXECUTABLE: ${{ github.workspace }}/${{ matrix.packaged }}
       - name: Verify macOS signature

@@ -2,12 +2,16 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {parse} from '@babel/parser';
 import crypto from 'node:crypto';
+import {patchVideoImport} from './patch-video-import.mjs';
 const provenance=JSON.parse(fs.readFileSync('electron/vendor/provenance.json','utf8'));
 for(const file of provenance.files){const bytes=fs.readFileSync('electron/vendor/'+file.file.slice(5));if(crypto.createHash('sha256').update(bytes).digest('hex')!==file.sha256)throw new Error('Reference asset changed: '+file.file);}
 const output='dist/electron';fs.mkdirSync(output,{recursive:true});
 fs.cpSync('electron/vendor/renderer',output+'/renderer',{recursive:true});
-for(const name of ['main.cjs','engine-worker.cjs','engine-renderer.cjs','engine-renderer.html','studio-shell.mjs','studio-components.mjs','studio.css','mp4.mjs'])fs.copyFileSync('electron/'+name,output+'/'+name);
-fs.copyFileSync('electron/vendor/preload.js',output+'/preload.cjs');
+for(const name of ['main.cjs','native-ffmpeg.cjs','video-import.mjs','engine-worker.cjs','engine-renderer.cjs','engine-renderer.html','studio-shell.mjs','studio-components.mjs','studio.css','mp4.mjs'])fs.copyFileSync('electron/'+name,output+'/'+name);
+const preload=fs.readFileSync('electron/vendor/preload.js','utf8');
+const execAnchor='execNative:e=>n.ipcRenderer.invoke("ffmpeg:execNative",e)';
+if(!preload.includes(execAnchor))throw new Error('Native FFmpeg preload anchor changed');
+fs.writeFileSync(output+'/preload.cjs',preload.replace(execAnchor,'execNative:(e,r)=>n.ipcRenderer.invoke("ffmpeg:execNative",e,r),cancelNative:e=>n.ipcRenderer.invoke("ffmpeg:cancelNative",e)'));
 fs.copyFileSync('icon.svg',output+'/renderer/brand.svg');
 fs.copyFileSync('src/fonts/inter-latin-wght-normal.woff2',output+'/renderer/inter.woff2');
 fs.copyFileSync('src/data/algorithms.json',output+'/algorithms.json');
@@ -24,7 +28,7 @@ const mainAST=parse(main,{sourceType:'script'});
 for(const statement of mainAST.program.body){const text=main.slice(statement.start,statement.end);
  if((statement.type==='VariableDeclaration'&&text.includes('require("discord-rpc")'))||text.startsWith('o.protocol.registerSchemesAsPrivileged')||text.startsWith('o.app.whenReady()')||text.startsWith('o.app.on("window-all-closed"')) {mainEdits.push([statement.start,statement.end,'']);continue;}
  if(statement.type==='IfStatement'&&text.startsWith('if(o.app.isPackaged)for(let r of de)')){mainEdits.push([statement.start,statement.end,'']);continue;}
- if(/^o\.ipcMain\.(handle|on)\(/.test(text)) {const channel=statement.expression?.arguments?.[0]?.value;if(channel==='allow-close'||channel==='cancel-close'||channel==='getHardwareId'||channel?.startsWith('license:')||channel==='licensing:fetch'||channel==='dither:process'||channel==='halftone:process')mainEdits.push([statement.start,statement.end,'']);}
+ if(/^o\.ipcMain\.(handle|on)\(/.test(text)) {const channel=statement.expression?.arguments?.[0]?.value;if(['ffmpeg:getStatus','ffmpeg:download','ffmpeg:uninstall','ffmpeg:execNative'].includes(channel)||channel==='allow-close'||channel==='cancel-close'||channel==='getHardwareId'||channel?.startsWith('license:')||channel==='licensing:fetch'||channel==='dither:process'||channel==='halftone:process')mainEdits.push([statement.start,statement.end,'']);}
  if(statement.type==='FunctionDeclaration'&&['pe','he','q','we','be'].includes(statement.id.name))mainEdits.push([statement.start,statement.end,'']);
  if(statement.type==='FunctionDeclaration'&&['F','N'].includes(statement.id.name))mainEdits.push([statement.body.start,statement.body.end,statement.id.name==='F'?'{return o.app.getPath("userData")}':'{return c.join(o.app.getPath("userData"),"palettes")}']);
 }
@@ -76,6 +80,7 @@ let encoderPatches=0;
 walk(ast,node=>{if(node.type==='IfStatement'&&source.slice(node.test.start,node.test.end)==='M.byteLength<I'){encoderPatches++;edits.push([node.start,node.end,'if(!isValidMp4(M))throw new Error("Video encoder returned an invalid MP4 container");']);}});
 if(encoderPatches!==1)throw new Error('MP4 validation anchor changed');
 source=apply(source,edits);
+source=patchVideoImport(source);
 // A second pass wraps views whose nested controls were patched above.
 const chromeEdits=[];
 walk(parse(source,{sourceType:'module'}),node=>{if(node.type==='VariableDeclarator'&&['M1','L1','T1'].includes(node.id?.name)){

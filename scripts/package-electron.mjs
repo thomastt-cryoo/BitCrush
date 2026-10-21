@@ -32,7 +32,7 @@ if(platform==='darwin'){
 fs.cpSync('dist/electron',appRoot,{recursive:true});
 fs.copyFileSync('THIRD-PARTY-NOTICES.txt',path.join(destination,'THIRD-PARTY-NOTICES.txt'));
 fs.writeFileSync(path.join(destination,'README.txt'),'BitCrush Studio — Electron preview\n\nOpen BitCrush.exe (Windows) or BitCrush.app (macOS). Keep the entire folder together.\nMedia and presets stay on this computer. Application data uses a separate BitCrush folder.\nThe original 73 dither algorithms, halftone, browser effects and media workflows are retained.\nSee the supplied validation report for the workflows actually checked on this platform.\n');
-for(const [report,name] of [['electron-smoke.json','VALIDATION.json'],['electron-colors.json','COLOR-VALIDATION.json'],['electron-design.json','DESIGN-VALIDATION.json']]){const source=path.join('test-results',report);if(fs.existsSync(source))fs.copyFileSync(source,path.join(destination,name));}
+for(const [report,name] of [['electron-smoke.json','VALIDATION.json'],['electron-colors.json','COLOR-VALIDATION.json'],['electron-design.json','DESIGN-VALIDATION.json'],['electron-video.json','VIDEO-VALIDATION.json']]){const source=path.join('test-results',report);if(fs.existsSync(source))fs.copyFileSync(source,path.join(destination,name));}
 if(platform==='darwin')execFileSync('codesign',['--force','--deep','--sign','-',path.join(destination,'BitCrush.app')],{stdio:'inherit'});
 const zipPath=destination+'.zip';
 if(platform==='darwin')execFileSync('ditto',['-c','-k','--sequesterRsrc','--keepParent',destination,zipPath]);

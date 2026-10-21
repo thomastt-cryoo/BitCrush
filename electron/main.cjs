@@ -7,6 +7,7 @@ app.setName('BitCrush');
 app.setPath('userData',process.env.BITCRUSH_USER_DATA||path.join(app.getPath('appData'),'BitCrush'));
 protocol.registerSchemesAsPrivileged([{scheme:'app-frame',privileges:{standard:true,secure:true,supportFetchAPI:true,bypassCSP:true}}]);
 const legacy=require('./legacy-main.cjs');
+require('./native-ffmpeg.cjs').register({app,ipcMain});
 let worker,sequence=0;const pending=new Map();
 function getWorker(){if(worker)return worker;worker=new Worker(path.join(__dirname,'engine-worker.cjs'));
  worker.on('message',({id,result,error})=>{const entry=pending.get(id);if(!entry)return;clearTimeout(entry.timer);pending.delete(id);error?entry.reject(new Error(error)):entry.resolve(result);});
