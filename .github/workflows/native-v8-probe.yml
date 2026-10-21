@@ -1,5 +1,5 @@
-# The failed finished run did not preserve an archive; this cannot recover it.
-name: Exact V8 source retry with binding preflight and checkpoint
+# Run 39516699304 saved a verified own-build archive and generated GN metadata.
+name: Exact V8 binding recovery with verified archive
 on:
   push:
     branches: [codex/native-engine-feasibility]
@@ -9,7 +9,7 @@ permissions:
 jobs:
   source-probe:
     runs-on: ubuntu-24.04
-    timeout-minutes: 230
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -45,17 +45,14 @@ jobs:
           python3 verification/exact-v8/prepare-exact-v8.py \
             --probe verification/native-v8-probe --core verification/core-probe \
             --workspace "$EXACT_V8_WORK" --jobs 2 --execute
-      - name: Preflight binding parser, build or resume, then strictly test
+      - name: Retry bindings from verified archive, then strictly test
         env:
           LIBCLANG_PATH: /usr/lib/llvm-21/lib
         shell: bash
         run: |
           set -euo pipefail
-          if test -f "$EXACT_V8_RECOVERY/manifest.json"; then
-            python3 "$EXACT_V8_WORK/build-and-verify.py" --restore-checkpoint "$EXACT_V8_RECOVERY"
-          else
-            python3 "$EXACT_V8_WORK/build-and-verify.py"
-          fi
+          test -f "$EXACT_V8_RECOVERY/manifest.json" || { echo 'Verified recovery cache missing; use saved artifact 12312527046. Refusing a full V8 rebuild.'; exit 1; }
+          python3 "$EXACT_V8_WORK/build-and-verify.py" --restore-checkpoint "$EXACT_V8_RECOVERY"
       - name: Stage recoverable own-build checkpoint even after bindgen failure
         if: always()
         shell: bash

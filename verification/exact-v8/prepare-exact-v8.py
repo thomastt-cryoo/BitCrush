@@ -97,6 +97,18 @@ build_text=build_text.replace(build_anchor,'''    if env_bool("BITCRUSH_V8_BINDG
     }
     build_binding();''')
 build_text=build_text.replace('    "V8_FROM_SOURCE",','    "V8_FROM_SOURCE",\n    "BITCRUSH_V8_BINDGEN_ONLY",')
+# Bindgen otherwise discovers include paths with a separately selected clang
+# executable. Keep the successful libclang preflight's resource lookup and let
+# libclang find platform C headers without injecting another compiler's paths.
+resource_anchor='clang_args.push(format!("-isystem{}/include", resource_dir.trim()));'
+builder_anchor='  let bindings = bindgen::Builder::default()\n    .header("src/binding.hpp")'
+if build_text.count(resource_anchor)!=1 or build_text.count(builder_anchor)!=1:
+    raise SystemExit('Pinned bindgen resource/builder anchors changed')
+build_text=build_text.replace(resource_anchor,'clang_args.push(format!("-resource-dir={}", resource_dir.trim()));')
+build_text=build_text.replace(builder_anchor,'''  eprintln!("BitCrush bindgen explicit arguments: {:?} {:?}", clang_args, filtered_args);
+  let bindings = bindgen::Builder::default()
+    .detect_include_paths(false)
+    .header("src/binding.hpp")''')
 build_script.write_text(build_text)
 destination=workspace/'verification/native-v8-probe'
 destination.mkdir(parents=True)

@@ -1,5 +1,13 @@
 # Exact V8 build: bindgen toolchain correction
 
+## Binding-only recovery after run 39516699304
+
+The Clang 21/libclang 21 sample passed. All 2450 C++ steps completed again; actual bindgen then failed on unresolved `std::uintptr_t`, integer typedefs and `SIZE_MAX`. No original bytecode load was attempted. The normal archive (146,002,714 bytes, SHA256 `ce84f86069689477a59f7e3671b00246dfb0e5089a03816718379f43898c5f58`) and 1344 files were preserved in cache and artifact 12312527046, with verified local artifact ZIP digest `4b44973c39e250e4ff1a2a0b9e753de512c0f027322ec622ee3b3aba16339b1e`.
+
+Bindgen's default include discovery invokes an independently selected clang and appends its search paths ([bindgen 0.72.1](https://github.com/rust-lang/rust-bindgen/blob/v0.72.1/bindgen/lib.rs#L752-L819), [clang-sys compiler selection](https://github.com/KyleMayes/clang-sys/blob/v1.8.1/src/support.rs#L40-L62)). That is a material difference from the successful isolated parser sample; the exact offending automatic path was not logged. The recovery patch disables that injection, uses the paired compiler's explicit resource directory instead of another `-isystem` directory, pins `CLANG_PATH`, and prints all explicit binding arguments. GN/compiler/V8 inputs remain unchanged. This is a testable cause hypothesis, not yet a confirmed fix.
+
+The workflow now requires the existing validated checkpoint and refuses to fall back to another full V8 compile. Source/patch/GN/path/digest validation and strict/flags-only engine probes remain intact.
+
 ## Preflight correction, 21 October 2026
 
 Run 39515076613 paired Clang/libclang 21 successfully, then stopped before Cargo because the standalone header sample lacked `_LIBCPP_HARDENING_MODE`. The pinned Chromium build at `8fbb331a68c597851e2e91de6e08a06baa3d719b`, `config/compiler/BUILD.gn`, supplies this macro through GN defines; the pinned buildtools `__config_site` intentionally does not define a default. The sample now selects Chromium's extensive mode explicitly. This changes only the standalone preflight: GN/V8 flags and bindgen's generated-GN-define path remain untouched. The report now records the sample flags and formatted libclang error diagnostics. Exact cache compatibility remains untested until the host builds and runs.

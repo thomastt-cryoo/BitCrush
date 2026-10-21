@@ -41,6 +41,9 @@ def preflight(root,env):
     if not binary_major or binary_major[1]!=match[1]:raise RuntimeError('libclang/compiler major mismatch')
     resource=Path(subprocess.check_output([compiler,'-print-resource-dir'],text=True,timeout=10).strip())
     if not (resource/'include/stdint.h').is_file() or not (resource/'include/stddef.h').is_file():raise RuntimeError('Missing Clang builtin resource headers')
+    # Also pin clang-sys compiler discovery for any auxiliary bindgen operation.
+    # This does not set CLANG_BASE_PATH or change GN's Chromium compiler.
+    env['CLANG_PATH']=str(compiler)
     source=root/'rusty_v8'
     # Chromium build 8fbb331a68c597851e2e91de6e08a06baa3d719b,
     # config/compiler/BUILD.gn supplies this through GN defines, not __config_site.
@@ -127,7 +130,7 @@ def main():
     args=parser.parse_args();root=args.workspace.resolve()
     if os.environ.get('GITHUB_ACTIONS')!='true':raise SystemExit('This build runner is CI-only.')
     env=os.environ.copy();env.update(json.loads((root/'build-environment.json').read_text()))
-    for key in ['RUSTY_V8_ARCHIVE','RUSTY_V8_MIRROR','RUSTY_V8_SRC_BINDING_PATH','BITCRUSH_V8_BINDGEN_ONLY','CLANG_BASE_PATH']:env.pop(key,None)
+    for key in ['RUSTY_V8_ARCHIVE','RUSTY_V8_MIRROR','RUSTY_V8_SRC_BINDING_PATH','BITCRUSH_V8_BINDGEN_ONLY','CLANG_BASE_PATH','CLANG_PATH','BINDGEN_EXTRA_CLANG_ARGS','BINDGEN_EXTRA_CLANG_ARGS_x86_64-unknown-linux-gnu','BINDGEN_EXTRA_CLANG_ARGS_x86_64_unknown_linux_gnu']:env.pop(key,None)
     summary={'passed':False,'attempts':[],'buildCompleted':False,'enginePreservation':'Not yet established'}
     started=time.time()
     try:
