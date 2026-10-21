@@ -77,12 +77,19 @@ try{
     const preview=document.querySelector('.studio-canvas video');
     const read=await window.electron.readFile(file);if(!read.success)throw new Error(read.error);
     const url=URL.createObjectURL(new Blob([read.data],{type:'video/mp4'})),video=document.createElement('video');video.muted=true;
-    try{await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('Exported video decode timed out')),15000);video.onloadeddata=()=>{clearTimeout(timer);resolve();};video.onerror=()=>{clearTimeout(timer);reject(new Error('Exported video could not be decoded'));};video.src=url;video.load();});
-      const result={preview:count(preview),exported:count(video)};
-      return result;
-    }finally{video.removeAttribute('src');video.load();URL.revokeObjectURL(url);}
+    // loadeddata alone can precede Chromium presenting the decoded frame.
+    // Use a real rendered video and wait for presentation before reading pixels.
+    video.style.cssText='position:fixed;bottom:0;right:0;width:160px;height:96px;z-index:99999';document.body.append(video);
+    let presentationTimer;
+    try{
+      const presented=new Promise((resolve,reject)=>{presentationTimer=setTimeout(()=>reject(new Error('Exported video did not present a frame')),15000);video.requestVideoFrameCallback((_,frame)=>{clearTimeout(presentationTimer);resolve(frame.mediaTime);});});
+      video.src=url;await video.play();const firstFrameTime=await presented;video.pause();
+      const result={preview:count(preview),exported:count(video),firstFrameTime,duration:video.duration};
+      await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('Exported video seek timed out')),15000);video.onseeked=()=>{clearTimeout(timer);resolve();};video.currentTime=video.duration/2;});
+      result.exportedMiddle=count(video);return result;
+    }finally{clearTimeout(presentationTimer);video.pause();video.removeAttribute('src');video.load();video.remove();URL.revokeObjectURL(url);}
   },path.join(exportDir,'native.mp4'));
-  if(coloredPixels.preview<1000||coloredPixels.exported<1000)throw new Error('Blank or monochrome native preview/export: '+JSON.stringify(coloredPixels));
+  if(coloredPixels.preview<1000||coloredPixels.exported<1000||coloredPixels.exportedMiddle<1000)throw new Error('Blank or monochrome native preview/export: '+JSON.stringify(coloredPixels));
   await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
   check('Native MP4 retains colored pixels, audio and visible Original preview after hidden export',{coloredPixels});
   await page.screenshot({path:path.join(root,'test-results/electron-video-native.png')});
