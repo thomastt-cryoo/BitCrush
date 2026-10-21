@@ -10,7 +10,7 @@ const AdmZip = require('adm-zip');
 function downloadURL(platform = process.platform, arch = process.arch) {
   if (platform === 'win32' && arch === 'x64') return 'https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip';
   if (platform === 'darwin' && arch === 'arm64') return 'https://www.osxexperts.net/ffmpeg9arm.zip';
-  if (platform === 'darwin' && arch === 'x64') return 'https://evermeet.cx/ffmpeg/getrelease/ffmpeg/zip';
+  if (platform === 'darwin' && arch === 'x64') return 'https://www.osxexperts.net/ffmpeg80intel.zip';
   throw new Error(`No native FFmpeg download for ${platform}/${arch}`);
 }
 const runFile = (file, args) => new Promise((resolve, reject) => execFile(file, args, {timeout:15000, windowsHide:true}, (error, stdout, stderr) => error ? reject(error) : resolve(stdout + stderr)));
@@ -84,7 +84,9 @@ function register({app, ipcMain}) {
       progress({phase:'done',percent:100,message:`Installed FFmpeg ${installedVersion}`});
       return {success:true,version:installedVersion};
     } catch (error) {
-      const message = error.message || String(error);
+      const message = ['AbortError','TimeoutError'].includes(error.name) || error.message === 'aborted'
+        ? 'The FFmpeg download was interrupted or timed out. Please retry; your existing installation was kept.'
+        : error.message || String(error);
       progress({phase:'error',percent:0,message}); return {success:false,error:message};
     } finally {
       fs.rmSync(candidate,{force:true}); fs.rmSync(stage,{recursive:true,force:true}); installing = false;

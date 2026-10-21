@@ -13,6 +13,8 @@ const check=(name,details={})=>{report.checks.push({name,passed:true,...details}
 let page;
 try{
   page=await app.firstWindow();page.on('pageerror',error=>report.errors.push(error.stack));
+  page.on('console',message=>{if(message.type()==='error')console.log('Renderer: '+message.text());});
+  page.on('dialog',async dialog=>{console.log('Dialog: '+dialog.message());report.dialogs??=[];report.dialogs.push(dialog.message());await dialog.dismiss();});
   await expect(page.locator('.studio-style')).toHaveCount(73);
   await expect(page.locator('.studio-style .studio-pattern,.studio-style img')).toHaveCount(0);
   if(!downloadURL('darwin','arm64').includes('arm')||downloadURL('darwin','arm64')===downloadURL('darwin','x64'))throw new Error('Mac architecture download mismatch');
@@ -46,7 +48,7 @@ try{
   const exportDir=path.join(env.BITCRUSH_USER_DATA,'exports');fs.mkdirSync(exportDir);
   await app.evaluate(({ipcMain},directory)=>{ipcMain.removeHandler('show-save-dialog');ipcMain.handle('show-save-dialog',()=>({canceled:false,filePath:directory+'/native.mp4'}));},exportDir);
   await page.getByRole('button',{name:'Export',exact:true}).click();
-  await expect.poll(()=>fs.existsSync(path.join(exportDir,'native.mp4'))&&fs.statSync(path.join(exportDir,'native.mp4')).size,{timeout:60000}).toBeGreaterThan(1000);
+  await expect.poll(()=>fs.existsSync(path.join(exportDir,'native.mp4'))?fs.statSync(path.join(exportDir,'native.mp4')).size:0,{timeout:60000}).toBeGreaterThan(1000);
   await expect(page.getByRole('button',{name:'Export',exact:true})).toBeEnabled({timeout:60000});
   const probe=await page.evaluate(async file=>window.electron.ffmpeg.execNative(['-hide_banner','-i',file]),path.join(exportDir,'native.mp4'));
   if(!/Video: h264/.test(probe.logs.join(' '))||!/Audio: aac/.test(probe.logs.join(' ')))throw new Error('Native export lacks video or audio');
