@@ -1,110 +1,31 @@
-name: Electron Studio builds and workflow tests
-
+name: Native video frame diagnostics
 on:
   push:
-    branches: [main, codex/electron-redesign]
-  pull_request:
-  workflow_dispatch:
-
+    branches: [codex/native-video-diagnostics]
 permissions:
   contents: read
-
-concurrency:
-  group: electron-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  codec-source:
-    name: Offline codec corresponding sources
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v4
-      - run: python scripts/package-codec-sources.py
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ffmpeg-core-0.12.10-sources
-          path: |
-            artifacts/ffmpeg-core-0.12.10-sources.zip
-            artifacts/ffmpeg-core-0.12.10-sources.json
-          retention-days: 14
-
-  electron:
-    name: Studio ${{ matrix.name }}
-    needs: codec-source
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - name: Windows
-            runner: windows-2025
-            arch: x64
-            appRoot: artifacts/BitCrush-Windows-Electron/resources/app
-            packaged: artifacts/BitCrush-Windows-Electron/BitCrush.exe
-          - name: Mac-Intel
-            runner: macos-15-intel
-            arch: x64
-            appRoot: artifacts/BitCrush-Mac-Intel-Electron/BitCrush.app/Contents/Resources/app
-            packaged: artifacts/BitCrush-Mac-Intel-Electron/BitCrush.app/Contents/MacOS/Electron
-          - name: Mac-Apple-Silicon
-            runner: macos-14
-            arch: arm64
-            appRoot: artifacts/BitCrush-Mac-Apple-Silicon-Electron/BitCrush.app/Contents/Resources/app
-            packaged: artifacts/BitCrush-Mac-Apple-Silicon-Electron/BitCrush.app/Contents/MacOS/Electron
-    runs-on: ${{ matrix.runner }}
-    timeout-minutes: 20
+  frames:
+    runs-on: windows-2025
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: npm
-      - name: Verify runner architecture
-        run: node -e "if(process.arch!=='${{ matrix.arch }}')throw new Error('Unexpected runner architecture '+process.arch)"
       - run: npm ci
-      - name: FFmpeg extraction responsiveness without a download
-        run: node scripts/ffmpeg-extract-check.mjs
       - run: npm run build
-      - name: Original engines and Studio workflows in Electron
-        run: npm test
-      - name: Studio design states and settings controls
-        run: npm run test:design
-      - name: Source colors and palette round trips
-        run: npm run test:colors
-      - name: Single FFmpeg installation, video import and recovery
-        run: npm run test:video
+      - run: npm run test:video
         env:
           BITCRUSH_TEST_INSTALL_FFMPEG: '1'
           BITCRUSH_TEST_FFMPEG_CACHE: test-results/native-ffmpeg
-      - name: Package full Electron runtime
-        run: npm run package:zip
-      - name: Verify copied FFmpeg extraction worker without downloading
-        run: node scripts/ffmpeg-extract-check.mjs
-        env:
-          BITCRUSH_TEST_APP_ROOT: ${{ github.workspace }}/${{ matrix.appRoot }}
-      - name: Verify copied application runtime and resources
-        run: npm test
-        env:
-          BITCRUSH_PACKAGED_EXECUTABLE: ${{ github.workspace }}/${{ matrix.packaged }}
-      - name: Verify source colors in copied application
-        run: npm run test:colors
-        env:
-          BITCRUSH_PACKAGED_EXECUTABLE: ${{ github.workspace }}/${{ matrix.packaged }}
-      - name: Verify native video in copied application
-        run: npm run test:video
-        env:
-          BITCRUSH_PACKAGED_EXECUTABLE: ${{ github.workspace }}/${{ matrix.packaged }}
-          BITCRUSH_TEST_FFMPEG_CACHE: test-results/native-ffmpeg
-      - name: Verify macOS signature
-        if: runner.os == 'macOS'
-        run: codesign --verify --deep --strict artifacts/BitCrush-${{ matrix.name }}-Electron/BitCrush.app
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: BitCrush-${{ matrix.name }}-Electron
+          name: native-frame-diagnostics
           path: |
-            artifacts/*.zip
-            artifacts/*.json
             test-results/*.json
             test-results/*.png
-          retention-days: 14
+            test-results/*.mp4
+          retention-days: 7
