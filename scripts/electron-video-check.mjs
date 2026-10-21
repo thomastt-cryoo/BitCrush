@@ -42,6 +42,12 @@ try{
   const binarySha=crypto.createHash('sha256').update(fs.readFileSync(status.path)).digest('hex');
   if(cacheFile&&!existingBinary){fs.mkdirSync(path.dirname(cacheFile),{recursive:true});fs.copyFileSync(status.path,cacheFile);fs.chmodSync(cacheFile,0o755);}
   check(existingBinary?'Reused verified native FFmpeg without downloading':'Single native FFmpeg download, extraction and runtime verification',{version:status.version,sha256:binarySha});
+  await app.evaluate(({ipcMain},results)=>{
+    const fs=process.mainModule.require('node:fs'),path=process.mainModule.require('node:path');
+    let capturedImport=false;const read=ipcMain._invokeHandlers.get('ffmpeg:readFramesDir'),write=ipcMain._invokeHandlers.get('write-file-binary');
+    ipcMain.removeHandler('ffmpeg:readFramesDir');ipcMain.handle('ffmpeg:readFramesDir',async(event,...args)=>{const value=await read(event,...args);if(value.paths?.length&&!capturedImport){fs.copyFileSync(value.paths[0],path.join(results,'native-import-first.png'));capturedImport=true;}return value;});
+    ipcMain.removeHandler('write-file-binary');ipcMain.handle('write-file-binary',async(event,file,data)=>{if(/[\\/]frame_000000\.png$/.test(file)){const bytes=ArrayBuffer.isView(data)?Buffer.from(data.buffer,data.byteOffset,data.byteLength):Buffer.from(data);fs.writeFileSync(path.join(results,'native-rendered-first.png'),bytes);}return write(event,file,data);});
+  },path.join(root,'test-results'));
   const importFile=page.locator('input[aria-label="Import image or video file"]');
   await importFile.setInputFiles(path.join(root,'tests/fixtures/one-second.mp4'));
   const palettePrompt=page.getByRole('button',{name:'No',exact:true});
@@ -62,6 +68,7 @@ try{
   await expect(page.getByRole('button',{name:'Export',exact:true})).toBeEnabled({timeout:150000});
   await mediaWindow.evaluate(win=>win.show());
   const probe=await page.evaluate(async file=>window.electron.ffmpeg.execNative(['-hide_banner','-i',file]),path.join(exportDir,'native.mp4'));
+  fs.copyFileSync(path.join(exportDir,'native.mp4'),path.join(root,'test-results/native-export.mp4'));
   if(!/Video: h264/.test(probe.logs.join(' '))||!/Audio: aac/.test(probe.logs.join(' ')))throw new Error('Native export lacks video or audio');
   const visibleVideo=page.locator('.studio-canvas video');
   await expect(visibleVideo).toHaveCSS('opacity','1');
@@ -70,11 +77,19 @@ try{
     const preview=document.querySelector('.studio-canvas video');
     const read=await window.electron.readFile(file);if(!read.success)throw new Error(read.error);
     const url=URL.createObjectURL(new Blob([read.data],{type:'video/mp4'})),video=document.createElement('video');video.muted=true;
-    try{await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('Exported video decode timed out')),15000);video.onloadeddata=()=>{clearTimeout(timer);resolve();};video.onerror=()=>{clearTimeout(timer);reject(new Error('Exported video could not be decoded'));};video.src=url;video.load();});
-      return {preview:count(preview),exported:count(video)};
-    }finally{video.removeAttribute('src');video.load();URL.revokeObjectURL(url);}
+    // loadeddata alone can precede Chromium presenting the decoded frame.
+    // Use a real rendered video and wait for presentation before reading pixels.
+    video.style.cssText='position:fixed;bottom:0;right:0;width:160px;height:96px;z-index:99999';document.body.append(video);
+    let presentationTimer;
+    try{
+      const presented=new Promise((resolve,reject)=>{presentationTimer=setTimeout(()=>reject(new Error('Exported video did not present a frame')),15000);video.requestVideoFrameCallback((_,frame)=>{clearTimeout(presentationTimer);resolve(frame.mediaTime);});});
+      video.src=url;await video.play();const firstFrameTime=await presented;video.pause();
+      const result={preview:count(preview),exported:count(video),firstFrameTime,duration:video.duration};
+      await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('Exported video seek timed out')),15000);video.onseeked=()=>{clearTimeout(timer);resolve();};video.currentTime=video.duration/2;});
+      result.exportedMiddle=count(video);return result;
+    }finally{clearTimeout(presentationTimer);video.pause();video.removeAttribute('src');video.load();video.remove();URL.revokeObjectURL(url);}
   },path.join(exportDir,'native.mp4'));
-  if(coloredPixels.preview<1000||coloredPixels.exported<1000)throw new Error('Blank or monochrome native preview/export: '+JSON.stringify(coloredPixels));
+  if(coloredPixels.preview<1000||coloredPixels.exported<1000||coloredPixels.exportedMiddle<1000)throw new Error('Blank or monochrome native preview/export: '+JSON.stringify(coloredPixels));
   await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
   check('Native MP4 retains colored pixels, audio and visible Original preview after hidden export',{coloredPixels});
   await page.screenshot({path:path.join(root,'test-results/electron-video-native.png')});

@@ -1,4 +1,12 @@
-## Latest manual verification and continuing Mac work — 21 October 2026
+## Current video verification — 21 October 2026
+
+The user manually verified Windows video import. The live app and its installed FFmpeg are being left untouched. Source removes all 73 effect/style placeholders and the downloader logo while preserving preset images. Native extraction now runs off the main Electron thread. A fresh source/copied-app run passed the earlier bounded checks on all three architectures (39623902318), but stronger browser pixel checks subsequently exposed a blank initial playback frame and an Original-mode preview visibility defect. Those packages are superseded for delivery.
+
+The preview visibility correction is implemented. Diagnostic capture confirmed that imported PNGs, processed PNGs and native-decoded MP4 frames retain their colors. The original fragmented native MP4 starts video at 0.083333 seconds and lasts1.08 seconds for the one-second fixture; finalized-MP4/faststart output starts at zero and lasts1.00 seconds. A pixel read on loadeddata alone also occurs before Chromium presents its decoded frame, so the test now waits for actual frame presentation and checks another frame after seeking. Isolated Windows CI39627358634 passed all seven native checks, including presented/seeked colors, audio, 66-second extraction and invalid/retry/same-name recovery. The final three-platform source/copied-app run is next; current fixes are not yet verified in final deliverables.
+
+See RELEASE-READINESS.md for unfinished customer-release work. No customer-readiness claim is made.
+
+## Earlier manual verification and continuing Mac work — 21 October 2026
 
 The user manually confirmed Windows video import works in the reopened current build. Their app remains running and the live dist is not being rebuilt. The FFmpeg test now requires an existing binary or explicit single-install opt-in; CI performs one download per platform and reuses it for copied-app testing. Windows/Intel CI39619509047 passed the preceding video-fix code, while Apple Silicon did not acquire a runner. Final current-code CI is being prepared on Windows, Intel Mac and the alternative macos-26 Apple Silicon runner. A local same-process post-install native-export stall remains unresolved; fresh-launch native exports passed. See RELEASE-READINESS.md for exact verification limits and customer release work.
 

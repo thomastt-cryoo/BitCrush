@@ -107,4 +107,5 @@ jobs:
             artifacts/*.json
             test-results/*.json
             test-results/*.png
+            test-results/*.mp4
           retention-days: 14

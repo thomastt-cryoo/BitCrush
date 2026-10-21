@@ -62,7 +62,7 @@ with zipfile.ZipFile(package) as inner:
     for name in checked_files:
         require(normalize(inner.read(app_root + name)) == normalize((root / 'electron' / name).read_bytes()), 'Stale runtime/view: ' + name)
     renderer = inner.read(app_root + 'renderer/assets/index-Cc7ZI13O.js').decode()
-    for marker in ['importNativeVideo(s,o,a', 'setBitcrushImportError', 'at=Math.min(dt,zt,fn.WORKER_POOL_SIZE)', 'videoFrameTask(sp(Qe)', 'processedFrameUrl:N?te:null']:
+    for marker in ['importNativeVideo(s,o,a', 'setBitcrushImportError', 'at=Math.min(dt,zt,fn.WORKER_POOL_SIZE)', 'videoFrameTask(sp(Qe)', 'processedFrameUrl:N?te:null', 'v="+faststart"']:
         require(marker in renderer, 'Missing video correction: ' + marker)
     executable = f'{stem}/BitCrush.exe' if args.platform == 'Windows' else f'{stem}/BitCrush.app/Contents/MacOS/Electron'
     with inner.open(executable) as handle:
@@ -83,6 +83,10 @@ for name in ['electron-smoke.json', 'electron-colors.json', 'electron-design.jso
     reports[name] = {'passed': True, 'checks': len(report.get('checks', []))}
 copied_video = json.loads((args.output / 'electron-video-packaged.json').read_text())
 require(copied_video.get('packaged') is True and copied_video.get('installation') == 'reused-verified-binary', 'Copied-app check did not reuse the verified binary')
+for name in ['electron-video-source.json', 'electron-video-packaged.json']:
+    native = json.loads((args.output / name).read_text())
+    pixels = next((check['coloredPixels'] for check in native['checks'] if 'coloredPixels' in check), {})
+    require(all(pixels.get(key, 0) > 1000 for key in ['preview', 'exported', 'exportedMiddle']), 'Missing presented/seeked video pixel verification: ' + name)
 verification = {'passed': True, 'platform': args.platform, 'arch': expected_arch, 'wrapperSha256': file_digest(args.wrapper), 'packageSha256': metadata['sha256'], 'bytes': metadata['bytes'], 'exactEngines': True, 'codecCount': 1, 'currentRuntimeAndViews': checked_files, 'reports': reports}
 (args.output / 'package-verification.json').write_text(json.dumps(verification, indent=2), encoding='utf-8')
 print(json.dumps(verification, indent=2))
