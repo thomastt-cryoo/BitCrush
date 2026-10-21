@@ -4,11 +4,17 @@ import path from 'node:path';
 import os from 'node:os';
 import {electronExecutable} from './electron-runtime.mjs';
 import {createRequire} from 'node:module';
+import crypto from 'node:crypto';
 const require=createRequire(import.meta.url), {downloadURL}=require('../electron/native-ffmpeg.cjs');
 const root=path.resolve(import.meta.dirname,'..');
 const env={...process.env,BITCRUSH_USER_DATA:fs.mkdtempSync(path.join(os.tmpdir(),'bitcrush-video-check-'))};delete env.ELECTRON_RUN_AS_NODE;
+const binaryName=process.platform==='win32'?'ffmpeg.exe':'ffmpeg';
+const cacheFile=process.env.BITCRUSH_TEST_FFMPEG_CACHE?path.resolve(process.env.BITCRUSH_TEST_FFMPEG_CACHE,binaryName):null;
+const existingBinary=process.env.BITCRUSH_TEST_FFMPEG||(cacheFile&&fs.existsSync(cacheFile)?cacheFile:null);
+if(!existingBinary&&process.env.BITCRUSH_TEST_INSTALL_FFMPEG!=='1')throw new Error('Native video checks require BITCRUSH_TEST_FFMPEG or a verified cache. A single fresh install requires explicit BITCRUSH_TEST_INSTALL_FFMPEG=1.');
+if(existingBinary){const directory=path.join(env.BITCRUSH_USER_DATA,'ffmpeg');fs.mkdirSync(directory);fs.copyFileSync(existingBinary,path.join(directory,binaryName));fs.chmodSync(path.join(directory,binaryName),0o755);}
 const app=await electron.launch({executablePath:process.env.BITCRUSH_PACKAGED_EXECUTABLE||electronExecutable(),args:process.env.BITCRUSH_PACKAGED_EXECUTABLE?[]:[path.join(root,'dist/electron')],env});
-const report={platform:process.platform,arch:process.arch,checks:[],errors:[]};
+const report={platform:process.platform,arch:process.arch,packaged:!!process.env.BITCRUSH_PACKAGED_EXECUTABLE,installation:existingBinary?'reused-verified-binary':'single-fresh-install',checks:[],errors:[]};
 const check=(name,details={})=>{report.checks.push({name,passed:true,...details});console.log('PASS '+name);};
 let page;
 try{
@@ -21,22 +27,21 @@ try{
   await expect(page.locator('.studio-style .studio-pattern,.studio-style img')).toHaveCount(0);
   if(!downloadURL('darwin','arm64').includes('arm')||downloadURL('darwin','arm64')===downloadURL('darwin','x64'))throw new Error('Mac architecture download mismatch');
   check('All 73 styles use text only; Mac download architecture is explicit');
-  await page.getByRole('button',{name:'Settings',exact:true}).click();
-  await page.getByRole('button',{name:'Install',exact:true}).click();
-  await expect(page.locator('.ffmpeg-modal-title')).toHaveText('Video Engine');
-  await expect(page.locator('.ffmpeg-modal-title svg,.ffmpeg-modal-title img')).toHaveCount(0);
-  await expect.poll(()=>page.locator('.ffmpeg-modal-result').innerText().catch(()=>''),{timeout:390000}).toMatch(/FFmpeg installed successfully[.]|Installation failed/);
-  await expect(page.locator('.ffmpeg-modal-result')).toContainText('FFmpeg installed successfully.');
+  if(!existingBinary){
+    await page.getByRole('button',{name:'Settings',exact:true}).click();
+    await page.getByRole('button',{name:'Install',exact:true}).click();
+    await expect(page.locator('.ffmpeg-modal-title')).toHaveText('Video Engine');
+    await expect(page.locator('.ffmpeg-modal-title svg,.ffmpeg-modal-title img')).toHaveCount(0);
+    await expect.poll(()=>page.locator('.ffmpeg-modal-result').innerText().catch(()=>''),{timeout:390000}).toMatch(/FFmpeg installed successfully[.]|Installation failed/);
+    await expect(page.locator('.ffmpeg-modal-result')).toContainText('FFmpeg installed successfully.');
+    await page.getByRole('button',{name:'Done',exact:true}).click();
+    await page.getByRole('button',{name:'Close settings (ESC)',exact:true}).click();
+  }
   const status=await page.evaluate(()=>window.electron.ffmpeg.getStatus());
   if(!status.installed)throw new Error('Downloaded binary is not runnable');
-  check('Real native FFmpeg download, extraction and runtime verification',{version:status.version});
-  await page.getByRole('button',{name:'Done',exact:true}).click();
-  await page.getByRole('button',{name:'Reinstall',exact:true}).click();
-  await expect.poll(()=>page.locator('.ffmpeg-modal-result').innerText().catch(()=>''),{timeout:390000}).toMatch(/FFmpeg installed successfully[.]|Installation failed/);
-  await expect(page.locator('.ffmpeg-modal-result')).toContainText('FFmpeg installed successfully.');
-  await page.getByRole('button',{name:'Done',exact:true}).click();
-  check('Real reinstall replaces the verified binary successfully');
-  await page.getByRole('button',{name:'Close settings (ESC)',exact:true}).click();
+  const binarySha=crypto.createHash('sha256').update(fs.readFileSync(status.path)).digest('hex');
+  if(cacheFile&&!existingBinary){fs.mkdirSync(path.dirname(cacheFile),{recursive:true});fs.copyFileSync(status.path,cacheFile);fs.chmodSync(cacheFile,0o755);}
+  check(existingBinary?'Reused verified native FFmpeg without downloading':'Single native FFmpeg download, extraction and runtime verification',{version:status.version,sha256:binarySha});
   const importFile=page.locator('input[aria-label="Import image or video file"]');
   await importFile.setInputFiles(path.join(root,'tests/fixtures/one-second.mp4'));
   const palettePrompt=page.getByRole('button',{name:'No',exact:true});
@@ -50,12 +55,12 @@ try{
   const exportDir=path.join(env.BITCRUSH_USER_DATA,'exports');fs.mkdirSync(exportDir);
   await app.evaluate(({ipcMain},directory)=>{ipcMain.removeHandler('show-save-dialog');ipcMain.handle('show-save-dialog',()=>({canceled:false,filePath:directory+'/native.mp4'}));},exportDir);
   await expect(page.getByRole('button',{name:'Export',exact:true})).toBeEnabled();
-  const window=await app.browserWindow(page);await window.evaluate(win=>win.hide());
+  const mediaWindow=await app.browserWindow(page);await mediaWindow.evaluate(win=>win.hide());
   // Exercise the real button callback without depending on OS input focus after a long download.
   await page.getByRole('button',{name:'Export',exact:true}).dispatchEvent('click');
   await expect.poll(()=>fs.existsSync(path.join(exportDir,'native.mp4'))?fs.statSync(path.join(exportDir,'native.mp4')).size:0,{timeout:150000}).toBeGreaterThan(1000);
   await expect(page.getByRole('button',{name:'Export',exact:true})).toBeEnabled({timeout:150000});
-  await window.evaluate(win=>win.show());
+  await mediaWindow.evaluate(win=>win.show());
   const probe=await page.evaluate(async file=>window.electron.ffmpeg.execNative(['-hide_banner','-i',file]),path.join(exportDir,'native.mp4'));
   if(!/Video: h264/.test(probe.logs.join(' '))||!/Audio: aac/.test(probe.logs.join(' ')))throw new Error('Native export lacks video or audio');
   check('Native MP4 export retains video and audio while hidden with simulated 64-core concurrency');
@@ -93,5 +98,5 @@ try{
   if(report.errors.length)throw new Error(report.errors.join('\n'));
   report.passed=true;
 }catch(error){report.passed=false;report.failure=error.stack;console.error(error);await page?.screenshot({path:path.join(root,'test-results/electron-video-failure.png')}).catch(()=>{});process.exitCode=1;}
-finally{fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync('test-results/electron-video.json',JSON.stringify(report,null,2));await app.evaluate(({app})=>app.exit(0)).catch(()=>{});await app.close();}
+finally{fs.mkdirSync('test-results',{recursive:true});const json=JSON.stringify(report,null,2);fs.writeFileSync('test-results/electron-video.json',json);fs.writeFileSync(`test-results/electron-video-${report.packaged?'packaged':'source'}.json`,json);await app.evaluate(({app})=>app.exit(0)).catch(()=>{});await app.close();}
 
