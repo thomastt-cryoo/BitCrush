@@ -35,6 +35,6 @@ Set `BITCRUSH_ELECTRON` to an existing Electron 41.2.1 executable to reuse a loc
 
 Packaging produces a full runtime folder and ZIP under `artifacts`, with engine files, offline codec, fonts, notices and validation report. The packaging command refuses to overwrite an existing output; `BITCRUSH_PACKAGE_SUFFIX` can select a fresh name. The previous 20 MB app limit is abandoned. Keep the whole extracted folder together when running the Windows app.
 
-CI targets Windows x64, Intel Mac and Apple Silicon Mac independently. New macOS app builds and runtime tests must pass before those packages are ready. Mac packages use ad-hoc signing. Earlier Tauri/reference-probe results do not validate the new host.
+CI targets Windows x64, Intel Mac and Apple Silicon Mac independently. [Run 39532481237](https://github.com/thomastt-cryoo/BitCrush/actions/runs/39532481237) passed all 18 checks in the source and copied packaged app on every platform. Both Mac bundles passed signature verification and use ad-hoc signing. These remain development builds without Apple notarization or installer signing.
 
 The exact FFmpeg Wasm core is included once. Codec licenses are distributed with the app, and CI publishes its pinned official source/dependency corpus as a separate artifact. See `verification/codec-source/PACKAGE-README.md` for source identity and reproducibility limits.
