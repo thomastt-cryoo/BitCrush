@@ -43,6 +43,7 @@ try{
  await palette.selectOption(stored.id);await expect(page.locator('.studio-style-description h1')).toHaveText('Color Separation');const remapped=await exportPixels();expect(remapped.hash).not.toBe(effected.hash);await palette.selectOption('__original_colors__');
  const restored=await exportPixels();expect(restored.hash).toBe(effected.hash);
  check('Returning to source colors retains edited palette, adjustments and enabled effects');
+ await expect(page.locator('.studio-controls .tab-content')).toHaveCSS('opacity','1');
  await page.screenshot({path:path.join(root,'test-results/studio-original-colors-image.png')});
  await page.getByRole('button',{name:'Floyd-Steinberg',exact:true}).click();await expect(page.locator('.studio-style-description h1')).toHaveText('Floyd-Steinberg');
  await media.setInputFiles(path.join(root,'tests/fixtures/one-second.mp4'));await page.getByRole('button',{name:'Not now',exact:true}).click();await page.getByRole('button',{name:'No',exact:true}).click();await expect(page.getByText('Importing Video',{exact:true})).toHaveCount(0,{timeout:45000});
@@ -50,6 +51,7 @@ try{
  await expect(page.getByRole('button',{name:'Play',exact:true})).toBeVisible();
  await expect.poll(()=>page.evaluate(()=>{const source=document.querySelector('.studio-canvas img[alt="Processed frame"],.studio-canvas img[alt="Processed video frame"]')||document.querySelector('.studio-canvas img[alt="Original"]')||document.querySelector('.studio-canvas video');if(!source)return 0;const width=source.naturalWidth||source.videoWidth,height=source.naturalHeight||source.videoHeight;if(!width||!height)return 0;const c=document.createElement('canvas');c.width=width;c.height=height;const x=c.getContext('2d');x.drawImage(source,0,0);const pixels=x.getImageData(0,0,width,height).data;let count=0;for(let i=0;i<pixels.length;i+=4)if(pixels[i+3]&&Math.max(pixels[i],pixels[i+1],pixels[i+2])-Math.min(pixels[i],pixels[i+1],pixels[i+2])>20)count++;return count;}),{timeout:20000}).toBeGreaterThan(1000);
  check('Video imports return to Original colors after a monochrome dither was selected');
+ await expect(page.locator('.studio-controls .tab-content')).toHaveCSS('opacity','1');
  await page.screenshot({path:path.join(root,'test-results/studio-original-colors-video.png')});
  if(report.errors.length)throw new Error(report.errors.join('\n'));report.passed=true;
 }catch(e){report.failure=e.stack;console.error(e);console.error((await page?.locator('body').innerText())?.slice(-2000));await page?.screenshot({path:path.join(root,'test-results/studio-colors-failure.png')});process.exitCode=1;}
