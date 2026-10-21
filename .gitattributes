@@ -5,3 +5,4 @@
 *.icns binary
 *.woff2 binary
 *.jsc binary
+electron/vendor/** -text

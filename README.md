@@ -1,37 +1,40 @@
-# BitCrush
+# BitCrush Studio
 
-An offline Tauri desktop workspace being built from the authorized Dither Boy 6.0.3 reference. The layout uses a left library, center canvas and right inspector, with black surfaces, white typography, restrained rounding and an optional light appearance.
+An offline Electron desktop workspace using the approved Studio design: a left library, center canvas and right inspector, with neutral dark and light appearances and the supplied BitCrush logo.
 
-**Development preview. The complete processing-engine migration is not finished.** See [PREVIEW-STATUS.md](PREVIEW-STATUS.md) before treating this as a replacement for the original application.
+The original renderer remains responsible for effects, documents, history, timeline and exports. The unchanged compiled engines run in Electron 41.2.1: dithering in a worker and halftone in a hidden local Chromium renderer. The visible workspace uses a sandboxed preload bridge. Settings and palette writes use a separate BitCrush application-data directory.
+
+Tauri is abandoned. Its earlier source and reports remain for history; active build, test, packaging and CI commands use Electron. The original Downloads application remains untouched.
 
 ## Development
 
-Install Node.js 24 LTS, Rust stable and the [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/).
-
 ```sh
 npm ci
-npm run tauri dev
+npm run dev
 ```
 
-`npm run dev` runs the same interface in a development browser. Production loads bundled local files in the desktop window; it does not open a separate browser or use a remote application server.
+The verified reference renderer is checked into `electron/vendor`. Reimport it only when needed, from the preserved reference copy:
 
-## Build and verification
+```sh
+npm run reference:import -- "C:/Users/mazin/Projects/dither-boy-redesign/reference/windows-original/resources/app.asar"
+```
+
+The importer accepts only the recorded SHA-256 and verifies packed member integrity. The build checks imported assets against their provenance before applying narrowly scoped source transforms. It fails on missing anchors or overlapping edits. Engine modules are checked independently at runtime.
+
+## Verification and packaging
 
 ```sh
 npm run build
-npx playwright install chromium
 npm test
-npm run tauri build
+npm run package:zip
 ```
 
-GitHub Actions builds native Windows x64, Intel Mac and Apple Silicon Mac previews. Each native app starts its own system WebView and verifies the local JavaScript-to-Rust bridge, Canvas, worker startup and original processing operations. An independent Intel-hosted job also cross-builds both Mac slices into one universal app, checks its signature/architectures and runs its Intel slice. Apple Silicon native runtime tests remain separate, so runner-capacity failures do not prevent producing a universal development package. Packaging checks enforce ZIP sizes below 20,000,000 bytes.
+`npm test` starts the real Electron application and writes a report and screenshots under `test-results`. It compares all 73 dither processors and three halftone fixtures with unchanged bytecode in the same Electron runtime, and checks actual Studio workflows. See `PREVIEW-STATUS.md` and the per-check report for current coverage and platform limits.
 
-Native startup checks and UI checks do not establish complete engine equivalence. Original extracted processing code, metadata and palettes have provenance records under `src/engine/vendor` and `src/data`. Run 39487627667 passed Windows and Intel Mac native media checks and the universal Mac signature/architecture/Intel runtime checks. Its verified ZIPs are 13.08 MB for Windows and 16.94 MB for universal macOS. Apple Silicon hardware startup still needs a successful hosted runner.
+Set `BITCRUSH_ELECTRON` to an existing Electron 41.2.1 executable to reuse a local runtime. On this development machine the helper also recognizes the cached reference runtime. Normal installations use the exact npm-installed Electron version. No Playwright browser download is needed.
 
-Video import, scrubbing and offline MP4 export now use the original media workflows, with the same image processing path applied to each frame. A separate codec-source artifact supplies the official FFmpeg core release and pinned dependency sources. `npm ci` verifies and stages the exact original core: its large Wasm resource is bundled once outside the executable, rather than duplicated into universal Mac slices. See `verification/codec-source/PACKAGE-README.md` for the source provenance and reproducibility limits.
+Packaging produces a full runtime folder and ZIP under `artifacts`, with engine files, offline codec, fonts, notices and validation report. The packaging command refuses to overwrite an existing output; `BITCRUSH_PACKAGE_SUFFIX` can select a fresh name. The previous 20 MB app limit is abandoned. Keep the whole extracted folder together when running the Windows app.
 
-The Presets library imports and exports `.dither-boy.preset` files. Untouched exports retain the exact original text. Supported edits patch the retained instance graph, preserving unknown fields, disabled and inactive instances, repeated IDs and original stage order. Documents requiring unavailable engines or uncaptured missing-instance fallbacks remain exportable and report processing errors. Native BitCrush projects retain this compatibility data separately from the projected editor controls.
+CI targets Windows x64, Intel Mac and Apple Silicon Mac independently. New macOS app builds and runtime tests must pass before those packages are ready. Mac packages use ad-hoc signing. Earlier Tauri/reference-probe results do not validate the new host.
 
-The compiled dither engine remains unresolved. Current small-host experiments are isolated from the app. Unsupported dither styles block export; they are not replaced with approximate output. Timelines, animation and full original preset/session compatibility are still in development.
-
-Windows previews rely on an existing WebView2 runtime. Mac previews require macOS 13.3 or newer and use ad-hoc signing; they are not Apple-notarized releases.
+The exact FFmpeg Wasm core is included once. Codec licenses are distributed with the app, and CI publishes its pinned official source/dependency corpus as a separate artifact. See `verification/codec-source/PACKAGE-README.md` for source identity and reproducibility limits.

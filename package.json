@@ -1,36 +1,33 @@
 {
   "name": "bitcrush",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
-    "postinstall": "node scripts/prepare-media.mjs",
-    "prebuild": "node scripts/prepare-media.mjs",
-    "dev": "vite --host 127.0.0.1",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --host 127.0.0.1",
-    "test": "playwright test",
-    "tauri": "tauri",
-    "desktop:build": "tauri build",
-    "desktop:smoke": "node scripts/desktop-smoke.mjs",
-    "package:zip": "python scripts/package.py"
+    "dev": "node scripts/build-electron.mjs && node scripts/start-electron.mjs",
+    "build": "node scripts/build-electron.mjs",
+    "test": "node scripts/electron-smoke.mjs",
+    "desktop:build": "node scripts/build-electron.mjs && node scripts/package-electron.mjs",
+    "desktop:smoke": "node scripts/electron-smoke.mjs",
+    "package:zip": "node scripts/package-electron.mjs",
+    "reference:import": "node scripts/import-electron-reference.mjs"
   },
   "dependencies": {
     "@ffmpeg/core": "0.12.10",
     "@fontsource-variable/inter": "5.2.8",
-    "@tauri-apps/api": "2.12.4",
-    "@tauri-apps/plugin-dialog": "2.8.3",
-    "@tauri-apps/plugin-fs": "2.7.1",
+    "adm-zip": "0.6.1",
+    "bytenode": "1.5.7",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },
   "devDependencies": {
+    "@babel/parser": "8.0.4",
     "@playwright/test": "1.64.1",
-    "@tauri-apps/cli": "2.12.3",
     "@types/node": "24.19.2",
     "@types/react": "18.3.27",
     "@types/react-dom": "18.3.7",
     "@vitejs/plugin-react": "6.1.2",
+    "electron": "41.2.1",
     "typescript": "5.9.3",
     "vite": "8.3.4"
   }
