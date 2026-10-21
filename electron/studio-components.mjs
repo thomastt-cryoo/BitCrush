@@ -52,6 +52,11 @@ export function createStudioComponents(React) {
     }
     function Palette({ p, legacy }) {
         const colors = p.paletteColors || [], palette = (p.allPalettes || []).find(v => v.id === p.selectedPaletteId);
+        const originalColors = !p.isHalftoneMode && p.ditherStyle === 'none';
+        const originalOption = '__original_colors__';
+        const preferences = React.useContext(Context)?.libraryPreferences;
+        const available = (p.allPalettes || []).filter(v => !preferences?.isHidden('palettes', v.id) && !preferences?.isHidden('paletteCategories', v.category));
+        const categories = [...new Set(available.map(v => v.category))].sort((a, b) => (a === 'Monochrome' ? -1 : b === 'Monochrome' ? 1 : a === 'Source' ? -1 : b === 'Source' ? 1 : a.localeCompare(b)));
         const section = find(legacy, n => n.props?.className === 'control-section' && titleOf(n) === 'Color Palette');
         const paletteField = fields(section).find(v => v.options && v.value === p.selectedPaletteId);
         const rows = [];
@@ -59,20 +64,43 @@ export function createStudioComponents(React) {
             rows.push(n);
             return false;
         } });
-        const select = id => { if (paletteField)
-            return paletteField.onChange(id); const selected = p.allPalettes.find(v => v.id === id); if (selected) {
-            p.setPaletteCategory(selected.category);
-            p.setSelectedPaletteId(selected.id);
-            p.setPaletteColors(selected.hexColors);
-            p.setDepth(selected.hexColors.length);
-        } };
+        const select = id => {
+            if (id === originalOption) {
+                // The original renderer's Original style passes source colors through.
+                // Keep the stored palette, adjustments and other effect instances intact.
+                window.__bitcrushControls.selectOriginalColors();
+                return;
+            }
+            const selected = p.allPalettes.find(v => v.id === id);
+            if (!selected && id !== p.selectedPaletteId) return;
+            if (selected) {
+                p.setPaletteCategory(selected.category);
+                if (paletteField) paletteField.onChange(id);
+                else {
+                    p.setSelectedPaletteId(selected.id);
+                    p.setPaletteColors(selected.hexColors);
+                    p.setDepth(selected.hexColors.length);
+                }
+            }
+            if (originalColors) {
+                p.setDitherCategory('basic');
+                p.setDitherStyle('color-separation');
+            }
+        };
         const originalButton = label => find(legacy, n => n.type === 'button' && text(n.props.children).trim() === label)?.props;
         const input = (index, type) => find(rows[index], n => n.type === 'input' && n.props.type === type)?.props;
         const buttons = node => { const found = []; walk(node, n => { if (n.type === 'button') {
             found.push(n.props);
             return false;
         } }); return found; };
-        return h(React.Fragment, null, h('label', { className: 'bc-select-field' }, h('select', { 'aria-label': 'Color palette', value: p.selectedPaletteId, disabled: paletteField?.disabled, onChange: e => select(e.target.value) }, !palette && h('option', { value: p.selectedPaletteId }, 'Custom colors'), ...(paletteField?.options || (p.allPalettes || []).map(v => ({value:v.id,label:v.name}))).filter(v => !String(v.value).startsWith('---divider')).map(v => h('option', { key: v.value, value: v.value }, v.label)))), h('div', { className: 'bc-swatches' }, ...colors.map((c, i) => h('label', { key: i, title: c }, h('input', { ...input(i, 'color'), className: 'bc-color-picker', type: 'color', 'aria-label': `Palette color ${i + 1}`, value: c })))), h('div', { className: 'bc-palette-meta' }, h('span', null, `${colors.length} colors`), h('button', { onClick: () => window.dispatchEvent(new CustomEvent('bitcrush-open-library', { detail: 'Palettes' })) }, 'Browse palettes', h(Icon, { name: 'arrow', size: 12 }))), h('details', { className: 'bc-palette-advanced' }, h('summary', null, 'Edit colors & import'), h('div', null, ...rows.map((row, i) => h('div', { className: 'bc-color-row', key: i }, h('input', { ...input(i, 'text'), className: 'bc-color-hex' }), ...buttons(row).map((b, j) => h(Button, { key: j, title: b.title, onClick: b.onClick, disabled: b.disabled, icon: b.className?.includes('lock') ? 'lock' : b.className?.includes('delete') ? 'close' : undefined }, b.className?.includes('move') ? (j === 1 ? '↑' : '↓') : null)))), h('div', { className: 'bc-inline-actions' }, ...['Add Color', 'Import Palette', 'Export Palette'].map(label => { const b = originalButton(label); return h(Button, { key: label, title: label, onClick: b?.onClick, disabled: b?.disabled }, label); })), h('div', { className: 'bc-palette-options' }, ...fields(section).filter(v => !v.options).map((field, i) => h(Field, { key: i, field }))))));
+        return h(React.Fragment, null,
+            h('label', { className: 'bc-select-field' }, h('select', { 'aria-label': 'Color palette', value: originalColors ? originalOption : p.selectedPaletteId, onChange: e => select(e.target.value) },
+                !p.isHalftoneMode && h('option', { value: originalOption }, 'Original colors'),
+                !palette && h('option', { value: p.selectedPaletteId }, 'Custom colors'),
+                ...categories.map(category => h('optgroup', { key: category, label: category }, ...available.filter(v => v.category === category).map(v => h('option', { key: v.id, value: v.id, disabled: !originalColors && paletteField?.disabled }, v.name)))))),
+            originalColors && h('p', { className: 'bc-note bc-original-colors-note' }, 'Using the source colors. Your palette and other effects are kept.'),
+            h('div', { className: 'bc-swatches' }, ...colors.map((c, i) => h('label', { key: i, title: c }, h('input', { ...input(i, 'color'), className: 'bc-color-picker', type: 'color', 'aria-label': `Palette color ${i + 1}`, value: c })))),
+            h('div', { className: 'bc-palette-meta' }, h('span', null, `${colors.length} ${originalColors ? 'stored palette colors' : 'colors'}`), h('button', { onClick: () => window.dispatchEvent(new CustomEvent('bitcrush-open-library', { detail: 'Palettes' })) }, 'Browse palettes', h(Icon, { name: 'arrow', size: 12 }))), h('details', { className: 'bc-palette-advanced' }, h('summary', null, 'Edit colors & import'), h('div', null, ...rows.map((row, i) => h('div', { className: 'bc-color-row', key: i }, h('input', { ...input(i, 'text'), className: 'bc-color-hex' }), ...buttons(row).map((b, j) => h(Button, { key: j, title: b.title, onClick: b.onClick, disabled: b.disabled, icon: b.className?.includes('lock') ? 'lock' : b.className?.includes('delete') ? 'close' : undefined }, b.className?.includes('move') ? (j === 1 ? '↑' : '↓') : null)))), h('div', { className: 'bc-inline-actions' }, ...['Add Color', 'Import Palette', 'Export Palette'].map(label => { const b = originalButton(label); return h(Button, { key: label, title: label, onClick: b?.onClick, disabled: b?.disabled }, label); })), h('div', { className: 'bc-palette-options' }, ...fields(section).filter(v => !v.options).map((field, i) => h(Field, { key: i, field }))))));
     }
     function Effects() {
         const a = React.useContext(Context);

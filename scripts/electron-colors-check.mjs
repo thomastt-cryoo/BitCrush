@@ -1,0 +1,56 @@
+import {_electron as electron,expect} from '@playwright/test';
+import fs from 'node:fs';import os from 'node:os';import path from 'node:path';
+import {electronExecutable} from './electron-runtime.mjs';
+const root=path.resolve(import.meta.dirname,'..');
+const env={...process.env,BITCRUSH_USER_DATA:fs.mkdtempSync(path.join(os.tmpdir(),'bitcrush-colors-'))};delete env.ELECTRON_RUN_AS_NODE;
+const app=await electron.launch({executablePath:process.env.BITCRUSH_PACKAGED_EXECUTABLE||electronExecutable(),args:process.env.BITCRUSH_PACKAGED_EXECUTABLE?[]:[path.join(root,'dist/electron')],env});
+const report={passed:false,checks:[],errors:[]};let page;
+const check=name=>{report.checks.push(name);console.log('PASS '+name);};
+try{
+ page=await app.firstWindow();page.on('pageerror',e=>report.errors.push(e.message));page.on('console',m=>{if(m.type()==='error')report.errors.push(m.text());});
+ await page.setViewportSize({width:1440,height:960});
+ await expect(page.locator('.studio-style')).toHaveCount(73);
+ const fixture=await page.evaluate(async()=>{const c=document.createElement('canvas');c.width=128;c.height=96;const x=c.getContext('2d'),pixels=x.createImageData(128,96);for(let y=0;y<96;y++)for(let xx=0;xx<128;xx++){const i=(y*128+xx)*4;pixels.data[i]=(xx*7+y*11)%256;pixels.data[i+1]=(xx*13+y*3)%256;pixels.data[i+2]=(xx*5+y*17)%256;pixels.data[i+3]=255;}x.putImageData(pixels,0,0);const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',pixels.data))).map(v=>v.toString(16).padStart(2,'0')).join('');return{png:c.toDataURL('image/png').split(',')[1],hash};});
+ const media=page.locator('input[aria-label="Import image or video file"]'),palette=page.getByRole('combobox',{name:'Color palette',exact:true});
+ await media.setInputFiles({name:'Original colors.png',mimeType:'image/png',buffer:Buffer.from(fixture.png,'base64')});
+ await expect(palette).toHaveValue('__original_colors__');await expect(palette).toBeEnabled();
+ await expect(page.locator('.studio-style-description h1')).toHaveText('Original');
+ await expect.poll(()=>palette.locator('option').count()).toBeGreaterThan(60);
+ await expect(palette.locator('optgroup[label="Monochrome"]')).toHaveCount(1);
+ await expect(palette.locator('optgroup[label="Abstract"]')).toHaveCount(1);
+ check('Image imports start with Original colors and all palette categories are accessible');
+ const directory=path.join(env.BITCRUSH_USER_DATA,'exports');fs.mkdirSync(directory);
+ await app.evaluate(({ipcMain,session},directory)=>{const path=process.mainModule.require('node:path');let counter=0;ipcMain.removeHandler('show-save-dialog');ipcMain.handle('show-save-dialog',()=>({canceled:false,filePath:path.join(directory,`colors-${counter++}.png`)}));session.defaultSession.on('will-download',(_,item)=>item.setSavePath(path.join(directory,`colors-${counter++}.png`)));},directory);
+ async function exportPixels(){await page.waitForTimeout(900);const previous=fs.readdirSync(directory);await page.getByRole('combobox',{name:'Export format',exact:true}).selectOption('png');await page.getByRole('button',{name:'Export',exact:true}).click();await expect.poll(()=>fs.readdirSync(directory).length,{timeout:15000}).toBe(previous.length+1);const file=path.join(directory,fs.readdirSync(directory).find(v=>!previous.includes(v)));return await page.evaluate(async file=>{const r=await window.electron.readFile(file);if(!r.success)throw new Error(r.error);const image=await createImageBitmap(new Blob([r.data],{type:'image/png'}));const c=document.createElement('canvas');c.width=image.width;c.height=image.height;const x=c.getContext('2d');x.drawImage(image,0,0);const pixels=x.getImageData(0,0,c.width,c.height).data;return{width:c.width,height:c.height,hash:Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',pixels))).map(v=>v.toString(16).padStart(2,'0')).join('')};},file);}
+ const initial=await exportPixels();expect(initial.hash).toBe(fixture.hash);check('Default Original export preserves exact source RGB pixels');
+ const choice=await palette.locator('optgroup[label="Abstract"] option').first().getAttribute('value');
+ await palette.selectOption(choice);await expect(page.locator('.studio-style-description h1')).toHaveText('Color Separation');await expect(palette).toHaveValue(choice);
+ await page.locator('input[aria-label="Palette color 1"]').fill('#c12558');
+ const mapped=await exportPixels();expect(mapped.hash).not.toBe(fixture.hash);
+ await page.getByRole('button',{name:'Effects',exact:true}).click();await page.getByRole('button',{name:'Add effect',exact:true}).click();await page.locator('.bc-picker-row').filter({hasText:'Tint'}).click();
+ await page.getByRole('switch',{name:'Enable Tint effect',exact:true}).check();await page.locator('input[aria-label="Tint color"]').fill('#d68450');await page.getByRole('spinbutton',{name:'Tint opacity value',exact:true}).fill('28');
+ await page.getByRole('button',{name:'← Back to style',exact:true}).click();
+ await page.getByRole('button',{name:'Adjustments',exact:true}).click();await page.getByRole('spinbutton',{name:'Brightness value',exact:true}).fill('112');
+ await page.waitForTimeout(900);
+ const stored=await page.evaluate(()=>({id:window.__bitcrushControls.paletteId,colors:window.__bitcrushControls.paletteColors,depth:window.__bitcrushControls.depth}));
+ await palette.selectOption('__original_colors__');await expect(page.locator('.studio-style-description h1')).toHaveText('Original');
+ await expect(page.getByRole('spinbutton',{name:'Brightness value',exact:true})).toHaveValue('112');
+ expect(await page.evaluate(()=>({id:window.__bitcrushControls.paletteId,colors:window.__bitcrushControls.paletteColors,depth:window.__bitcrushControls.depth}))).toEqual(stored);
+ const effected=await exportPixels();expect(effected.hash).not.toBe(fixture.hash);
+ await page.getByRole('button',{name:/^Effects/}).click();await page.locator('.bc-effect-name').getByRole('button',{name:'Tint',exact:true}).click();
+ await expect(page.getByRole('switch',{name:'Enable Tint effect',exact:true})).toBeChecked();await expect(page.getByRole('spinbutton',{name:'Tint opacity value',exact:true})).toHaveValue('28');await expect(page.locator('input[aria-label="Tint color"]')).toHaveValue('#d68450');
+ await page.getByRole('button',{name:'← Back to style',exact:true}).click();
+ await palette.selectOption(stored.id);await expect(page.locator('.studio-style-description h1')).toHaveText('Color Separation');const remapped=await exportPixels();expect(remapped.hash).not.toBe(effected.hash);await palette.selectOption('__original_colors__');
+ const restored=await exportPixels();expect(restored.hash).toBe(effected.hash);
+ check('Returning to source colors retains edited palette, adjustments and enabled effects');
+ await page.screenshot({path:path.join(root,'test-results/studio-original-colors-image.png')});
+ await page.getByRole('button',{name:'Floyd-Steinberg',exact:true}).click();await expect(page.locator('.studio-style-description h1')).toHaveText('Floyd-Steinberg');
+ await media.setInputFiles(path.join(root,'tests/fixtures/one-second.mp4'));await page.getByRole('button',{name:'Not now',exact:true}).click();await page.getByRole('button',{name:'No',exact:true}).click();await expect(page.getByText('Importing Video',{exact:true})).toHaveCount(0,{timeout:45000});
+ await expect(palette).toHaveValue('__original_colors__');await expect(page.locator('.studio-style-description h1')).toHaveText('Original');
+ await expect(page.getByRole('button',{name:'Play',exact:true})).toBeVisible();
+ await expect.poll(()=>page.evaluate(()=>{const source=document.querySelector('.studio-canvas img[alt="Processed frame"],.studio-canvas img[alt="Processed video frame"]')||document.querySelector('.studio-canvas img[alt="Original"]')||document.querySelector('.studio-canvas video');if(!source)return 0;const width=source.naturalWidth||source.videoWidth,height=source.naturalHeight||source.videoHeight;if(!width||!height)return 0;const c=document.createElement('canvas');c.width=width;c.height=height;const x=c.getContext('2d');x.drawImage(source,0,0);const pixels=x.getImageData(0,0,width,height).data;let count=0;for(let i=0;i<pixels.length;i+=4)if(pixels[i+3]&&Math.max(pixels[i],pixels[i+1],pixels[i+2])-Math.min(pixels[i],pixels[i+1],pixels[i+2])>20)count++;return count;}),{timeout:20000}).toBeGreaterThan(1000);
+ check('Video imports return to Original colors after a monochrome dither was selected');
+ await page.screenshot({path:path.join(root,'test-results/studio-original-colors-video.png')});
+ if(report.errors.length)throw new Error(report.errors.join('\n'));report.passed=true;
+}catch(e){report.failure=e.stack;console.error(e);console.error((await page?.locator('body').innerText())?.slice(-2000));await page?.screenshot({path:path.join(root,'test-results/studio-colors-failure.png')});process.exitCode=1;}
+finally{fs.writeFileSync(path.join(root,'test-results/electron-colors.json'),JSON.stringify(report,null,2));await app.evaluate(({app})=>app.exit(0)).catch(()=>{});await app.close();}

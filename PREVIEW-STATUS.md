@@ -16,3 +16,6 @@ Full Electron ZIPs replace the abandoned 20 MB packaging limit. macOS packages a
 
 
 The corrected local Windows ZIP is `artifacts/BitCrush-Windows-Electron-Studio-UI.zip` (SHA256 `a064ac8f1f900b1cdc54153313ec877f5bf9b36fc268d45c8d884dd63b481034`). Its copied executable passed the 18 workflow checks and the design check. The older `-final` Windows ZIP and run12 Mac ZIPs have the incomplete UI and are superseded.
+
+
+Source-color correction: the inspector previously reused a category-filtered palette list after removing the category selector, so Monochrome could expose only Grayscale. The selector now groups the full available library and exposes Original colors directly. Original colors uses the original `none` style without resetting the stored palette, adjustments or other effect instances. Selecting a stored/custom palette from that mode activates Color Separation. New image/video file imports select Original colors; transforms keep the existing choice. `npm run test:colors` checks exact default image RGB, palette application, retained custom colors/adjustments/Tint, reapplying the retained palette, and colored video defaults after a monochrome style. Current correction platform reports supersede older package reports when available.

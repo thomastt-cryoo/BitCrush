@@ -4,6 +4,8 @@ An offline Electron desktop workspace using the approved Studio design: a left l
 
 The Studio library, inspector widgets, effect cards, processing order, presets, settings and canvas chrome are new views. They consume the original renderer’s controlled values and callbacks; the original hooks remain responsible for effects, documents, history, timeline and exports. The unchanged compiled engines run in Electron 41.2.1: dithering in a worker and halftone in a hidden local Chromium renderer. The visible workspace uses a sandboxed preload bridge. Settings and palette writes use a separate BitCrush application-data directory.
 
+The Color palette selector includes **Original colors** and every available palette category. Original colors uses the retained renderer’s Original style and preserves the stored palette, adjustments and other effect instances. Selecting a palette from Original colors activates the original Color Separation processor; selecting a different style uses its normal palette behavior. New image and video imports start with Original colors. Rotating, flipping, undoing, and editing the current media do not reset the color choice.
+
 Tauri is abandoned. Its earlier source and reports remain for history; active build, test, packaging and CI commands use Electron. The original Downloads application remains untouched.
 
 ## Development
@@ -27,6 +29,7 @@ The importer accepts only the recorded SHA-256 and verifies packed member integr
 npm run build
 npm test
 npm run test:design
+npm run test:colors
 npm run package:zip
 ```
 
