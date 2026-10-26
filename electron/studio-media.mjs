@@ -1,4 +1,5 @@
 // View adapters retain the original controlled values, refs and callbacks.
+import {createMediaViewport} from './studio-media-viewport.mjs';
 export function createStudioMediaViews(React, {Field, Button}) {
   const h=React.createElement;
   const text=node=>Array.isArray(node)?node.map(text).join(' '):React.isValidElement(node)?text(node.props.children):typeof node==='string'||typeof node==='number'?String(node):'';
@@ -77,5 +78,5 @@ export function createStudioMediaViews(React, {Field, Button}) {
       h('div',{className:'bc-animation-setup-fields'},form(content.props.children)),
       h('footer',null,...children(footer).map((button,index)=>React.cloneElement(button,{className:'bc-button'+(index===1?' primary':'')}))));
   }
-  return {ModeConfirmation,AnimationEditor,AnimationSetup};
+  return {ModeConfirmation,AnimationEditor,AnimationSetup,MediaViewport:createMediaViewport(React)};
 }

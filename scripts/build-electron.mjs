@@ -8,7 +8,7 @@ const provenance=JSON.parse(fs.readFileSync('electron/vendor/provenance.json','u
 for(const file of provenance.files){const bytes=fs.readFileSync('electron/vendor/'+file.file.slice(5));if(crypto.createHash('sha256').update(bytes).digest('hex')!==file.sha256)throw new Error('Reference asset changed: '+file.file);}
 const output=process.env.BITCRUSH_BUILD_OUTPUT||'dist/electron';fs.mkdirSync(output,{recursive:true});
 fs.cpSync('electron/vendor/renderer',output+'/renderer',{recursive:true});
-for(const name of ['main.cjs','native-ffmpeg.cjs','ffmpeg-extract-worker.cjs','video-import.mjs','engine-worker.cjs','engine-renderer.cjs','engine-renderer.html','studio-shell.mjs','studio-components.mjs','studio-media.mjs','studio.css','mp4.mjs'])fs.copyFileSync('electron/'+name,output+'/'+name);
+for(const name of ['main.cjs','native-ffmpeg.cjs','ffmpeg-extract-worker.cjs','video-import.mjs','engine-worker.cjs','engine-renderer.cjs','engine-renderer.html','studio-shell.mjs','studio-components.mjs','studio-media.mjs','studio-media-viewport.mjs','studio.css','mp4.mjs'])fs.copyFileSync('electron/'+name,output+'/'+name);
 const preload=fs.readFileSync('electron/vendor/preload.js','utf8');
 const execAnchor='execNative:e=>n.ipcRenderer.invoke("ffmpeg:execNative",e)';
 if(!preload.includes(execAnchor))throw new Error('Native FFmpeg preload anchor changed');
@@ -104,5 +104,5 @@ for(const dependency of ['bytenode','adm-zip'])fs.cpSync('node_modules/'+depende
 fs.copyFileSync('THIRD-PARTY-NOTICES.txt',output+'/THIRD-PARTY-NOTICES.txt');
 fs.cpSync('verification/codec-source/licenses',output+'/notices/media',{recursive:true});
 fs.writeFileSync(output+'/CODEC-SOURCES.txt',`The bundled FFmpeg WebAssembly core is the unchanged @ffmpeg/core 0.12.10 binary.\nOfficial release and pinned dependency sources are supplied by the ffmpeg-core-0.12.10-sources artifact:\nhttps://github.com/thomastt-cryoo/BitCrush/actions/runs/${process.env.GITHUB_RUN_ID||'39517388069'}\nSource acquisition manifests and verification: verification/codec-source in the BitCrush repository.\nRun python scripts/package-codec-sources.py to assemble the corresponding source corpus.\n`);
-for(const file of ['main.cjs','legacy-main.cjs','native-ffmpeg.cjs','ffmpeg-extract-worker.cjs','video-import.mjs','engine-worker.cjs','engine-renderer.cjs','studio-shell.mjs','studio-components.mjs','studio-media.mjs'])parse(fs.readFileSync(output+'/'+file,'utf8'),{sourceType:file.endsWith('.mjs')?'module':'script'});
+for(const file of ['main.cjs','legacy-main.cjs','native-ffmpeg.cjs','ffmpeg-extract-worker.cjs','video-import.mjs','engine-worker.cjs','engine-renderer.cjs','studio-shell.mjs','studio-components.mjs','studio-media.mjs','studio-media-viewport.mjs'])parse(fs.readFileSync(output+'/'+file,'utf8'),{sourceType:file.endsWith('.mjs')?'module':'script'});
 console.log('Built BitCrush Electron workspace with the original renderer and exact engines.');

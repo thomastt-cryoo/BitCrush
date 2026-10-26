@@ -1,4 +1,10 @@
-# BitCrush Studio preview status — 26 October 2026
+# Video viewport correction — 26 October 2026, newest
+
+The user recording exposed a verification gap in the preceding media-UI build: native video/animated-image views never received the image zoom bridge, so footer controls were no-ops, and retained viewport margin/padding plus a processed-overlay 94px bottom inset raised the preview/transport. Those packages below are superseded for this issue.
+
+Current source adds display-only shared pan/zoom for native video and image-animation previews, passes original zoom settings/actions to those views, aligns source and processed media in one fit box, docks the timeline to the footer and reduces its default height to144px. It preserves playback refs/callbacks, source frames, processing and export. Local isolated Windows verification passed eight focused checks, including measured button/wheel zoom, keyboard/reset/panning, unchanged paused time, processed-overlay alignment and footer docking at1440x960/1920x1080. All18 existing workflows also passed, including image zoom, animation/video exports with audio and timeline sessions. Fresh three-platform packages are being checked. No local FFmpeg download; user's app/package and default live dist untouched.
+
+# Earlier BitCrush Studio preview status — 26 October 2026
 
 The application is Electron-only with the approved Studio interface and exact original dither/halftone engines. The original Downloads application, existing user package and default live dist were left untouched. Earlier Tauri and video-fix packages are preserved but superseded for the current UI.
 
