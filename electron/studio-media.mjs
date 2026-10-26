@@ -4,6 +4,9 @@ export function createStudioMediaViews(React, {Field, Button}) {
   const text=node=>Array.isArray(node)?node.map(text).join(' '):React.isValidElement(node)?text(node.props.children):typeof node==='string'||typeof node==='number'?String(node):'';
   const children=node=>React.Children.toArray(node.props.children);
   const byClass=(node,name)=>children(node).find(child=>child.props?.className===name);
+  // Native selectors use letter/space keys. Keep those away from the original
+  // window-level transport and timeline shortcuts; Escape still closes the editor.
+  const selectorKeys=event=>{if(event.target.tagName==='SELECT'&&!event.ctrlKey&&!event.metaKey&&!['Escape','Tab'].includes(event.key))event.stopPropagation();};
   function useFocus(ref,onEscape) {
     React.useEffect(()=>{
       const previous=document.activeElement;
@@ -61,7 +64,7 @@ export function createStudioMediaViews(React, {Field, Button}) {
     const group=byClass(legacy,'control-group'),remove=children(legacy).find(child=>child.type==='button');
     // The original outside-click listener owns this ref; keep it connected.
     const connect=element=>{ref.current=element;if(typeof legacy.ref==='function')legacy.ref(element);else if(legacy.ref)legacy.ref.current=element;};
-    return React.cloneElement(legacy,{ref:connect,className:'animation-bar-popup bc-animation-editor',role:'dialog','aria-label':'Animation layer',style:{...legacy.props.style,...position,bottom:'auto',visibility:position?'visible':'hidden'}},
+    return React.cloneElement(legacy,{ref:connect,className:'animation-bar-popup bc-animation-editor',role:'dialog','aria-label':'Animation layer',onKeyDown:selectorKeys,style:{...legacy.props.style,...position,bottom:'auto',visibility:position?'visible':'hidden'}},
       h('header',null,h('div',null,h('small',{className:'bc-dialog-eyebrow'},'Timeline'),h('h2',null,'Animation layer')),h(Button,{icon:'close',title:'Close animation editor',onClick:onClose,className:'icon subtle'})),
       h('div',{className:'bc-animation-fields'},form(group.props.children)),
       h('footer',null,h(Button,{title:'Delete animation layer',onClick:remove.props.onClick,className:'bc-animation-delete'},'Delete layer'),h(Button,{onClick:onClose,primary:true},'Done')));
@@ -69,7 +72,7 @@ export function createStudioMediaViews(React, {Field, Button}) {
   function AnimationSetup({legacy,onClose}) {
     const ref=React.useRef(null),id=React.useId();useFocus(ref,onClose);
     const content=byClass(legacy,'animation-config-content'),footer=byClass(legacy,'animation-config-footer');
-    return React.cloneElement(legacy,{ref,className:'animation-config-modal bc-dialog bc-animation-setup',role:'dialog','aria-modal':true,'aria-labelledby':id},
+    return React.cloneElement(legacy,{ref,className:'animation-config-modal bc-dialog bc-animation-setup',role:'dialog','aria-modal':true,'aria-labelledby':id,onKeyDown:selectorKeys},
       h('header',null,h('div',null,h('small',{className:'bc-dialog-eyebrow'},'Still image to motion'),h('h2',{id},'Create animation')),h(Button,{icon:'close',title:'Close',onClick:onClose,className:'icon subtle'})),
       h('div',{className:'bc-animation-setup-fields'},form(content.props.children)),
       h('footer',null,...children(footer).map((button,index)=>React.cloneElement(button,{className:'bc-button'+(index===1?' primary':'')}))));

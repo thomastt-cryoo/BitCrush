@@ -89,6 +89,8 @@ try {
   await editor.getByRole('spinbutton',{name:'From value',exact:true}).fill('70');
   await editor.getByRole('spinbutton',{name:'To value',exact:true}).fill('150');
   await editor.getByRole('combobox',{name:'Easing',exact:true}).selectOption('ease-in');
+  await editor.getByRole('combobox',{name:'Easing',exact:true}).press('t');
+  await expect(page.locator('.timeline-editor')).toHaveClass(/expanded/);
   await expect(editor.getByRole('slider',{name:'From',exact:true})).toHaveValue('70');
   await expect(editor.getByRole('slider',{name:'To',exact:true})).toHaveValue('150');
   await expect(editor.getByRole('spinbutton',{name:'From value',exact:true})).toHaveCSS('color','rgb(245, 245, 245)');
