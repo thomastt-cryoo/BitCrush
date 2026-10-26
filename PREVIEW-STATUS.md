@@ -1,49 +1,36 @@
-# Studio media UI refinement — 26 October 2026
+# BitCrush Studio preview status — 26 October 2026
 
-The halftone enter/exit confirmations, video transport/timeline, animation-layer property editor and image-animation setup now use Studio's neutral dark/light surfaces, typography and fields. The original timeline DOM, seek/drag/resize handlers, playback callbacks and animation model remain authoritative. The play icon has a contrasting foreground; layer controls retain their original bounds, options and callbacks. Popup positioning is constrained to the viewport. Effects/preset presentation and exact processing engines are unchanged.
-
-Local isolated Windows verification passed six focused media-UI checks and all 18 existing workflows, including animation/video MP4 with audio and timeline-session round trips. Screenshots were reviewed in dark, light and compact-window states. No FFmpeg download was performed locally; the focused suite reused the installed binary in temporary app data. The user's existing app/package and live default dist were not modified. New Windows/Intel/ARM source/copied-app CI and refreshed packages are pending. Earlier package links below identify the preceding video-fix build, which does not include these UI refinements.
-
-# Earlier Electron Studio preview status — 21 October 2026
-
-The current application is Electron-only. It retains the approved BitCrush Studio interface, the exact original dither/halftone engines and the completed Original colors/default-import and inspector-visibility fixes. Tauri is abandoned. The original Downloads application and the user's running source build were left untouched during final CI and packaging.
+The application is Electron-only with the approved Studio interface and exact original dither/halftone engines. The original Downloads application, existing user package and default live dist were left untouched. Earlier Tauri and video-fix packages are preserved but superseded for the current UI.
 
 ## Implemented
 
-- Native import supports the current FFmpeg frame-sync option, header-only probing, validated frame extraction and complete audio extraction. Native failures fall back to the bundled codec; invalid files exit loading and expose retry/choose-another-file controls. A valid replacement can share the failed filename.
-- Native installation uses architecture-specific Windows/Intel/ARM downloads, verifies the staged executable before replacement and performs ZIP decompression in a worker. Progress, downloads and commands are bounded; concurrent installation is guarded.
-- Export uses the original four-worker pool with bounded frame tasks and software readback for native PNGs. Original-mode preview remains visible after export. Native MP4 finalization uses faststart with zero video start.
-- All 73 effect/style thumbnail placeholders are removed. The Video Engine downloader header is text only. Preset images and presentation are preserved.
+- Enter/Exit Halftone confirmations now match Studio typography, neutral surfaces, buttons and dark/light appearances. Original messages, confirmation/cancel callbacks and mode behavior are retained.
+- Video playback, time display, timeline, Add Animation button and animation bars use the same design. The play icon has a contrasting foreground. Original playback, mute, seek, frame-step, layer drag/resize and timeline-resize elements/callbacks remain authoritative.
+- The animation property editor and still-image animation setup use Studio fields, preserving original values, bounds, easing/options and callbacks. Popups stay within the viewport, support close/Escape/Tab focus, and selector typing is kept away from global timeline shortcuts.
+- The completed Original colors/default-import, inspector visibility, native video import/recovery, full-length audio and MP4 finalization fixes remain integrated. All 73 effect placeholders and the downloader cat are removed; preset images are preserved.
 
 ## Verified
 
-The user manually confirmed Windows video import in their reopened build.
+Implementation `f5088b964632632b5c7b03748d8cbec3bf743597` passed every job in [CI40382904628](https://github.com/thomastt-cryoo/BitCrush/actions/runs/40382904628). Windows x64, Intel Mac and actual Apple Silicon hardware each passed:
 
-Final implementation `d5dde4f9649c09b24731c4df4d8851bb4cfe9c2d` passed every job in [CI39627680072](https://github.com/thomastt-cryoo/BitCrush/actions/runs/39627680072). Windows x64, Intel Mac and actual Apple Silicon hardware each passed:
+- 18 original-engine/Studio workflows, four color checks and seven native-video checks in both source and copied applications.
+- Six focused media-UI checks in both source and copied applications: mode confirmations, duration/FPS setup, play/pause/step/mute/seek/collapse, animation values/easing and selector keys, layer move/resize/delete, timeline resize, dark/light/compact popup layout and an edited native export that decodes successfully.
+- Five design checks, source/copied extraction-worker checks, and both Mac deep/strict ad-hoc signature checks. The corresponding codec-source job passed.
 
-- 18 original-engine/Studio workflow checks and four color checks in both source and copied applications.
-- Five design/settings checks, plus source/copied extraction-worker responsiveness checks without another download.
-- Seven native-video checks in both source and copied applications: one fresh installation, current FFmpeg import/scrubbing, presented and seeked export pixels/audio, 66-second complete audio/frame extraction, invalid import/retry and same-name replacement. The copied app reused the verified binary. No reinstall loop is performed.
-- Both Mac apps passed deep/strict ad-hoc signature verification. The corresponding codec-source job passed.
+The local isolated Windows build also passed six focused media checks and all 18 workflows. No FFmpeg was downloaded locally; the installed binary was copied into temporary test data. CI installs once per platform and reuses that verified binary for copied-app and media-UI checks.
 
-The export check waits for a real Chromium-presented frame before reading pixels. Diagnostic imported PNGs, processed PNGs and native-decoded MP4 frames contained correct colors; the earlier claim that all exported frames were black was incorrect. Native finalized output corrects the fragmented file's initial timestamp offset. The final copied-app reports verify colored first and middle frames with first-frame time zero.
+All three downloaded ZIPs passed digests/integrity, CPU headers, current runtime/views/renderer hooks, exact engine hashes, exactly one unchanged codec and all included source/copied reports. Final Windows playback and both Mac editor/halftone screenshots were reviewed; dark/light/compact layouts passed the interaction checks.
 
-Downloaded wrappers/package digests, ZIP integrity, CPU headers, current runtime/views, unchanged engines, exactly one unchanged codec and included source/copied reports all passed local verification. Final Windows and both Mac screenshots were reviewed with visible colored video and inspector controls; effect rows contain names only.
+## Current packages
 
-## Verified local packages
+- Windows: `artifacts/github/electron-media-ui-windows/BitCrush-Windows-Electron.zip` — 157719597 bytes; SHA256 `8660d34f841a3d6bdbbe435816865feeac9b175846a84c7ef53ffb632f2bae47`.
+- Intel Mac: `artifacts/github/electron-media-ui-intel/BitCrush-Mac-Intel-Electron.zip` — 133959167 bytes; SHA256 `8265e7a28764611e27b92de5a610279534a0fe9bb8413dbfb0e7e3d4e0bcbbea`.
+- Apple Silicon: `artifacts/github/electron-media-ui-arm/BitCrush-Mac-Apple-Silicon-Electron.zip` — 126951987 bytes; SHA256 `f55d97c1c7581669e5553cdafe48e52ce6777b3f6bf10ce775e2e5a742375a68`.
 
-These supersede earlier Original-Colors, unversioned video-fix and historical Tauri previews for this work. Earlier files are preserved.
+Reports are beside each ZIP, including `package-verification.json` and `media-ui/validation-source.json` / `validation-packaged.json`. Screenshots in `media-ui/` show the refined controls in dark, light and compact layouts. Preserve the existing corresponding-source corpus `artifacts/github/electron-run12-codec/ffmpeg-core-0.12.10-sources.zip` and notices with distribution.
 
-- Windows: `artifacts/github/electron-video-fix-v2-windows/BitCrush-Windows-Electron.zip` — 157714963 bytes; SHA256 `4261aac2a68ad56bed557b21be31531329118b101fa557fb7eae0394c2ff76ae`.
-- Intel Mac: `artifacts/github/electron-video-fix-v2-intel/BitCrush-Mac-Intel-Electron.zip` — 133954324 bytes; SHA256 `46e5b716004138d8969f01d2652ec6cc16c516465f31bd6a466d75bfbaf888b2`.
-- Apple Silicon Mac: `artifacts/github/electron-video-fix-v2-arm/BitCrush-Mac-Apple-Silicon-Electron.zip` — 126947105 bytes; SHA256 `9237e79e0bae2c1ed8ad80adc3df3eeb8c2ea9fcdc95d675ed10cb970e4fc3c4`.
+## Unfinished customer release
 
-Reports and screenshots are beside each ZIP, including `package-verification.json`, source/copied native reports and final workflow/color/design reports. Preserve the existing corresponding-source corpus at `artifacts/github/electron-run12-codec/ffmpeg-core-0.12.10-sources.zip` and notices with distribution.
+These remain development previews. Bounded fixture passes do not establish exhaustive feature parity or customer readiness. [RELEASE-READINESS.md](RELEASE-READINESS.md) tracks recorded dependency advisories, Windows signing/installers, Developer ID signing/Mac notarization, native-binary/source pinning and licensing, clean-machine testing, broader real-media/parameter QA and accessibility.
 
-## Unfinished customer-release work
-
-These remain development previews. Fixture passes do not establish exhaustive feature parity or customer readiness. [RELEASE-READINESS.md](RELEASE-READINESS.md) tracks dependency advisories (six recorded: two high/four moderate), Windows signing/installers, Developer ID signing/Mac notarization, native-binary/source pinning and licensing, clean-machine testing, broader real-media/codec/parameter QA and accessibility. Mac ad-hoc signatures are not notarization.
-
-A local same-process export stall and Windows application-hang event were observed earlier. ZIP extraction was moved off the main thread and final source/copied CI passes, but the precise local hang cause remains unproven; the user's active app was not disturbed for another local install test. Large/long/VFR/HDR/rotated/multistream media and arbitrary codec combinations remain outside these bounded checks.
-
-No release, installer publication, deployment or merge was performed.
+The earlier local same-process export stall and Windows application-hang event remain cause-unproven. Extraction is off the main thread and current source/copied CI passes; no additional local installer test disturbed the user's app. Large/long/VFR/HDR/rotated/multistream and unusual-codec combinations remain outside these fixtures. No release, installer publication, deployment or merge was performed.
