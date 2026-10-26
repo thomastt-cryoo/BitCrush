@@ -1,42 +1,40 @@
-# Video viewport correction — 26 October 2026, newest
+# BitCrush Studio viewport correction — 26 October 2026
 
-The user recording exposed a verification gap in the preceding media-UI build: native video/animated-image views never received the image zoom bridge, so footer controls were no-ops, and retained viewport margin/padding plus a processed-overlay 94px bottom inset raised the preview/transport. Those packages below are superseded for this issue.
-
-Current source adds display-only shared pan/zoom for native video and image-animation previews, passes original zoom settings/actions to those views, aligns source and processed media in one fit box, docks the timeline to the footer and reduces its default height to144px. It preserves playback refs/callbacks, source frames, processing and export. Local isolated Windows verification passed eight focused checks, including measured button/wheel zoom, keyboard/reset/panning, unchanged paused time, processed-overlay alignment and footer docking at1440x960/1920x1080. All18 existing workflows also passed, including image zoom, animation/video exports with audio and timeline sessions. Fresh three-platform packages are being checked. No local FFmpeg download; user's app/package and default live dist untouched.
-
-# Earlier BitCrush Studio preview status — 26 October 2026
-
-The application is Electron-only with the approved Studio interface and exact original dither/halftone engines. The original Downloads application, existing user package and default live dist were left untouched. Earlier Tauri and video-fix packages are preserved but superseded for the current UI.
+The application remains Electron-only with the approved Studio design and exact original dither/halftone engines. Original Downloads files, the existing user package and default live dist were left untouched. Local work used an isolated build and an existing FFmpeg binary; no FFmpeg was downloaded locally.
 
 ## Implemented
 
-- Enter/Exit Halftone confirmations now match Studio typography, neutral surfaces, buttons and dark/light appearances. Original messages, confirmation/cancel callbacks and mode behavior are retained.
-- Video playback, time display, timeline, Add Animation button and animation bars use the same design. The play icon has a contrasting foreground. Original playback, mute, seek, frame-step, layer drag/resize and timeline-resize elements/callbacks remain authoritative.
-- The animation property editor and still-image animation setup use Studio fields, preserving original values, bounds, easing/options and callbacks. Popups stay within the viewport, support close/Escape/Tab focus, and selector typing is kept away from global timeline shortcuts.
-- The completed Original colors/default-import, inspector visibility, native video import/recovery, full-length audio and MP4 finalization fixes remain integrated. All 73 effect placeholders and the downloader cat are removed; preset images are preserved.
+The supplied recording exposed issues missed by the preceding media-UI checks: native video and image-animation views did not receive the image zoom bridge, leaving footer zoom callbacks without an active controller. Canvas padding and retained viewport margins left a gap below the timeline; the processed frame also reserved 94px at the bottom inside an already-sized display area.
+
+- Native video and image-animation previews now register real zoom actions with the existing footer and use the original zoom step, limits and scroll-zoom preference. Buttons, wheel, +/-/0 keys, drag panning and Fit reset affect the displayed media. Zoom does not change playback time, source frames, processing or exported dimensions.
+- Source and processed previews share one fitted transform area. Export/progress overlays remain unscaled. The obsolete processed-overlay bottom inset is removed.
+- The timeline docks directly above the footer; motion-canvas padding/margins are removed and its default height is 144px. Original transport and layer callbacks remain in place.
+- Studio halftone dialogs, animation fields, dark/light styling, visible play icon, Original colors/default import, inspector visibility, native import/audio/export/recovery fixes and all 73 placeholder removals remain integrated. Preset images are preserved.
 
 ## Verified
 
-Implementation `f5088b964632632b5c7b03748d8cbec3bf743597` passed every job in [CI40382904628](https://github.com/thomastt-cryoo/BitCrush/actions/runs/40382904628). Windows x64, Intel Mac and actual Apple Silicon hardware each passed:
+Implementation `7a0205871ca5cc227054ad3a1bd527b340b89c77` passed every job in [CI40388756578](https://github.com/thomastt-cryoo/BitCrush/actions/runs/40388756578). Windows x64, Intel Mac and actual Apple Silicon hardware each passed:
 
-- 18 original-engine/Studio workflows, four color checks and seven native-video checks in both source and copied applications.
-- Six focused media-UI checks in both source and copied applications: mode confirmations, duration/FPS setup, play/pause/step/mute/seek/collapse, animation values/easing and selector keys, layer move/resize/delete, timeline resize, dark/light/compact popup layout and an edited native export that decodes successfully.
-- Five design checks, source/copied extraction-worker checks, and both Mac deep/strict ad-hoc signature checks. The corresponding codec-source job passed.
+- Eight focused media checks in source AND copied app. These measure actual rendered zoom size, exercise real mouse-wheel input, buttons/keyboard/pan/Fit, retain paused time, align original/processed rectangles and assert less than 2px timeline/footer gap at 1440x960 and 1920x1080. They also cover animation zoom, playback, layer editing/move/resize/delete, selector keys, compact/light layout and edited export decode.
+- 18 existing engine/workflow checks, four color checks and seven native-video checks in source AND copied app; five design checks; source/copied extraction-worker checks.
+- Both Mac deep/strict ad-hoc signatures and the corresponding codec-source job.
 
-The local isolated Windows build also passed six focused media checks and all 18 workflows. No FFmpeg was downloaded locally; the installed binary was copied into temporary test data. CI installs once per platform and reuses that verified binary for copied-app and media-UI checks.
+The old isolated build failed the new zoom geometry check (width remained 814px). The corrected local Windows build passed all eight media checks and 18 existing workflows. This closes the specific test gap; bounded fixture passes do not establish exhaustive parity.
 
-All three downloaded ZIPs passed digests/integrity, CPU headers, current runtime/views/renderer hooks, exact engine hashes, exactly one unchanged codec and all included source/copied reports. Final Windows playback and both Mac editor/halftone screenshots were reviewed; dark/light/compact layouts passed the interaction checks.
+All three downloaded ZIPs passed digest/integrity, CPU, current-code, exact-engine/codec and source/copied report verification. Final packaged wide/docked and zoomed-processed screenshots were reviewed on Windows and both Macs.
 
 ## Current packages
 
-- Windows: `artifacts/github/electron-media-ui-windows/BitCrush-Windows-Electron.zip` — 157719597 bytes; SHA256 `8660d34f841a3d6bdbbe435816865feeac9b175846a84c7ef53ffb632f2bae47`.
-- Intel Mac: `artifacts/github/electron-media-ui-intel/BitCrush-Mac-Intel-Electron.zip` — 133959167 bytes; SHA256 `8265e7a28764611e27b92de5a610279534a0fe9bb8413dbfb0e7e3d4e0bcbbea`.
-- Apple Silicon: `artifacts/github/electron-media-ui-arm/BitCrush-Mac-Apple-Silicon-Electron.zip` — 126951987 bytes; SHA256 `f55d97c1c7581669e5553cdafe48e52ce6777b3f6bf10ce775e2e5a742375a68`.
+Earlier `electron-media-ui` and video-fix packages are preserved but superseded for this correction.
 
-Reports are beside each ZIP, including `package-verification.json` and `media-ui/validation-source.json` / `validation-packaged.json`. Screenshots in `media-ui/` show the refined controls in dark, light and compact layouts. Preserve the existing corresponding-source corpus `artifacts/github/electron-run12-codec/ffmpeg-core-0.12.10-sources.zip` and notices with distribution.
+- Windows: `artifacts/github/electron-video-zoom-windows/BitCrush-Windows-Electron.zip` — 157722201 bytes; SHA256 `b6f90ddbd9dee132fe2934c7c114258bfd2b83f598923a02000627faf991f145`.
+- Intel Mac: `artifacts/github/electron-video-zoom-intel/BitCrush-Mac-Intel-Electron.zip` — 133961939 bytes; SHA256 `452a1028761281d2dc229bb71d4cf8447f2c91569a262e4ade2256be981d2585`.
+- Apple Silicon: `artifacts/github/electron-video-zoom-arm/BitCrush-Mac-Apple-Silicon-Electron.zip` — 126954776 bytes; SHA256 `650c2d13b8d14e0eeccfe97273d38119b393f69413d16b9c7286b360d70b5868`.
+
+Reports and screenshots are beside each ZIP, including `package-verification.json`, `media-ui/validation-source.json`, `validation-packaged.json`, `video-docked-wide.png` and `video-zoom-processed.png`. Preserve the existing codec corresponding-source corpus at `artifacts/github/electron-run12-codec/ffmpeg-core-0.12.10-sources.zip` and notices with distribution.
 
 ## Unfinished customer release
 
-These remain development previews. Bounded fixture passes do not establish exhaustive feature parity or customer readiness. [RELEASE-READINESS.md](RELEASE-READINESS.md) tracks recorded dependency advisories, Windows signing/installers, Developer ID signing/Mac notarization, native-binary/source pinning and licensing, clean-machine testing, broader real-media/parameter QA and accessibility.
+These remain development previews. [RELEASE-READINESS.md](RELEASE-READINESS.md) tracks recorded dependency advisories, signing/installers, Developer ID/Mac notarization, native-binary/source pinning/licensing, clean-machine and broader media/parameter/accessibility QA. The legacy animated-GIF viewer is separate from the native-video/image-animation zoom paths covered here.
 
-The earlier local same-process export stall and Windows application-hang event remain cause-unproven. Extraction is off the main thread and current source/copied CI passes; no additional local installer test disturbed the user's app. Large/long/VFR/HDR/rotated/multistream and unusual-codec combinations remain outside these fixtures. No release, installer publication, deployment or merge was performed.
+The earlier Windows hang cause remains unproven. Current source/copied CI passes, but large/long/VFR/HDR/rotated/multistream and arbitrary-codec combinations remain outside these fixtures. No release, installer publication, deployment or merge was performed.
