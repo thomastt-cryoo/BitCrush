@@ -1,5 +1,6 @@
 // Studio views consume the original renderer's controlled values and callbacks.
 // The original hooks and processing graph stay authoritative; no second editor model.
+import {createStudioMediaViews} from './studio-media.mjs';
 export function createStudioComponents(React) {
     const h = React.createElement, Context = React.createContext(null);
     const iconPaths = { plus: 'M12 5v14M5 12h14', minus: 'M5 12h14', down: 'm6 9 6 6 6-6', arrow: 'M7 17 17 7M7 7h10v10', close: 'm5 5 14 14M5 19 19 5', undo: 'm8 4-5 5 5 5M3 9h10a7 7 0 0 1 7 7v3', redo: 'm16 4 5 5-5 5m5-5H11a7 7 0 0 0-7 7v3', reset: 'M3 4v6h6M3.5 10a8.5 8.5 0 1 1 .5 6', sun: 'M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5', moon: 'M20 14a8 8 0 0 1-10-10A8.5 8.5 0 1 0 20 14Z', search: 'm16 16 4 4', check: 'm5 12 4 4L19 6', compare: 'M12 4v16', fit: 'M8 3H3v5m13-5h5v5M3 16v5h5m8 0h5v-5', sliders: 'M4 7h4m4 0h8M4 17h8m4 0h4', layers: 'm12 3 10 5-10 5L2 8Zm-10 9 10 5 10-5M2 16l10 5 10-5', lock: 'M7 10V7a5 5 0 0 1 10 0v3M6 10h12v11H6Z' };
@@ -165,5 +166,5 @@ export function createStudioComponents(React) {
             return React.cloneElement(node, { key, className: 'bc-text-input', 'aria-label': p['aria-label'] || label }); return React.cloneElement(node, { key, className: p.className?.split(' ').map(v => classes[v] || v).join(' ') }, render(p.children, label)); }
         return render(legacy);
     }
-    return { Context, Primary, Effect, Picker, Pipeline, Footer, Presets, SavePreset, Settings, SettingsPane, Icon, Button, Section, Field };
+    return { Context, Primary, Effect, Picker, Pipeline, Footer, Presets, SavePreset, Settings, SettingsPane, Icon, Button, Section, Field, ...createStudioMediaViews(React, {Field, Icon, Button}) };
 }

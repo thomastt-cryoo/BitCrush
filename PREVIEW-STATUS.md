@@ -1,4 +1,10 @@
-# Electron Studio preview status — 21 October 2026
+# Studio media UI refinement — 26 October 2026
+
+The halftone enter/exit confirmations, video transport/timeline, animation-layer property editor and image-animation setup now use Studio's neutral dark/light surfaces, typography and fields. The original timeline DOM, seek/drag/resize handlers, playback callbacks and animation model remain authoritative. The play icon has a contrasting foreground; layer controls retain their original bounds, options and callbacks. Popup positioning is constrained to the viewport. Effects/preset presentation and exact processing engines are unchanged.
+
+Local isolated Windows verification passed six focused media-UI checks and all 18 existing workflows, including animation/video MP4 with audio and timeline-session round trips. Screenshots were reviewed in dark, light and compact-window states. No FFmpeg download was performed locally; the focused suite reused the installed binary in temporary app data. The user's existing app/package and live default dist were not modified. New Windows/Intel/ARM source/copied-app CI and refreshed packages are pending. Earlier package links below identify the preceding video-fix build, which does not include these UI refinements.
+
+# Earlier Electron Studio preview status — 21 October 2026
 
 The current application is Electron-only. It retains the approved BitCrush Studio interface, the exact original dither/halftone engines and the completed Original colors/default-import and inspector-visibility fixes. Tauri is abandoned. The original Downloads application and the user's running source build were left untouched during final CI and packaging.
 

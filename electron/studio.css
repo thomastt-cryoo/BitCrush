@@ -26,3 +26,77 @@ html,body,#root{width:100%;height:100%;margin:0;overflow:hidden}body{font-family
 .studio-controls .tab-content{opacity:1!important;transform:none!important;transition:none!important}
 
 .bc-video-error{white-space:pre-wrap;overflow:auto;max-height:260px;max-width:600px;font-size:12px;color:var(--studio-muted);margin:16px}.video-viewport-loading-container[role=alert]{gap:12px;flex-direction:column}
+
+/* Retain the original timeline geometry and hit targets; use Studio surfaces. */
+.bitcrush-studio .timeline-editor{background:var(--studio-panel);border-color:var(--studio-line);box-shadow:none;backdrop-filter:none;animation:none;transition:none}
+.bitcrush-studio .timeline-editor.collapsed{height:56px!important}
+.bitcrush-studio .timeline-resize-divider{height:4px;background:transparent}
+.bitcrush-studio .timeline-resize-divider:hover{background:var(--studio-line)}
+.bitcrush-studio .timeline-header{min-height:52px;padding:8px 14px;gap:12px;background:var(--studio-panel);border-color:var(--studio-line);box-sizing:border-box}
+.bitcrush-studio .timeline-playback-controls{align-items:center;gap:5px;min-width:0}
+.bitcrush-studio .timeline-header .video-player-button,.bitcrush-studio .timeline-toggle-button{display:flex;align-items:center;justify-content:center;width:32px;height:32px;min-height:32px;padding:0;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--studio-muted);box-shadow:none;transform:none;transition:background .12s,color .12s}
+.bitcrush-studio .timeline-header .video-player-button:hover,.bitcrush-studio .timeline-toggle-button:hover{background:var(--studio-raised);color:var(--studio-text);border-color:var(--studio-line)}
+.bitcrush-studio .timeline-header .video-player-play-pause{background:var(--studio-text);color:var(--studio-inverse);border-color:var(--studio-text);width:36px}
+.bitcrush-studio .timeline-header .video-player-play-pause:hover{background:var(--studio-text);color:var(--studio-inverse);box-shadow:none}
+.bitcrush-studio .timeline-header .video-player-button svg{color:inherit;stroke:currentColor;width:15px;height:15px}
+.bitcrush-studio .timeline-header .video-player-time-display{display:flex;gap:6px;font:500 11px StudioInter,Inter,sans-serif;font-variant-numeric:tabular-nums;margin:0 7px;color:var(--studio-text);white-space:nowrap}
+.bitcrush-studio .video-player-time-separator,.bitcrush-studio .video-player-time-duration{color:var(--studio-muted)}
+.bitcrush-studio .timeline-controls{gap:8px;flex-shrink:0}
+.bitcrush-studio .timeline-button{min-height:32px;padding:0 12px;gap:7px;background:var(--studio-raised);border:1px solid var(--studio-line);border-radius:8px;color:var(--studio-text);font:500 11px StudioInter,Inter,sans-serif;box-shadow:none;transform:none;transition:background .12s}
+.bitcrush-studio .timeline-button.primary{background:var(--studio-raised);border-color:var(--studio-line);color:var(--studio-text);box-shadow:none}
+.bitcrush-studio .timeline-button:hover{background:var(--studio-hover);border-color:var(--studio-muted);box-shadow:none;transform:none}
+.bitcrush-studio .timeline-toggle-button{border-color:var(--studio-line)}
+.bitcrush-studio .timeline-status-pill{padding:4px 8px;background:var(--studio-raised);border:1px solid var(--studio-line);border-radius:6px;color:var(--studio-muted);font:10px StudioInter,Inter,sans-serif}
+.bitcrush-studio .timeline-body{margin:0 16px 12px}
+.bitcrush-studio .timeline-ruler{height:28px;flex-shrink:0;background:var(--studio-panel);border-color:var(--studio-line)}
+.bitcrush-studio .timeline-ruler-marker{border-color:var(--studio-line);padding-left:6px}
+.bitcrush-studio .timeline-ruler-marker-label{font:9px StudioInter,Inter,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:.3px;color:var(--studio-muted)}
+.bitcrush-studio .timeline-tracks{background:var(--studio-bg);border-radius:0 0 7px 7px;scrollbar-width:thin;scrollbar-color:var(--studio-line) transparent}
+.bitcrush-studio .timeline-checker-col.even{background:transparent}
+.bitcrush-studio .timeline-checker-col.odd{background:color-mix(in srgb,var(--studio-raised) 24%,transparent)}
+.bitcrush-studio .timeline-playhead{width:1px;background:var(--studio-text)}
+.bitcrush-studio .timeline-playhead:before{border-top-color:var(--studio-text);border-left-width:4px;border-right-width:4px;left:-3.5px}
+.bitcrush-studio .animation-bar-track{padding:9px 0;gap:7px;min-height:34px}
+.bitcrush-studio .animation-bar-lane{height:26px}
+.bitcrush-studio .animation-bar{background:var(--studio-raised)!important;border:1px solid var(--studio-line);border-radius:6px;padding:0 12px;opacity:1;box-shadow:none}
+.bitcrush-studio .animation-bar:hover{background:var(--studio-hover)!important;border-color:var(--studio-muted);box-shadow:none}
+.bitcrush-studio .animation-bar.selected{border-color:var(--studio-text);box-shadow:0 0 0 1px var(--studio-text)}
+.bitcrush-studio .animation-bar-label{color:var(--studio-text);font:500 10px StudioInter,Inter,sans-serif;text-shadow:none}
+.bitcrush-studio .animation-bar-handle{width:8px;opacity:.6}
+.bitcrush-studio .animation-bar-handle:before{height:10px;border-color:var(--studio-muted)}
+.bitcrush-studio .animation-bar-handle:hover{background:var(--studio-line)}
+.bitcrush-studio .timeline-empty-state{padding:12px}.bitcrush-studio .timeline-empty-state-icon{display:none}
+.bitcrush-studio .timeline-empty-state-title{font:500 11px StudioInter,Inter,sans-serif;color:var(--studio-muted)}
+.bitcrush-studio .timeline-empty-state-message{font:10px StudioInter,Inter,sans-serif;color:var(--studio-muted)}
+.bitcrush-studio .timeline-editor button:focus-visible,.bc-animation-editor button:focus-visible,.bc-mode-dialog button:focus-visible,.bc-animation-setup button:focus-visible{outline:2px solid var(--studio-text);outline-offset:3px}
+
+/* Portal surfaces share the same neutral typography and fields as the inspector. */
+.confirm-modal-overlay:has(.bc-mode-dialog),.animation-config-overlay:has(.bc-animation-setup){background:#0009;backdrop-filter:blur(6px);animation:none}
+.bc-mode-dialog.confirm-modal{align-items:stretch;gap:0;max-width:450px;padding:26px;border:1px solid var(--studio-line);border-radius:16px;box-shadow:0 24px 90px #0006;animation:none}
+.bc-mode-dialog header,.bc-animation-editor header,.bc-animation-setup header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin:0 0 22px;padding:0;border:0}
+.bc-dialog-eyebrow{display:block;margin-bottom:10px;color:var(--studio-muted);font:500 9px StudioInter,Inter,sans-serif;letter-spacing:1.2px;text-transform:uppercase}
+.bc-mode-dialog header h2,.bc-animation-editor header h2,.bc-animation-setup header h2{color:var(--studio-text);font:600 20px/1.3 StudioInter,Inter,sans-serif;letter-spacing:-.6px;text-align:left;margin:0}
+.bc-mode-description{font:12px/1.85 StudioInter,Inter,sans-serif;color:var(--studio-muted);text-align:left;margin:0 0 6px}
+.bc-mode-dialog footer,.bc-animation-editor footer,.bc-animation-setup footer{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:20px 0 0;margin:22px 0 0;border-top:1px solid var(--studio-line)}
+.bc-mode-dialog footer button,.bc-animation-setup footer button{flex:0 0 auto;padding:0 16px;min-height:36px;font:500 11px StudioInter,Inter,sans-serif;border-radius:8px}
+.bc-mode-dialog .bc-button,.bc-animation-editor .bc-button,.bc-animation-setup .bc-button{transform:none;box-shadow:none}
+.bc-animation-editor.animation-bar-popup{box-sizing:border-box;width:326px;max-width:calc(100vw - 32px);max-height:calc(100vh - 32px);overflow:auto;padding:22px;background:var(--studio-panel);border:1px solid var(--studio-line);border-radius:14px;box-shadow:0 18px 70px #0006;backdrop-filter:none;color:var(--studio-text);font:12px StudioInter,Inter,sans-serif;scrollbar-width:thin;scrollbar-color:var(--studio-line) transparent}
+.bc-animation-editor header h2{font-size:17px;letter-spacing:-.4px}.bc-animation-editor header .bc-dialog-eyebrow{margin-bottom:7px}
+.bc-animation-editor .bc-select-field{margin-bottom:18px}.bc-animation-editor .bc-select-field select{height:36px;padding:0 10px;font:11px StudioInter,Inter,sans-serif}
+.bc-animation-editor .bc-field{margin-bottom:22px}.bc-animation-editor .bc-field-value input{width:58px}
+.bc-animation-editor footer{justify-content:space-between;margin-top:4px;padding-top:16px}.bc-animation-editor footer .bc-button{font:500 11px StudioInter,Inter,sans-serif;min-height:32px;padding:0 12px}
+.bc-animation-editor .bc-animation-delete{color:var(--studio-muted);background:none;border-color:transparent;padding-left:0!important}
+.bc-animation-editor .bc-animation-delete:hover{color:var(--studio-text)}
+.bc-animation-setup.animation-config-modal{padding:26px;max-width:450px;width:90%;max-height:90vh;overflow:auto;background:var(--studio-panel);border:1px solid var(--studio-line);border-radius:16px;box-shadow:0 24px 90px #0006}
+.bc-animation-setup .animation-config-info{font:11px/1.8 StudioInter,Inter,sans-serif;color:var(--studio-muted);background:var(--studio-bg);border:1px solid var(--studio-line);border-radius:8px;text-align:left;padding:12px}
+.bc-animation-setup .bc-select-field select{font:11px StudioInter,Inter,sans-serif}
+@media(max-width:1150px){.bitcrush-studio .timeline-header{padding:8px;gap:6px}.bitcrush-studio .timeline-header .video-player-time-display{margin:0 3px;gap:3px}.bitcrush-studio .timeline-playback-controls{gap:2px}.bitcrush-studio .timeline-button{padding:0 9px;font-size:10px}.bitcrush-studio .timeline-controls{gap:5px}}
+/* Legacy theme sheets load asynchronously; these Studio scopes take precedence. */
+:root[data-studio-theme] .bitcrush-studio .timeline-button.primary{background:var(--studio-raised);color:var(--studio-text);border:1px solid var(--studio-line);border-radius:8px;box-shadow:none}
+:root[data-studio-theme] .bitcrush-studio .timeline-button.primary:hover{background:var(--studio-hover);border-color:var(--studio-muted);box-shadow:none;transform:none}
+:root[data-studio-theme] .bitcrush-studio .timeline-button.primary:before,:root[data-studio-theme] .bitcrush-studio .timeline-button.primary:after{display:none}
+:root[data-studio-theme] .bc-mode-dialog.confirm-modal,:root[data-studio-theme] .bc-animation-editor.animation-bar-popup,:root[data-studio-theme] .bc-animation-setup.animation-config-modal{background:var(--studio-panel);border:1px solid var(--studio-line);border-radius:16px;box-shadow:0 24px 90px #0006}
+:root[data-studio-theme] .bc-animation-editor input,:root[data-studio-theme] .bc-animation-editor select,:root[data-studio-theme] .bc-animation-setup select{color:var(--studio-text);font-family:StudioInter,Inter,sans-serif;caret-color:var(--studio-text)}
+:root[data-studio-theme] .bc-animation-editor input:focus-visible,:root[data-studio-theme] .bc-animation-editor select:focus-visible,:root[data-studio-theme] .bc-animation-setup select:focus-visible{outline:2px solid var(--studio-muted);outline-offset:3px;box-shadow:none}
+:root[data-studio-theme] .bitcrush-studio .animation-bar.selected{border-color:var(--studio-text);box-shadow:0 0 0 1px var(--studio-text)}
+:root[data-studio-theme] .confirm-modal-overlay:has(.bc-mode-dialog),:root[data-studio-theme] .bc-mode-dialog.confirm-modal{animation:none!important;opacity:1;transform:none;filter:none}

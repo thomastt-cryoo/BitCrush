@@ -13,7 +13,7 @@ const cacheFile=process.env.BITCRUSH_TEST_FFMPEG_CACHE?path.resolve(process.env.
 const existingBinary=process.env.BITCRUSH_TEST_FFMPEG||(cacheFile&&fs.existsSync(cacheFile)?cacheFile:null);
 if(!existingBinary&&process.env.BITCRUSH_TEST_INSTALL_FFMPEG!=='1')throw new Error('Native video checks require BITCRUSH_TEST_FFMPEG or a verified cache. A single fresh install requires explicit BITCRUSH_TEST_INSTALL_FFMPEG=1.');
 if(existingBinary){const directory=path.join(env.BITCRUSH_USER_DATA,'ffmpeg');fs.mkdirSync(directory);fs.copyFileSync(existingBinary,path.join(directory,binaryName));fs.chmodSync(path.join(directory,binaryName),0o755);}
-const app=await electron.launch({executablePath:process.env.BITCRUSH_PACKAGED_EXECUTABLE||electronExecutable(),args:process.env.BITCRUSH_PACKAGED_EXECUTABLE?[]:[path.join(root,'dist/electron')],env});
+const app=await electron.launch({executablePath:process.env.BITCRUSH_PACKAGED_EXECUTABLE||electronExecutable(),args:process.env.BITCRUSH_PACKAGED_EXECUTABLE?[]:[path.resolve(process.env.BITCRUSH_TEST_APP_ROOT||path.join(root,'dist/electron'))],env});
 const report={platform:process.platform,arch:process.arch,packaged:!!process.env.BITCRUSH_PACKAGED_EXECUTABLE,installation:existingBinary?'reused-verified-binary':'single-fresh-install',checks:[],errors:[]};
 const check=(name,details={})=>{report.checks.push({name,passed:true,...details});console.log('PASS '+name);};
 let page;

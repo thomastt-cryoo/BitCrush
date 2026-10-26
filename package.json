@@ -10,6 +10,7 @@
     "test:design": "node scripts/electron-design-check.mjs",
     "test:colors": "node scripts/electron-colors-check.mjs",
     "test:video": "node scripts/electron-video-check.mjs",
+    "test:media-ui": "node scripts/electron-media-design-check.mjs",
     "desktop:build": "node scripts/build-electron.mjs && node scripts/package-electron.mjs",
     "desktop:smoke": "node scripts/electron-smoke.mjs",
     "package:zip": "node scripts/package-electron.mjs",

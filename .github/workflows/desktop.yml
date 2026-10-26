@@ -76,6 +76,10 @@ jobs:
         env:
           BITCRUSH_TEST_INSTALL_FFMPEG: '1'
           BITCRUSH_TEST_FFMPEG_CACHE: test-results/native-ffmpeg
+      - name: Studio playback, animation and mode dialog interactions
+        run: npm run test:media-ui
+        env:
+          BITCRUSH_TEST_FFMPEG_CACHE: test-results/native-ffmpeg
       - name: Package full Electron runtime
         run: npm run package:zip
       - name: Verify copied FFmpeg extraction worker without downloading
@@ -98,6 +102,11 @@ jobs:
       - name: Verify macOS signature
         if: runner.os == 'macOS'
         run: codesign --verify --deep --strict artifacts/BitCrush-${{ matrix.name }}-Electron/BitCrush.app
+      - name: Verify Studio media controls in copied application
+        run: npm run test:media-ui
+        env:
+          BITCRUSH_PACKAGED_EXECUTABLE: ${{ github.workspace }}/${{ matrix.packaged }}
+          BITCRUSH_TEST_FFMPEG_CACHE: test-results/native-ffmpeg
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -108,4 +117,6 @@ jobs:
             test-results/*.json
             test-results/*.png
             test-results/*.mp4
+            test-results/media-ui/*.json
+            test-results/media-ui/*.png
           retention-days: 14

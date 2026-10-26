@@ -9,7 +9,7 @@ import AdmZip from 'adm-zip';
 const root=path.resolve(import.meta.dirname,'..');
 const executablePath=process.env.BITCRUSH_PACKAGED_EXECUTABLE||electronExecutable();
 const env={...process.env,BITCRUSH_USER_DATA:fs.mkdtempSync(path.join(os.tmpdir(),'bitcrush-electron-test-'))};delete env.ELECTRON_RUN_AS_NODE;
-const app=await electron.launch({executablePath,args:process.env.BITCRUSH_PACKAGED_EXECUTABLE?[]:[path.join(root,'dist/electron')],env});
+const app=await electron.launch({executablePath,args:process.env.BITCRUSH_PACKAGED_EXECUTABLE?[]:[path.resolve(process.env.BITCRUSH_TEST_APP_ROOT||path.join(root,'dist/electron'))],env});
 const report={runtime:await app.evaluate(()=>process.versions),checks:[],errors:[]};
 const check=(name,details={})=>{report.checks.push({name,passed:true,...details});console.log('PASS '+name);};
 function trackHandlers(bytes){const found=[];function visit(start,end){for(let offset=start;offset+8<=end;){let size=bytes.readUInt32BE(offset),header=8;const type=bytes.toString('ascii',offset+4,offset+8);if(size===1){size=Number(bytes.readBigUInt64BE(offset+8));header=16;}if(size===0)size=end-offset;if(size<header||offset+size>end)throw new Error('Invalid MP4 box');if(['moov','trak','mdia'].includes(type))visit(offset+header,offset+size);if(type==='hdlr')found.push(bytes.toString('ascii',offset+header+8,offset+header+12));offset+=size;}}visit(0,bytes.length);return found;}
